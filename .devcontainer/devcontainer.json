@@ -1,0 +1,58 @@
+{
+	"build": {
+		"dockerfile": "./Dockerfile",
+		"context": "."
+	},
+
+    "workspaceFolder": "/home/vscode/hpc_unitn",
+
+    // Use this environment variable if you need to bind mount your local source code into a new container.
+    "remoteEnv": {
+      "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
+    },
+
+	"features": {
+		"ghcr.io/devcontainers/features/git:1": {
+            "version": "latest",
+            "ppa": "false"
+        },
+        "ghcr.io/devcontainers/features/common-utils": {
+            "installZsh": true,
+            "installOhMyZsh": true,
+            "installOhMyZshConfig": true,
+            "configureZshAsDefaultShell": true
+        },
+        "ghcr.io/devcontainers-extra/features/zsh-plugins:0": {
+            "plugins": "zsh-autosuggestions zsh-syntax-highlighting",
+            "omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions.git https://github.com/zsh-users/zsh-syntax-highlighting.git"
+        }
+    },
+
+	"capAdd": ["SYS_PTRACE"],
+	"securityOpt": ["seccomp=unconfined"],
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"jetbrains": {
+            "plugins": [],
+            "settings":{
+                "org.jetbrains.plugins.terminal:app:TerminalOptionsProvider.myReportMouse":false,
+                "com.intellij:app:BuiltInServerOptions.builtInServerPort":53017,
+                "com.intellij:app:HttpConfigurable.use_proxy_pac":true,
+                "org.jetbrains.plugins.terminal:app:TerminalOptionsProvider.myShellPath":"/usr/bin/zsh"
+            }
+        }
+	},
+
+    // Use 'postCreateCommand' to map 192.168.111.11:5016 locally.
+    "postCreateCommand": ".devcontainer/extras/postCreate.sh",
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "gcc -v",
+
+	// Set `remoteUser` to `root` to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode"
+}
