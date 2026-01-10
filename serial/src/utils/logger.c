@@ -8,7 +8,7 @@ static int timestamps_enabled = 0;
 
 static const char *level_strings[] = {
     "DEBUG",
-    "LOG",
+    "INFO",
     "WARNING",
     "ERROR"
 };
@@ -66,10 +66,10 @@ void log_debug(const char *format, ...) {
     va_end(args);
 }
 
-void log_log(const char *format, ...) {
+void log_info(const char *format, ...) {
     va_list args;
     va_start(args, format);
-    log_message(LOG_LEVEL_LOG, format, args);
+    log_message(LOG_LEVEL_INFO, format, args);
     va_end(args);
 }
 

@@ -1,6 +1,8 @@
+#include <math.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <time.h>
 
 #include <utils/logger.h>
 
@@ -8,6 +10,13 @@
 #include "include/utils/dir_file_handler.h"
 #include "include/utils/timer.h"
 #include "include/utils/pcg_basic.h"
+
+void do_work(pcg32_random_t rng) {
+
+    if (false) {
+        log_info("True");
+    }
+}
 
 /*
  * Main implementation
@@ -28,7 +37,12 @@ int main(int argc, char **argv) {
 
     // Seed the random number generator
     pcg32_random_t rng;
-    pcg32_srandom_r(&rng, 42u, 52u);
+
+    // Seed with current time
+    pcg32_srandom_r(&rng, (uint64_t)time(NULL) ^ (uint64_t)clock(), 52u);
+
+    do_work(rng);
+    return 0;
 
     double exec_timings[3];
     exec_timings[0] = get_elapsed_time();
@@ -123,6 +137,7 @@ int main(int argc, char **argv) {
     // write_convergence_csv(convergence_iterations, convergence_values, num_stored, output_dir);
 
     // Write exec_timings to a log file
+    // Self contained
     {
         double const total_time = exec_timings[2] - exec_timings[0];
         double const computation_time = exec_timings[2] - exec_timings[1];

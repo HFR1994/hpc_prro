@@ -6,7 +6,7 @@
 // Log levels
 typedef enum {
     LOG_LEVEL_DEBUG = 0,
-    LOG_LEVEL_LOG = 1,
+    LOG_LEVEL_INFO = 1,
     LOG_LEVEL_WARNING = 2,
     LOG_LEVEL_ERR = 3
 } LogLevel;
@@ -19,7 +19,7 @@ LogLevel log_get_level(void);
 
 // Logging functions
 void log_debug(const char *format, ...);
-void log_log(const char *format, ...);
+void log_info(const char *format, ...);
 void log_warning(const char *format, ...);
 void log_err(const char *format, ...);
 

@@ -29,7 +29,7 @@ void objective_function(const double *X, double *fitness, const int pop_size, co
 int set_leader(double *leader, const double *fitness, const double *X, const int pop_size, const int features) {
     // Find the index with the lowest fitness value
     int min_index = 0;
-    for (int i = 1; i < pop_size; ++i) {
+    for (int i = 0; i < pop_size; i++) {
         if (fitness[i] < fitness[min_index]) {
             min_index = i;
         }
@@ -38,7 +38,7 @@ int set_leader(double *leader, const double *fitness, const double *X, const int
     log_debug("Current leader is %d", min_index);
 
     // Set leader to the position with the lowest fitness
-    for (int i = 0; i < features; ++i) {
+    for (int i = 0; i < features; i++) {
         leader[i] = X[min_index * features + i];
     }
 
