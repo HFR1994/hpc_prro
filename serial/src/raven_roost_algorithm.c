@@ -60,7 +60,8 @@ void RRA(const int pop_size, const int features, const int iterations, const int
     gather_to_roosting(pop_size, features, roosting_site, current_position);
 
     // Set leader to the position with the lowest fitness
-    const int current_leader = set_leader(leader, fitness, food_source, pop_size, features);
+    int current_leader = set_leader(leader, fitness, food_source, pop_size, features);
+    log_debug("Current leader is %d", current_leader);
 
     log_debug("Using %d followers out of %d", num_followers, pop_size);
 
@@ -71,8 +72,7 @@ void RRA(const int pop_size, const int features, const int iterations, const int
 
     for (int iter = 0; iter < iterations; iter++) {
         for (int i = 0; i < pop_size; i++) {
-
-            if (i == current_leader || is_follower[i] == 1) {
+            if (is_follower[i] == 1) {
                 // Set a nearby location to the leader center position based on hypersphere (N dimensions) radii
                 set_lookout(features, leader, n_candidate_position, rng, rPcpt);
             } else {
@@ -82,7 +82,8 @@ void RRA(const int pop_size, const int features, const int iterations, const int
 
             for (int step = 0; step < flight_steps; ++step) {
 
-                if (i == current_leader || is_follower[i] == 1) {
+                // We only want to follower to alternate the "flight path"
+                if (i != current_leader && is_follower[i] == 1) {
                     for (int j = 0; j < features; ++j) {
                         direction[j] = n_candidate_position[j] - current_position[i * features + j];
                     }
@@ -100,24 +101,51 @@ void RRA(const int pop_size, const int features, const int iterations, const int
                 // Use decay to calculate the distance to move with randomness
                 const double s_t = s_max * (1.0 - (double)step / (double)flight_steps) * unif_0_1(rng);
 
+                // Update the new position of the raven
+                // The author only specifies a random direction. So added a few elements to increase the search space
+                // r-i_t = r-i-1_t + d-i_t
                 for (int j = 0; j < features; ++j) {
                     current_position[i * features + j] += s_t * direction[j];
                 }
-                
+
+                // Check if the new location doesn't fall out of bounds
+                check_bounds(current_position + i * features, 1, features, lower_bound, upper_bound);
+
                 for (int lookout = 0; lookout < lookout_steps; ++lookout) {
                     // Pass only from the current_position we care about
                     set_lookout(features, current_position + i * features, n_candidate_position, rng, rPcpt);
 
+                    // Again check location
+                    check_bounds(n_candidate_position, 1, features, lower_bound, upper_bound);
+
                     const double n_fitness = objective_function(n_candidate_position, features);
                     if (n_fitness < fitness[i]) {
+                        log_debug("New best fitness found for individual %d at iteration %d", i, iter);
                         memcpy(food_source + i * features, n_candidate_position, features * sizeof(double));
                         fitness[i] = n_fitness;
+
+                        // Early stop, no need to continue looking
+                        if (unif_0_1(rng) < 0.1) {
+                            log_debug("Early stop for individual %d at iteration %d", i, iter);
+                            // Outer for
+                            step = flight_steps;
+                            // Inner for
+                            break;
+                        }
                     }
                 }
-
             }
         }
+
+        // Evaluate all functions again and designate the leader
+        current_leader = set_leader(leader, fitness, food_source, pop_size, features);
+
+        // Reshuffle the followers
+        define_followers(is_follower, pop_size, current_leader, num_followers, rng);
+
+        // Restart from Roosting position
+        gather_to_roosting(pop_size, features, roosting_site, current_position);
     }
 
-
+    log_info("Finished execution, the best %d with %f", current_leader, fitness[current_leader]);
 }

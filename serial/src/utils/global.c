@@ -1,7 +1,4 @@
 #include "utils/global.h"
-
-#include <stdio.h>
-
 #include "utils/logger.h"
 
 void check_bounds(double *X, const int pop_size, const int features, const double lower_bound, const double upper_bound) {

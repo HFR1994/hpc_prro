@@ -33,8 +33,6 @@ int set_leader(double *leader, const double *fitness, const double *X, const int
         }
     }
 
-    log_debug("Current leader is %d", min_index);
-
     // Set leader to the position with the lowest fitness
     for (int i = 0; i < features; i++) {
         leader[i] = X[min_index * features + i];
