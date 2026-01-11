@@ -33,7 +33,9 @@ double initialize_params(const char *dataset_path, double *food_source, double *
     check_bounds(food_source, pop_size, features, lower_bound, upper_bound);
 
     // Evaluate Griewank function
-    objective_function(food_source, fitness, pop_size, features);
+    for (int i = 0; i < pop_size; i++) {
+        fitness[i] = objective_function(food_source + i * features, features);
+    }
 
     // Set roosting site
     for (int i = 0; i < features; i++) {

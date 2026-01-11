@@ -1,7 +1,10 @@
 #include <math.h>
 #include "utils/number_generators.h"
 
+#include <assert.h>
 #include <stdbool.h>
+
+#include "utils/logger.h"
 #include "utils/pcg_basic.h"
 
 /**
@@ -38,8 +41,7 @@ double vector_to_distance(double *unit_vector, const int features, pcg32_random_
     double norm = 0.0;
 
     for (int i = 0; i < features; i++) {
-
-        // Generate Gaussian components
+        // Generate Gaussian components if asked for
         if (use_normal_distribution) {
             unit_vector[i] = norm_0_1(rng);
         }
@@ -48,7 +50,6 @@ double vector_to_distance(double *unit_vector, const int features, pcg32_random_
     }
 
     norm = sqrt(norm);
-
     return norm;
 }
 

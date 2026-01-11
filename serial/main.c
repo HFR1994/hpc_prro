@@ -11,11 +11,34 @@
 #include "include/utils/timer.h"
 #include "include/utils/pcg_basic.h"
 
-void do_work(pcg32_random_t rng) {
+#include "utils/number_generators.h"
+#include "utils/objective_function.h"
 
-    if (false) {
-        log_info("True");
+void process_row(const double *row, int cols) {
+    for (int j = 0; j < cols; j++) {
+        printf("row[%d] = %f\n", j, row[j]);
     }
+
+    printf("row[%d] = %f\n", 2, row[cols+2]);
+}
+
+void do_work(pcg32_random_t *rng) {
+
+    int rows = 3;
+    int cols = 4;
+    double *A = malloc(rows * cols * sizeof(double));
+
+    for (int j = 0; j < cols; j++) {
+        A[0*cols+j] = j;
+        A[1*cols+j] = 10+j;
+        A[2*cols+j] = 20+j;
+    }
+
+    for (int i = 0; i < rows; i++) {
+        printf("%f\n",objective_function(A + i * cols, cols));
+    }
+
+    free(A);
 }
 
 /*
@@ -25,9 +48,10 @@ void do_work(pcg32_random_t rng) {
  *  2. Lower bound namespace equaled to the Raven features
  *  3. Upper bound namespace equaled to the Raven features
  *  4. Number of iterations per Raven
- *  5. Number of search steps per Raven
- *  6. Looking Radius
- *  7. Output Directory
+ *  5. Number of steps to reach destination
+ *  6. Number of search steps per Raven
+ *  7. Looking Radius
+ *  8. Output Directory
  */
 int main(int argc, char **argv) {
 
@@ -41,16 +65,16 @@ int main(int argc, char **argv) {
     // Seed with current time
     pcg32_srandom_r(&rng, (uint64_t)time(NULL) ^ (uint64_t)clock(), 52u);
 
-    do_work(rng);
-    return 0;
+    // do_work(&rng);
+    // return 0;
 
     double exec_timings[3];
     exec_timings[0] = get_elapsed_time();
 
     // Optional output directory: argv[7] or env OUTPUT_DIR or default ./output
     const char *output_dir = NULL;
-    if (argc >= 8 && argv[7] != NULL && argv[7][0] != '\0') {
-        output_dir = argv[7];
+    if (argc > 9 && argv[8] != NULL && argv[8][0] != '\0') {
+        output_dir = argv[8];
     } else {
         const char *env_out = getenv("OUTPUT_DIR");
         if (env_out != NULL && env_out[0] != '\0') output_dir = env_out;
@@ -59,9 +83,9 @@ int main(int argc, char **argv) {
 
     ensure_dir_exists(output_dir);
 
-    // No defaults here; main requires all args
-    if (argc < 7) {
-        fprintf(stderr, "Usage: %s dataset_path lower_bound upper_bound, iterations, search_steps, radius, [output_dir]\n",
+    // No defaults here; main requires all args except output_dir
+    if (argc < 8) {
+        fprintf(stderr, "Usage: %s dataset_path lower_bound upper_bound, iterations, flight_steps, lookout_steps, radius, [output_dir]\n",
                 argv[0]);
         return 1;
     }
@@ -96,17 +120,25 @@ int main(int argc, char **argv) {
     const int iterations = (int) iterations_l;
 
     endptr = NULL;
-    const long search_steps_iter_l = strtol(argv[5], &endptr, 10);
-    if (endptr == argv[5] || search_steps_iter_l <= 0) {
-        fprintf(stderr, "Error: invalid search_steps '%s'\n", argv[3]);
+    const long flight_steps_l = strtol(argv[5], &endptr, 10);
+    if (endptr == argv[5] || flight_steps_l <= 0) {
+        fprintf(stderr, "Error: invalid flight_steps '%s'\n", argv[5]);
         return 1;
     }
-    const int search_steps_iter = (int) search_steps_iter_l;
+    const int flight_steps = (int) flight_steps_l;
 
     endptr = NULL;
-    double radius = strtod(argv[6], &endptr);
-    if (endptr == argv[6]) {
-        fprintf(stderr, "Error: invalid lower_bound '%s'\n", argv[3]);
+    const long lookout_steps_l = strtol(argv[6], &endptr, 10);
+    if (endptr == argv[6] || lookout_steps_l <= 0) {
+        fprintf(stderr, "Error: invalid lookout_steps '%s'\n", argv[6]);
+        return 1;
+    }
+    const int lookout_steps = (int) lookout_steps_l;
+
+    endptr = NULL;
+    const double radius = strtod(argv[7], &endptr);
+    if (endptr == argv[7]) {
+        fprintf(stderr, "Error: invalid radius '%s'\n", argv[7]);
         return 1;
     }
 
@@ -124,11 +156,11 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    printf("Running serial RRA: dataset=%s, pop_size=%d, features=%d, iter=%d, steps=%d, radius=%f, bounds=[%f,%f], output_dir=%s\n",
-           dataset_path, pop_size, features, iterations, search_steps_iter, radius, lower_bound, upper_bound, output_dir);
+    printf("Running serial RRA: dataset=%s, pop_size=%d, features=%d, iter=%d, flight_steps=%d, look_steps=%d, radius=%f, bounds=[%f,%f], output_dir=%s\n",
+           dataset_path, pop_size, features, iterations, flight_steps, lookout_steps, radius, lower_bound, upper_bound, output_dir);
 
     // // Call the GTO function and time the whole run
-    RRA(pop_size, features, iterations, search_steps_iter, lower_bound, upper_bound, radius, dataset_path, exec_timings, &rng);
+    RRA(pop_size, features, iterations, flight_steps, lookout_steps, lower_bound, upper_bound, radius, dataset_path, exec_timings, &rng);
 
     exec_timings[2] = get_elapsed_time();
 

@@ -7,23 +7,21 @@
  * \brief Use the **Griewank function** as an objective function, RRA tend to converge against a location space,
  * so it's better to have multimodal objective functions
  * \param X The raven's current position in N dimensions
- * \param fitness The fitness value for each individual in the population
- * \param pop_size Total population size
  * \param features Number of features in the raven's position
+ * \return The
  */
-void objective_function(const double *X, double *fitness, const int pop_size, const int features) {
-    for (int i = 0; i < pop_size; i++) {
-        double sum = 0.0;
-        double prod = 1.0;
+double objective_function(const double *X, const int features) {
 
-        for (int j = 0; j < features; j++) {
-            const double raven_feature = X[i * features + j];
-            sum += (raven_feature * raven_feature) / 4000.0;
-            prod *= cos(raven_feature / sqrt(j + 1.0));
-        }
+    double sum = 0.0;
+    double prod = 1.0;
 
-        fitness[i] = sum - prod + 1.0;
+    for (int j = 0; j < features; j++) {
+        const double raven_feature = X[j];
+        sum += (raven_feature * raven_feature) / 4000.0;
+        prod *= cos(raven_feature / sqrt(j + 1.0));
     }
+
+    return sum - prod + 1.0;
 }
 
 int set_leader(double *leader, const double *fitness, const double *X, const int pop_size, const int features) {

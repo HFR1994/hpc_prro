@@ -2,15 +2,17 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "phases/execution.h"
 #include "phases/initialization.h"
 
+#include "utils/global.h"
 #include "utils/logger.h"
 #include "utils/number_generators.h"
 #include "utils/objective_function.h"
 
-void RRA(const int pop_size, const int features, const int iterations, const int search_steps_iter,
+void RRA(const int pop_size, const int features, const int iterations, const int flight_steps, const int lookout_steps,
          const double lower_bound, const double upper_bound, const double radius, const char *dataset_path,
          double *exec_timings, pcg32_random_t *rng) {
 
@@ -24,7 +26,7 @@ void RRA(const int pop_size, const int features, const int iterations, const int
     double *roosting_site = malloc(features * sizeof(double));
 
     // Store the values of each search for a better food source
-    double *displacement = malloc(features * sizeof(double));
+    double *n_candidate_position = malloc(features * sizeof(double));
 
     // Use to calculate in which direction is the next step
     double *direction = malloc(features * sizeof(double));
@@ -34,7 +36,7 @@ void RRA(const int pop_size, const int features, const int iterations, const int
     const int num_followers = ceil(percFollow * pop_size - 1);
     int *is_follower = malloc(pop_size * sizeof(int));
 
-    if (!food_source || !current_position || !fitness || !roosting_site || !leader || !is_follower || !displacement || !direction) {
+    if (!food_source || !current_position || !fitness || !roosting_site || !leader || !is_follower || !n_candidate_position || !direction) {
         log_err("Memory allocation failed");
 
         // Clean up already allocated memory and exit gracefully
@@ -44,16 +46,17 @@ void RRA(const int pop_size, const int features, const int iterations, const int
         free(roosting_site);
         free(leader);
         free(is_follower);
-        free(displacement);
+        free(n_candidate_position);
         free(direction);
         return;
     }
 
     // Initialize all initial calculations return the looking radii
+    // Reusable value for Rleader or rPcpt
     const double rPcpt = initialize_params(dataset_path, food_source, fitness, roosting_site, radius,
         pop_size, features, lower_bound, upper_bound, rng);
 
-    // Set the intial position
+    // Set the initial position
     gather_to_roosting(pop_size, features, roosting_site, current_position);
 
     // Set leader to the position with the lowest fitness
@@ -70,25 +73,48 @@ void RRA(const int pop_size, const int features, const int iterations, const int
         for (int i = 0; i < pop_size; i++) {
 
             if (i == current_leader || is_follower[i] == 1) {
-                for (int j = 0; j < features; ++j) {
-                    direction[i * features + j] = leader[j] - current_position[i * features + j];
-                }
-            }else {
-                for (int j = 0; j < features; ++j) {
-                    direction[i * features + j] = food_source[i * features + j] - current_position[i * features + j];
-                }
+                // Set a nearby location to the leader center position based on hypersphere (N dimensions) radii
+                set_lookout(features, leader, n_candidate_position, rng, rPcpt);
+            } else {
+                // Just copy the food source position
+                memcpy(n_candidate_position, food_source + i * features, features * sizeof(double));
             }
 
-            const double dis_max = vector_to_distance(direction, features, rng, false);
-            gen_unit_vector(direction, dis_max, features);
+            for (int step = 0; step < flight_steps; ++step) {
 
-            const double s_max = jump_size * dis_max;
+                if (i == current_leader || is_follower[i] == 1) {
+                    for (int j = 0; j < features; ++j) {
+                        direction[j] = n_candidate_position[j] - current_position[i * features + j];
+                    }
+                }else {
+                    for (int j = 0; j < features; ++j) {
+                        direction[j] = n_candidate_position[j] - current_position[i * features + j];
+                    }
+                }
 
-            // Use decay to calculate the distance to move with randomness
-            double s_t = s_max * (1.0 - (double)iter / (double)iterations) * unif_0_1(rng);
+                const double dis_max = vector_to_distance(direction, features, rng, false);
+                gen_unit_vector(direction, dis_max, features);
 
-            for (int j = 0; j < features; ++j) {
-                current_position[i * features + j] += s_t * direction[j];
+                const double s_max = jump_size * dis_max;
+
+                // Use decay to calculate the distance to move with randomness
+                const double s_t = s_max * (1.0 - (double)step / (double)flight_steps) * unif_0_1(rng);
+
+                for (int j = 0; j < features; ++j) {
+                    current_position[i * features + j] += s_t * direction[j];
+                }
+                
+                for (int lookout = 0; lookout < lookout_steps; ++lookout) {
+                    // Pass only from the current_position we care about
+                    set_lookout(features, current_position + i * features, n_candidate_position, rng, rPcpt);
+
+                    const double n_fitness = objective_function(n_candidate_position, features);
+                    if (n_fitness < fitness[i]) {
+                        memcpy(food_source + i * features, n_candidate_position, features * sizeof(double));
+                        fitness[i] = n_fitness;
+                    }
+                }
+
             }
         }
     }

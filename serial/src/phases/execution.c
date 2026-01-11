@@ -63,22 +63,23 @@ void define_followers(int *followers, const int pop_size,
 /**
  * \brief Calculate a new lookout position around the current position based on hypersphere (N dimensions) radii
  * \param features Number of features to evaluate
- * \param displacement The N-Dimension movement array
+ * \param current_position The N-Dimension current position array for each raven
+ * \param n_candidate_position The N-Dimension new position to store in
  * \param rng The random state generator
  * \param rPcpt The radii of look
  */
-void set_lookout(const int features, double* displacement, pcg32_random_t *rng, const double rPcpt) {
+void set_lookout(const int features, const double* current_position, double* n_candidate_position, pcg32_random_t *rng, const double rPcpt) {
 
     // Vector needs to be biased to the center (Normal distribution) to
     // have a uniform direction on the hypersphere
-    const double distance = vector_to_distance(displacement, features, rng, true);
-    gen_unit_vector(displacement, distance, features);
+    const double distance = vector_to_distance(n_candidate_position, features, rng, true);
+    gen_unit_vector(n_candidate_position, distance, features);
 
     const double U = unif_0_1(rng);
     const double r = rPcpt * pow(U, 1.0 / features);
 
     // "Makes random perceptions within this hypersphere" (Use Euclidean distance)
     for (int j = 0; j < features; j++) {
-        displacement[j] = r * displacement[j];
+        n_candidate_position[j] = current_position[j] + r * n_candidate_position[j];
     }
 }
