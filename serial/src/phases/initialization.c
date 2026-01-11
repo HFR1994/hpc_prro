@@ -44,6 +44,6 @@ double initialize_params(const char *dataset_path, double *food_source, double *
     }
 
     // Instead of adding more variables to the method, we just compute the value and assign
-    const double term = features * sqrt(pop_size);
+    const double term = pow(pop_size, 1.0 / features);
     return radius/(3.6 * term);
 }

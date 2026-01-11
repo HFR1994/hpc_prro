@@ -56,14 +56,17 @@ void do_work(pcg32_random_t *rng) {
 int main(int argc, char **argv) {
 
     // Set once at program start
-    log_set_level(LOG_LEVEL_DEBUG);
+    log_set_level(LOG_LEVEL_INFO);
     log_enable_timestamps(1);
 
     // Seed the random number generator
     pcg32_random_t rng;
 
     // Seed with current time
-    pcg32_srandom_r(&rng, (uint64_t)time(NULL) ^ (uint64_t)clock(), 52u);
+    // Best seeds 1768210034 52
+    const uint64_t time_seed = (uint64_t)time(NULL) ^ (uint64_t)clock();
+    pcg32_srandom_r(&rng, time_seed, 52u);
+    //pcg32_srandom_r(&rng, (uint64_t)time(NULL) ^ (uint64_t)clock(), 52u);
 
     // do_work(&rng);
     // return 0;
@@ -158,6 +161,8 @@ int main(int argc, char **argv) {
 
     printf("Running serial RRA: dataset=%s, pop_size=%d, features=%d, iter=%d, flight_steps=%d, look_steps=%d, radius=%f, bounds=[%f,%f], output_dir=%s\n",
            dataset_path, pop_size, features, iterations, flight_steps, lookout_steps, radius, lower_bound, upper_bound, output_dir);
+
+    log_info("Random number generator seeded with %lu %lu", time_seed, 52u);
 
     // // Call the GTO function and time the whole run
     RRA(pop_size, features, iterations, flight_steps, lookout_steps, lower_bound, upper_bound, radius, dataset_path, exec_timings, &rng);

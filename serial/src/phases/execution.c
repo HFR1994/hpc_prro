@@ -3,6 +3,8 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "utils/global.h"
 #include "utils/number_generators.h"
 
 /**
