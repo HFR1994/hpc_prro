@@ -75,7 +75,7 @@ for EXEC in "${EXECUTIONS[@]}"; do
   # Main loops
   # -------------------------------
 
-  EXEC_DIR="${SCRIPT_DIR}/logs/trial${TRIAL}/execution${EXEC}"
+  EXEC_DIR="${SCRIPT_DIR}/logs/trial${TRIAL_NUM}/execution${EXEC}"
   PBS_OUTPUT="${EXEC}/pbs/output"
   PBS_ERR="${EXEC}/pbs/error"
   OUTDIR="${EXEC}/output"
@@ -94,7 +94,7 @@ for EXEC in "${EXECUTIONS[@]}"; do
         NODES=$(( (NP + RANKS_PER_NODE - 1) / RANKS_PER_NODE ))
       fi
 
-      JOBNAME="rra_t${TRIAL}_e${EXEC}_${PLACE}_np${NP}"
+      JOBNAME="rra_t${TRIAL_NUM}_e${EXEC}_${PLACE}_np${NP}"
 
       qsub \
         -N "${JOBNAME}" \
@@ -102,7 +102,7 @@ for EXEC in "${EXECUTIONS[@]}"; do
         -e "${PBS_ERR}/${JOBNAME}.e" \
         -l "select=${NODES}:ncpus=${RANKS_PER_NODE}:mem=${MEM_PER_JOB}" \
         -l "place=${PLACE}" \
-        -v NP=${NP},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
+        -v NP=${NP},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL_NUM},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
         "${PBS_SCRIPT}"
 
       echo "Submitted ${JOBNAME} (nodes=${NODES})"

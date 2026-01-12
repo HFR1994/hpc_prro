@@ -23,6 +23,15 @@ int err_cleanup(void) {
     return EXIT_FAILURE; // unreachable, but explicit
 }
 
+
+void print_env(const char * str) {
+    const char *env = getenv(str);
+
+    if (env != NULL && env[0] != '\0') {
+        log_info("%s: %s", str, env);
+    }
+}
+
 /*
  * Main implementation
  * Receives
@@ -71,6 +80,10 @@ int main(int argc, char **argv) {
     }else {
         log_set_level(LOG_LEVEL_INFO);
         log_info("MPI world size: %d", world_size);
+
+        print_env("PRRO_TRIAL");
+        print_env("PRRO_EXECUTION");
+        print_env("PRRO_PLACEMENT");
     }
 
     log_enable_timestamps(1);
@@ -211,7 +224,6 @@ int main(int argc, char **argv) {
         if (world_rank == 0) {
             FILE *fp = fopen(filename, "w");
             if (fp) {
-
                 // To aggregate on the logs
                 log_info("total_time: %.10f\n", global_total);
                 log_info("computation_time: %.10f\n", global_compute);
