@@ -8,7 +8,8 @@ wait_for_execution() {
   echo "Waiting for PBS jobs of user ${USERNAME} to finish..."
 
   while qstat | grep -q "${USERNAME}"; do
-    echo "Jobs still running... sleeping 10s"
+    JOBS=$(qstat | grep "${USERNAME}" | wc -l)
+    echo "Jobs still running: $JOBS jobs... sleeping 10s"
     sleep 10
   done
 
