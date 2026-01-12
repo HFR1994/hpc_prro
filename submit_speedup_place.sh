@@ -1,7 +1,38 @@
 #!/bin/bash
 
 git pull
+
+wait_for_jobs() {
+  local USERNAME="hector.floresrey"
+
+  echo "Waiting for PBS jobs of user ${USERNAME} to finish..."
+
+  while qstat | grep -q "${USERNAME}"; do
+    echo "Jobs still running... sleeping 10s"
+    sleep 10
+  done
+
+  echo "No running jobs detected. Continuing."
+}
+
+# -------------------------------
+# Argument handling
+# -------------------------------
+if [[ $# -lt 1 ]]; then
+  echo "Usage: $0 <trial_number>"
+  exit 1
+fi
+
+TRIAL="$1"
+
+# Validate: integer ≥ 1
+if ! [[ "$TRIAL" =~ ^[0-9]+$ ]]; then
+  echo "Error: trial_number must be a positive integer"
+  exit 1
+fi
+
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+echo "Running trial: $TRIAL"
 
 # -------------------------------
 # Experiment parameters
@@ -22,8 +53,10 @@ cd ..
 # Paths (relative to project root)
 # -------------------------------
 APP="${SCRIPT_DIR}/parallel/bin/rra_parallel"
-DATASET="${SCRIPT_DIR}/datasets/random-128-100.csv"
-OUTDIR="${SCRIPT_DIR}/output"
+DATASET="${SCRIPT_DIR}/dataset/random-128-100.csv"
+PBS_OUTPUT="${SCRIPT_DIR}/logs/trial${TRIAL}/pbs/output"
+PBS_ERR="${SCRIPT_DIR}/logs/trial${TRIAL}/pbs/error"
+OUTDIR="${SCRIPT_DIR}/logs/trial${TRIAL}/output"
 
 # -------------------------------
 # Algorithm parameters
@@ -35,13 +68,10 @@ FLIGHT="10"
 LOOKOUT="10"
 RADIUS="600"
 
-rm -rf logs
-rm -rf pbs_scripts
-
 mkdir -p "${SCRIPT_DIR}/pbs_scripts"
-mkdir -p "${SCRIPT_DIR}/logs/output"
-mkdir -p "${SCRIPT_DIR}/logs/error"
-mkdir -p "${SCRIPT_DIR}/output"
+mkdir -p "${PBS_OUTPUT}"
+mkdir -p "${PBS_ERR}"
+mkdir -p "${OUTDIR}"
 
 for PLACE in "${PLACES[@]}"; do
   for NP in "${PROCS[@]}"; do
@@ -55,8 +85,8 @@ for PLACE in "${PLACES[@]}"; do
 #PBS -l select=1:ncpus=${NP}:mem=${MEM_PER_JOB}
 #PBS -l place=${PLACE}
 #PBS -l walltime=${WALLTIME}
-#PBS -o logs/output/rra_${PLACE}_np${NP}.o
-#PBS -e logs/error/rra_${PLACE}_np${NP}.e
+#PBS -o ${PBS_OUTPUT}/rra_${PLACE}_np${NP}.o
+#PBS -e ${PBS_ERR}/rra_${PLACE}_np${NP}.e
 
 module purge
 module load "mpich-3.2"
@@ -85,8 +115,6 @@ EOF
 done
 
 # Sleep 10 seconds
-sleep 10
-# See if jobs are finished
-qstat | grep "hector.floresreynoso"
+wait_for_jobs
 
 cat "${SCRIPT_DIR}/logs/error/*"
