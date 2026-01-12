@@ -2,8 +2,8 @@
 // Created by vscode on 1/8/26.
 //
 
-#ifndef RRA_SERIAL_TIMER_H
-#define RRA_SERIAL_TIMER_H
+#ifndef RRA_PARALLEL_TIMER_H
+#define RRA_PARALLEL_TIMER_H
 
 void start_timer();
 
@@ -13,4 +13,4 @@ void log_stage_time(const char *label);
 
 double get_elapsed_time();
 
-#endif //RRA_SERIAL_TIMER_H
+#endif //RRA_PARALLEL_TIMER_H

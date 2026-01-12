@@ -1,9 +1,11 @@
-#ifndef RRA_SERIAL_RAVEN_ROOST_ALGORITHM_H
-#define RRA_SERIAL_RAVEN_ROOST_ALGORITHM_H
+#ifndef RRA_PARALLEL_RAVEN_ROOST_ALGORITHM_H
+#define RRA_PARALLEL_RAVEN_ROOST_ALGORITHM_H
+#include <stdbool.h>
+
 #include "utils/pcg_basic.h"
 
 void RRA(int pop_size, int features, int iterations, int flight_steps, int lookout_steps,
          double lower_bound, double upper_bound, double radius, const char *dataset_path,
-         double *exec_timings, pcg32_random_t *rng);
+         double *exec_timings, bool is_measure_speedup, pcg32_random_t *rng);
 
-#endif //RRA_SERIAL_RAVEN_ROOST_ALGORITHM_H
+#endif //RRA_PARALLEL_RAVEN_ROOST_ALGORITHM_H

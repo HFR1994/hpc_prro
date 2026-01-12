@@ -1,5 +1,6 @@
 #include "raven_roost_algorithm.h"
 
+#include <mpi.h>
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,7 +26,7 @@ double calculate_distance(const double *initial, const double *finish, const int
 
 void RRA(const int pop_size, const int features, const int iterations, const int flight_steps, const int lookout_steps,
          const double lower_bound, const double upper_bound, const double radius, const char *dataset_path,
-         double *exec_timings, pcg32_random_t *rng) {
+         double *exec_timings, bool is_measure_speedup, pcg32_random_t *rng) {
 
     const double percFollow = 0.2;
 
@@ -72,6 +73,9 @@ void RRA(const int pop_size, const int features, const int iterations, const int
     // Reusable value for Rleader or rPcpt
     const double rPcpt = initialize_params(dataset_path, food_source, fitness, roosting_site, radius,
         pop_size, features, lower_bound, upper_bound, rng);
+
+    MPI_Barrier(MPI_COMM_WORLD);
+    exec_timings[1] = MPI_Wtime();
 
     log_info("Looking radii is %f", rPcpt);
 
@@ -147,7 +151,8 @@ void RRA(const int pop_size, const int features, const int iterations, const int
                         fitness[i] = n_fitness;
 
                         // Early stop, no need to continue looking
-                        if (unif_0_1(rng) < 0.1) {
+                        // We disabled it for speedup measurements to ensure deterministic outputs
+                        if (!is_measure_speedup && unif_0_1(rng) < 0.1) {
                             log_debug("Early stop for individual %d at step %d", i, step);
                             // Outer for
                             step = flight_steps;

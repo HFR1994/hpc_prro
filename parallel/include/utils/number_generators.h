@@ -2,8 +2,8 @@
 // Created by vscode on 1/8/26.
 //
 
-#ifndef RRA_SERIAL_NUMBER_GENERATORS_H
-#define RRA_SERIAL_NUMBER_GENERATORS_H
+#ifndef RRA_PARALLEL_NUMBER_GENERATORS_H
+#define RRA_PARALLEL_NUMBER_GENERATORS_H
 #include "pcg_basic.h"
 #include <stdbool.h>
 
@@ -13,4 +13,4 @@ double vector_to_distance(double * unit_vector, int features, pcg32_random_t * r
 void gen_unit_vector(double* unit_vector, double norm, int dim);
 double unif_interval(pcg32_random_t *rng, double a, double b);
 
-#endif //RRA_SERIAL_NUMBER_GENERATORS_H
+#endif //RRA_PARALLEL_NUMBER_GENERATORS_H

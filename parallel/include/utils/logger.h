@@ -1,5 +1,5 @@
-#ifndef RRA_SERIAL_LOGGER_H
-#define RRA_SERIAL_LOGGER_H
+#ifndef RRA_PARALLEL_LOGGER_H
+#define RRA_PARALLEL_LOGGER_H
 
 #include <stdio.h>
 
@@ -26,4 +26,4 @@ void log_err(const char *format, ...);
 // Optional: Enable/disable timestamps
 void log_enable_timestamps(int enable);
 
-#endif //RRA_SERIAL_LOGGER_H
+#endif //RRA_PARALLEL_LOGGER_H
