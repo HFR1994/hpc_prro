@@ -11,7 +11,7 @@ wait_for_execution() {
 
   while qstat | grep -q "${USERNAME}"; do
     JOBS=$(qstat | grep "${USERNAME}" | wc -l)
-    echo "Jobs still running: $JOBS jobs... sleeping 10s"
+    echo "$JOBS jobs still running in iter $1... sleeping 10s"
     sleep 10
   done
 
@@ -40,7 +40,7 @@ echo "Running trial: $TRIAL_NUM"
 # -------------------------------
 # Experiment parameters
 # -------------------------------
-PROCS=(1 2 4 16 32 64 128)
+PROCS=(1 2 4 16 32 64)
 RANKS_PER_NODE=32
 EXECUTIONS=(1 2 3)
 PLACES=("pack" "scatter")
@@ -113,10 +113,47 @@ for EXEC in "${EXECUTIONS[@]}"; do
   done
 
   # Sleep 10 seconds
-  wait_for_execution
-
-  cat "${PBS_ERR}/*"
-
+  wait_for_execution "$EXEC"
 done
 
+echo ""
+echo "Submitting 128 ncpus jobs"
+echo ""
 
+for EXEC in "${EXECUTIONS[@]}"; do
+
+  # -------------------------------
+  # Main loops
+  # -------------------------------
+
+  EXEC_DIR="${TRIAL}/execution${EXEC}"
+  PBS_OUTPUT="${EXEC_DIR}/pbs/output"
+  PBS_ERR="${EXEC_DIR}/pbs/error"
+  OUTDIR="${EXEC_DIR}/output"
+
+  for PLACE in "${PLACES[@]}"; do
+
+    JOBNAME="rra_t${TRIAL_NUM}_e${EXEC}_${PLACE}_np${NP}"
+
+    NP=128
+    NODES=4
+
+    JOBNAME="rra_t${TRIAL_NUM}_e${EXEC}_${PLACE}_np${NP}"
+
+    qsub \
+      -N "${JOBNAME}" \
+      -o "${PBS_OUTPUT}/${JOBNAME}.o" \
+      -e "${PBS_ERR}/${JOBNAME}.e" \
+      -l "select=${NODES}:ncpus=${RANKS_PER_NODE}:mem=${MEM_PER_JOB}" \
+      -l "place=${PLACE}" \
+      -v NP=${NP},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL_NUM},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
+      "${PBS_SCRIPT}"
+
+      echo "Submitted ${JOBNAME} (nodes=${NODES})"
+  done
+done
+
+# Sleep 10 seconds
+wait_for_execution
+
+cat "${PBS_ERR}/*"
