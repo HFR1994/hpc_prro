@@ -2,7 +2,7 @@
 
 git pull
 
-wait_for_jobs() {
+wait_for_execution() {
   local USERNAME="hector.floresrey"
 
   echo "Waiting for PBS jobs of user ${USERNAME} to finish..."
@@ -80,9 +80,9 @@ for EXEC in "${EXECUTIONS[@]}"; do
   PBS_ERR="${EXEC}/pbs/error"
   OUTDIR="${EXEC}/output"
 
-#  mkdir -p "${PBS_OUTPUT}"
-#  mkdir -p "${PBS_ERR}"
-#  mkdir -p "${OUTDIR}"
+  mkdir -p "${PBS_OUTPUT}"
+  mkdir -p "${PBS_ERR}"
+  mkdir -p "${OUTDIR}"
 
   for PLACE in "${PLACES[@]}"; do
     for NP in "${PROCS[@]}"; do
@@ -108,9 +108,12 @@ for EXEC in "${EXECUTIONS[@]}"; do
       echo "Submitted ${JOBNAME} (nodes=${NODES})"
     done
   done
+
+  # Sleep 10 seconds
+  wait_for_execution
+
+  cat "${PBS_ERR}/*"
+
 done
 
-# Sleep 10 seconds
-wait_for_jobs
 
-cat "${TRIAL}**/pbs/error/*"
