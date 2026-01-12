@@ -5,6 +5,8 @@ git pull
 wait_for_execution() {
   local USERNAME="hector.floresrey"
 
+  # White line
+  echo ""
   echo "Waiting for PBS jobs of user ${USERNAME} to finish..."
 
   while qstat | grep -q "${USERNAME}"; do
