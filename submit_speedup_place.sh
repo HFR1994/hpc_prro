@@ -9,7 +9,6 @@ PLACES=("pack" "scatter")
 QUEUE="short_cpuQ"
 WALLTIME="00:20:00"
 MEM_PER_JOB="4gb"
-MODULES=("mpich-3.2")
 
 echo "Building project on compute node..."
 cd parallel
@@ -56,9 +55,7 @@ for PLACE in "${PLACES[@]}"; do
 cd $PBS_O_WORKDIR || exit 1
 
 module purge
-for MODULE in "${MODULES[@]}"; do
-  module load "${MODULE}"
-done
+module load "mpich-3.2"
 
 export MEASURE_SPEEDUP=1
 export PRRO_SEED=42
