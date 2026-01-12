@@ -23,12 +23,16 @@ int err_cleanup(void) {
     return EXIT_FAILURE; // unreachable, but explicit
 }
 
-void print_env(const char * str) {
-    const char *env = getenv(str);
+char *print_env(const char *str) {
+    char *env = getenv(str);
 
     if (env != NULL && env[0] != '\0') {
         log_info("%s: %s", str, env);
+    }else {
+        err_cleanup();
     }
+
+    return env;
 }
 
 /*
@@ -75,6 +79,7 @@ int main(int argc, char **argv) {
 
     log_enable_timestamps(1);
 
+    char *placement = NULL;
     // Set once at program start
     if (world_rank != 0) {
         log_set_level(LOG_LEVEL_ERR);
@@ -84,7 +89,7 @@ int main(int argc, char **argv) {
 
         print_env("PRRO_TRIAL");
         print_env("PRRO_EXECUTION");
-        print_env("PRRO_PLACEMENT");
+        placement = print_env("PRRO_PLACEMENT");
     }
 
     // Seed the random number generator
@@ -219,13 +224,13 @@ int main(int argc, char **argv) {
                    MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
 
         char filename[1024];
-        snprintf(filename, sizeof(filename), "%s/exec_timings_np%d_iter%d_pop%d_feat%d.log", output_dir, world_size, iterations, pop_size, features);
+        snprintf(filename, sizeof(filename), "%s/exec_timings_%s_np%d_iter%d_pop%d_feat%d.log", output_dir, placement, world_size, iterations, pop_size, features);
         if (world_rank == 0) {
             FILE *fp = fopen(filename, "w");
             if (fp) {
                 // To aggregate on the logs
-                log_info("total_time: %.10f\n", global_total);
-                log_info("computation_time: %.10f\n", global_compute);
+                log_info("total_time: %.10f", global_total);
+                log_info("computation_time: %.10f", global_compute);
 
                 fprintf(fp, "total_time: %.10f\n", global_total);
                 fprintf(fp, "computation_time: %.10f\n", global_compute);
