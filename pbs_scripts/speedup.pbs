@@ -1,0 +1,40 @@
+#!/bin/bash
+#PBS -q ${QUEUE}
+#PBS -l walltime=${WALLTIME}
+
+# ---------- Safety ----------
+set -euo pipefail
+
+# ---------- Required variables ----------
+: "${NP:?Missing NP}"
+: "${NODES:?Missing NODES}"
+: "${PLACE:?Missing PLACE}"
+: "${TRIAL:?Missing TRIAL}"
+: "${EXEC:?Missing EXEC}"
+: "${APP:?Missing APP}"
+: "${DATASET:?Missing DATASET}"
+: "${OUTDIR:?Missing OUTDIR}"
+
+# ---------- MAIN ----------
+
+module purge
+module load "mpich-3.2"
+
+export MEASURE_SPEEDUP=1
+export PRRO_TRIAL=${TRIAL}
+export PRRO_EXECUTION=${EXEC}
+export PRRO_PLACEMENT=${PLACE}
+export PRRO_SEED=42
+
+echo "Running NP=${NP} on ${NODES} nodes (${PLACE})"
+echo "Trial=${TRIAL} Execution=${EXEC}"
+
+mpirun.actual -n ${NP} \
+    ${APP} \
+    ${DATASET} \
+    -600 600 \
+    1000 \
+    10 \
+    10 \
+    600 \
+    ${OUTDIR}
