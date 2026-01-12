@@ -9,6 +9,21 @@ typedef struct {
     int size;
 } mpi_ctx_t;
 
+typedef struct {
+    int pop_size;
+    int features;
+    int iterations;
+    int flight_steps;
+    int lookout_steps;
+    double lower_bound;
+    double upper_bound;
+    double radius;
+    int is_measure_speedup;          // use int for MPI portability
+    char dataset_path[1024];
+    char output_dir[1024];
+    char placement[128];
+} prro_cfg_t;
+
 int err_cleanup_impl(const char *file, int line, const char *func, int mpi_err);
 
 /* Lifecycle */

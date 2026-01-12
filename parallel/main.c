@@ -226,8 +226,9 @@ int main(int argc, char **argv) {
                    MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD));
 
         char filename[1024];
-        snprintf(filename, sizeof(filename), "%s/exec_timings_%s_np%d_iter%d_pop%d_feat%d.log", output_dir, placement, ctx.rank, iterations, pop_size, features);
         if (ctx.rank == 0) {
+            snprintf(filename, sizeof(filename), "%s/exec_timings_%s_np%d_iter%d_pop%d_feat%d.log", output_dir, placement, ctx.size, iterations, pop_size, features);
+
             FILE *fp = fopen(filename, "w");
             if (fp) {
                 // To aggregate on the logs
@@ -244,7 +245,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    MPI_Finalize();
     mpi_ctx_finalize(&ctx);
+    MPI_Finalize();
     return EXIT_SUCCESS;
 }
