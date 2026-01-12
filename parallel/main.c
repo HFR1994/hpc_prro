@@ -211,6 +211,11 @@ int main(int argc, char **argv) {
         if (world_rank == 0) {
             FILE *fp = fopen(filename, "w");
             if (fp) {
+
+                // To aggregate on the logs
+                log_info("total_time: %.10f\n", global_total);
+                log_info("computation_time: %.10f\n", global_compute);
+
                 fprintf(fp, "total_time: %.10f\n", global_total);
                 fprintf(fp, "computation_time: %.10f\n", global_compute);
 

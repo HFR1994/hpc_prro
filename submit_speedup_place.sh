@@ -23,21 +23,23 @@ if [[ $# -lt 1 ]]; then
   exit 1
 fi
 
-TRIAL="$1"
+TRIAL_NUM="$1"
 
 # Validate: integer ≥ 1
-if ! [[ "$TRIAL" =~ ^[0-9]+$ ]]; then
+if ! [[ "$TRIAL_NUM" =~ ^[0-9]+$ ]]; then
   echo "Error: trial_number must be a positive integer"
   exit 1
 fi
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-echo "Running trial: $TRIAL"
+echo "Running trial: $TRIAL_NUM"
 
 # -------------------------------
 # Experiment parameters
 # -------------------------------
-PROCS=(1 2 4 8)
+PROCS=(1 2 4 16 32 64 128)
+RANKS_PER_NODE=32
+EXECUTIONS=(1 2 3)
 PLACES=("pack" "scatter")
 
 QUEUE="short_cpuQ"
@@ -45,18 +47,17 @@ WALLTIME="00:20:00"
 MEM_PER_JOB="4gb"
 
 echo "Building project on compute node..."
-cd parallel
+cd "${SCRIPT_DIR}/parallel" || exit 1
 ./build.sh || exit 1
-cd ..
+cd "${SCRIPT_DIR}" || exit 1
 
 # -------------------------------
 # Paths (relative to project root)
 # -------------------------------
 APP="${SCRIPT_DIR}/parallel/bin/rra_parallel"
 DATASET="${SCRIPT_DIR}/dataset/random-128-100.csv"
-PBS_OUTPUT="${SCRIPT_DIR}/logs/trial${TRIAL}/pbs/output"
-PBS_ERR="${SCRIPT_DIR}/logs/trial${TRIAL}/pbs/error"
-OUTDIR="${SCRIPT_DIR}/logs/trial${TRIAL}/output"
+TRIAL="${SCRIPT_DIR}/logs/trial${TRIAL_NUM}/"
+PBS_SCRIPT="${SCRIPT_DIR}/pbs_scripts/speedup.pbs"
 
 # -------------------------------
 # Algorithm parameters
@@ -68,53 +69,48 @@ FLIGHT="10"
 LOOKOUT="10"
 RADIUS="600"
 
-mkdir -p "${SCRIPT_DIR}/pbs_scripts"
-mkdir -p "${PBS_OUTPUT}"
-mkdir -p "${PBS_ERR}"
-mkdir -p "${OUTDIR}"
+for EXEC in "${EXECUTIONS[@]}"; do
 
-for PLACE in "${PLACES[@]}"; do
-  for NP in "${PROCS[@]}"; do
+  # -------------------------------
+  # Main loops
+  # -------------------------------
 
-    JOBSCRIPT="${SCRIPT_DIR}/pbs_scripts/rra_${PLACE}_np${NP}.pbs"
+  EXEC_DIR="${SCRIPT_DIR}/logs/trial${TRIAL}/execution${EXEC}"
+  PBS_OUTPUT="${EXEC}/pbs/output"
+  PBS_ERR="${EXEC}/pbs/error"
+  OUTDIR="${EXEC}/output"
 
-    cat > "$JOBSCRIPT" <<EOF
-#!/bin/bash
-#PBS -N rra_${PLACE}_np${NP}
-#PBS -q ${QUEUE}
-#PBS -l select=1:ncpus=${NP}:mem=${MEM_PER_JOB}
-#PBS -l place=${PLACE}
-#PBS -l walltime=${WALLTIME}
-#PBS -o ${PBS_OUTPUT}/rra_${PLACE}_np${NP}.o
-#PBS -e ${PBS_ERR}/rra_${PLACE}_np${NP}.e
+#  mkdir -p "${PBS_OUTPUT}"
+#  mkdir -p "${PBS_ERR}"
+#  mkdir -p "${OUTDIR}"
 
-module purge
-module load "mpich-3.2"
+  for PLACE in "${PLACES[@]}"; do
+    for NP in "${PROCS[@]}"; do
 
-export MEASURE_SPEEDUP=1
-export PRRO_SEED=42
-export PRRO_PLACEMENT=${PLACE}
+      # Derive nodes
+      if (( NP <= RANKS_PER_NODE )); then
+        NODES=1
+      else
+        NODES=$(( (NP + RANKS_PER_NODE - 1) / RANKS_PER_NODE ))
+      fi
 
-mpirun.actual -n ${NP} \\
-    ${APP} \\
-    ${DATASET} \\
-    ${LOWER} ${UPPER} \\
-    ${ITER} \\
-    ${FLIGHT} \\
-    ${LOOKOUT} \\
-    ${RADIUS} \\
-    ${OUTDIR}
-EOF
+      JOBNAME="rra_t${TRIAL}_e${EXEC}_${PLACE}_np${NP}"
 
-    chmod +x "$JOBSCRIPT"
+      qsub \
+        -N "${JOBNAME}" \
+        -o "${PBS_OUT}/${JOBNAME}.o" \
+        -e "${PBS_ERR}/${JOBNAME}.e" \
+        -l "select=${NODES}:ncpus=${RANKS_PER_NODE}:mem=${MEM_PER_JOB}" \
+        -l "place=${PLACE}" \
+        -v NP=${NP},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
+        "${PBS_SCRIPT}"
 
-    echo "Submitting: placement=${PLACE}, np=${NP}"
-    qsub "$JOBSCRIPT"
-
+      echo "Submitted ${JOBNAME} (nodes=${NODES})"
+    done
   done
 done
 
 # Sleep 10 seconds
-wait_for_jobs
+ wait_for_jobs
 
-cat "${SCRIPT_DIR}/logs/error/*"
+ cat "${PBS_ERR}/*"
