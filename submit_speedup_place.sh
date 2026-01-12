@@ -75,7 +75,7 @@ for EXEC in "${EXECUTIONS[@]}"; do
   # Main loops
   # -------------------------------
 
-  EXEC_DIR="${SCRIPT_DIR}/logs/trial${TRIAL_NUM}/execution${EXEC}"
+  EXEC_DIR="${TRIAL}/execution${EXEC}"
   PBS_OUTPUT="${EXEC}/pbs/output"
   PBS_ERR="${EXEC}/pbs/error"
   OUTDIR="${EXEC}/output"
@@ -111,6 +111,6 @@ for EXEC in "${EXECUTIONS[@]}"; do
 done
 
 # Sleep 10 seconds
- wait_for_jobs
+wait_for_jobs
 
- cat "${PBS_ERR}/*"
+cat "${TRIAL}/**/pbs/error/*"
