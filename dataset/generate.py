@@ -9,7 +9,6 @@ Usage examples:
 
 import sys
 import argparse
-import csv
 import random
 
 def parse_args():
@@ -24,6 +23,14 @@ def parse_args():
 
 
 def main():
+
+    FIELD_WIDTH = 18     # total characters per number
+    PRECISION   = 13     # digits after decimal
+    DELIM       = ','    # single-byte delimiter
+    NEWLINE     = '\n'   # enforce LF only
+
+    FMT = f"{{:+0{FIELD_WIDTH}.{PRECISION}f}}"
+
     args = parse_args()
 
     if args.variables <= 0:
@@ -39,21 +46,37 @@ def main():
     if args.seed is not None:
         random.seed(args.seed)
 
-    # Choose output stream
-
-    out_f = open(f"random-{args.pop}-{args.variables}.csv", "w", newline="")
-
-    writer = csv.writer(out_f)
-
     lb = args.lb
     ub = args.ub
-    rng = random.random
+    population = args.pop
+    features = args.variables
 
-    for i in range(args.pop):
-        row = [rng() * (ub - lb) + lb for _ in range(args.variables)]
-        writer.writerow(row)
+    expected_line_len = (
+            features * FIELD_WIDTH +
+            (features - 1) * len(DELIM) +
+            len(NEWLINE)
+    )
 
-    out_f.close()
+    filename = f"random-{population}-{features}.csv"
+    with open(filename, "w", newline="") as f:
+        for _ in range(population):
+            row = [
+                FMT.format(random.uniform(lb, ub))
+                for _ in range(features)
+            ]
+
+            line = DELIM.join(row) + NEWLINE
+
+            # HARD ASSERT: all lines identical length
+            if len(line) != expected_line_len:
+                raise RuntimeError(
+                    f"Line length mismatch: {len(line)} != {expected_line_len}"
+                )
+
+            f.write(line)
+
+    print(f"Generated {filename}")
+    print(f"Each line = {expected_line_len} bytes")
 
 
 if __name__ == "__main__":

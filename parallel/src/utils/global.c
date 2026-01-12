@@ -1,6 +1,8 @@
 #include "utils/global.h"
 
 #include <ctype.h>
+#include <stdlib.h>
+#include <mpi.h>
 #include <strings.h>
 
 #include "utils/logger.h"

@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "mpi/wrapper.h"
+
 #include "phases/execution.h"
 #include "phases/initialization.h"
 
@@ -26,7 +28,7 @@ double calculate_distance(const double *initial, const double *finish, const int
 
 void RRA(const int pop_size, const int features, const int iterations, const int flight_steps, const int lookout_steps,
          const double lower_bound, const double upper_bound, const double radius, const char *dataset_path,
-         double *exec_timings, const bool is_measure_speedup, pcg32_random_t *rng) {
+         double *exec_timings, const bool is_measure_speedup, pcg32_random_t *rng, const mpi_ctx_t * ctx) {
 
     const double percFollow = 0.2;
 
@@ -74,10 +76,10 @@ void RRA(const int pop_size, const int features, const int iterations, const int
     const double rPcpt = initialize_params(dataset_path, food_source, fitness, roosting_site, radius,
         pop_size, features, lower_bound, upper_bound, rng);
 
-    MPI_Barrier(MPI_COMM_WORLD);
+    MPI_CHECK(MPI_Barrier(ctx->comm));
     exec_timings[1] = MPI_Wtime();
 
-    log_info("Looking radii is %f", rPcpt);
+    log_main("Looking radii is %f", rPcpt);
 
     // Set the initial position
     gather_to_roosting(pop_size, features, roosting_site, current_position);
