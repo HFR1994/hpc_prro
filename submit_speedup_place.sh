@@ -12,7 +12,9 @@ MEM_PER_JOB="4gb"
 MODULES=("mpich-3.2")
 
 echo "Building project on compute node..."
-./parallel/build.sh || exit 1
+cd parallel
+./build.sh || exit 1
+cd ..
 
 # -------------------------------
 # Paths (relative to project root)
