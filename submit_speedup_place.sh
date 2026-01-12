@@ -106,7 +106,7 @@ for EXEC in "${EXECUTIONS[@]}"; do
         -v NP=${NP},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL_NUM},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
         "${PBS_SCRIPT}"
         
-      args = "qsub \
+      ARGUMENTS="qsub \
               -N \"${JOBNAME}\" \
               -o \"${PBS_OUTPUT}/${JOBNAME}.o\" \
               -e \"${PBS_ERR}/${JOBNAME}.e\" \
@@ -115,7 +115,7 @@ for EXEC in "${EXECUTIONS[@]}"; do
               -v NP=${NP},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL_NUM},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
               \"${PBS_SCRIPT}\""
 
-      echo "Submitted ${JOBNAME} (nodes=${NODES}) with ${args}"
+      echo "Submitted ${JOBNAME} (nodes=${NODES}) with ${ARGUMENTS}"
 
       exit 0;
     done
