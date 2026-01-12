@@ -113,4 +113,4 @@ done
 # Sleep 10 seconds
 wait_for_jobs
 
-cat "${TRIAL}/**/pbs/error/*"
+cat "${TRIAL}**/pbs/error/*"

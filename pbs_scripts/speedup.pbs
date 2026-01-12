@@ -1,6 +1,6 @@
 #!/bin/bash
-#PBS -q ${QUEUE}
-#PBS -l walltime=${WALLTIME}
+#PBS -q short_cpuQ
+#PBS -l walltime=00:20:00
 
 # ---------- Safety ----------
 set -euo pipefail
