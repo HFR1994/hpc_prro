@@ -37,6 +37,8 @@ int main(int argc, char **argv) {
     pcg32_srandom_r(&rng, time_seed, 52u);
     //pcg32_srandom_r(&rng, (uint64_t)time(NULL) ^ (uint64_t)clock(), 52u);
 
+    // do_work(&rng);
+    // return 0;
 
     double exec_timings[3];
     exec_timings[0] = get_elapsed_time();
@@ -147,7 +149,7 @@ int main(int argc, char **argv) {
         double const computation_time = exec_timings[2] - exec_timings[1];
 
         char filename[1024];
-        snprintf(filename, sizeof(filename), "%s/exec_timings_iter%d_%d_%d.log", output_dir, iterations, pop_size, features);
+        snprintf(filename, sizeof(filename), "%s/exec_timings_mpi_iter%d_%d_%d.log", output_dir, iterations, pop_size, features);
         FILE *fp = fopen(filename, "w");
         if (fp) {
             fprintf(fp, "total_time: %.10f\n", total_time);
