@@ -56,7 +56,7 @@ export MEASURE_SPEEDUP=1
 export PRRO_SEED=42
 export PRRO_PLACEMENT=${PLACE}
 
-mpirun.actual -n ${NP} \\
+mpiexec -n ${NP} \\
     ${APP} \\
     ${DATASET} \\
     ${LOWER} ${UPPER} \\
