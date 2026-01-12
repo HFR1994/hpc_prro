@@ -63,13 +63,11 @@ int do_work(int world_rank, int world_size){
  */
 int main(int argc, char **argv) {
 
-    int world_size, world_rank;
-
     MPI_CHECK(MPI_Init(&argc, &argv));
     mpi_ctx_t ctx;
     mpi_ctx_init(&ctx);
 
-    MPI_Barrier(MPI_COMM_WORLD);
+    MPI_CHECK(MPI_Barrier(ctx.comm));
 
     double exec_timings[3];
     exec_timings[0] = MPI_Wtime();
@@ -101,7 +99,7 @@ int main(int argc, char **argv) {
     // Best seeds 1768210034 52
     const char *seed_env = getenv("PRRO_SEED");
     uint64_t time_seed = seed_env ? strtoull(seed_env, NULL, 10) : (uint64_t)time(NULL) ^ (uint64_t)clock();
-    pcg32_srandom_r(&rng, time_seed + world_rank, 52u);
+    pcg32_srandom_r(&rng, time_seed + ctx.rank, 52u);
 
     // return do_work(world_rank, world_size);
     
@@ -203,9 +201,9 @@ int main(int argc, char **argv) {
     log_main("Random number generator seeded with %lu %lu", time_seed, 52u);
 
     // // Call the GTO function and time the whole run
-    RRA(pop_size, features, iterations, flight_steps, lookout_steps, lower_bound, upper_bound, radius, dataset_path, exec_timings, is_measure_speedup, &rng);
+    RRA(pop_size, features, iterations, flight_steps, lookout_steps, lower_bound, upper_bound, radius, dataset_path, exec_timings, is_measure_speedup, &rng, &ctx);
 
-    MPI_Barrier(MPI_COMM_WORLD);
+    MPI_CHECK(MPI_Barrier(ctx.comm));
     exec_timings[2] = MPI_Wtime();
 
     // Log total elapsed
@@ -228,8 +226,8 @@ int main(int argc, char **argv) {
                    MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD));
 
         char filename[1024];
-        snprintf(filename, sizeof(filename), "%s/exec_timings_%s_np%d_iter%d_pop%d_feat%d.log", output_dir, placement, world_size, iterations, pop_size, features);
-        if (world_rank == 0) {
+        snprintf(filename, sizeof(filename), "%s/exec_timings_%s_np%d_iter%d_pop%d_feat%d.log", output_dir, placement, ctx.rank, iterations, pop_size, features);
+        if (ctx.rank == 0) {
             FILE *fp = fopen(filename, "w");
             if (fp) {
                 // To aggregate on the logs
@@ -246,8 +244,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    printf("\n");
-
+    MPI_Finalize();
     mpi_ctx_finalize(&ctx);
     return EXIT_SUCCESS;
 }

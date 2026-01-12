@@ -17,7 +17,6 @@ void mpi_ctx_init(mpi_ctx_t *ctx)
 void mpi_ctx_finalize(mpi_ctx_t *ctx)
 {
     (void)ctx; /* currently unused */
-    MPI_Finalize();
 }
 
 /**
