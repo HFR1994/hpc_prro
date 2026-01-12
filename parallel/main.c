@@ -225,8 +225,8 @@ int main(int argc, char **argv) {
         MPI_CHECK(MPI_Reduce(&local_compute, &global_compute, 1,
                    MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD));
 
-        char filename[1024];
         if (ctx.rank == 0) {
+            char filename[1024];
             snprintf(filename, sizeof(filename), "%s/exec_timings_%s_np%d_iter%d_pop%d_feat%d.log", output_dir, placement, ctx.size, iterations, pop_size, features);
 
             FILE *fp = fopen(filename, "w");
