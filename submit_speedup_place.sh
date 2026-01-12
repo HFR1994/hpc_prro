@@ -9,7 +9,7 @@ PLACES=("pack" "scatter")
 QUEUE="short_cpuQ"
 WALLTIME="00:20:00"
 MEM_PER_JOB="4gb"
-MODULE="mpich-3.2"
+MODULES=("mpich-3.2" "cmake-3.10.2" "gcc91")
 
 # -------------------------------
 # Paths (relative to project root)
@@ -48,7 +48,9 @@ for PLACE in "${PLACES[@]}"; do
 
 cd \$PBS_O_WORKDIR
 
-module load ${MODULE}
+for MODULE in "${MODULES[@]}"; do
+  module load "${MODULE}"
+done
 
 export MEASURE_SPEEDUP=1
 export PRRO_SEED=42
