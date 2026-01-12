@@ -77,9 +77,9 @@ for EXEC in "${EXECUTIONS[@]}"; do
   # -------------------------------
 
   EXEC_DIR="${TRIAL}/execution${EXEC}"
-  PBS_OUTPUT="${EXEC}/pbs/output"
-  PBS_ERR="${EXEC}/pbs/error"
-  OUTDIR="${EXEC}/output"
+  PBS_OUTPUT="${EXEC_DIR}/pbs/output"
+  PBS_ERR="${EXEC_DIR}/pbs/error"
+  OUTDIR="${EXEC_DIR}/output"
 
   mkdir -p "${PBS_OUTPUT}"
   mkdir -p "${PBS_ERR}"
@@ -99,14 +99,25 @@ for EXEC in "${EXECUTIONS[@]}"; do
 
       qsub \
         -N "${JOBNAME}" \
-        -o "${PBS_OUT}/${JOBNAME}.o" \
+        -o "${PBS_OUTPUT}/${JOBNAME}.o" \
         -e "${PBS_ERR}/${JOBNAME}.e" \
         -l "select=${NODES}:ncpus=${RANKS_PER_NODE}:mem=${MEM_PER_JOB}" \
         -l "place=${PLACE}" \
         -v NP=${NP},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL_NUM},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
         "${PBS_SCRIPT}"
+        
+      args = "qsub \
+              -N \"${JOBNAME}\" \
+              -o \"${PBS_OUTPUT}/${JOBNAME}.o\" \
+              -e \"${PBS_ERR}/${JOBNAME}.e\" \
+              -l \"select=${NODES}:ncpus=${RANKS_PER_NODE}:mem=${MEM_PER_JOB}\" \
+              -l \"place=${PLACE}\" \
+              -v NP=${NP},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL_NUM},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
+              \"${PBS_SCRIPT}\""
 
-      echo "Submitted ${JOBNAME} (nodes=${NODES})"
+      echo "Submitted ${JOBNAME} (nodes=${NODES}) with ${args}"
+
+      exit 0;
     done
   done
 
