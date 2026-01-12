@@ -1,5 +1,8 @@
 #!/bin/bash
 
+git pull
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
 # -------------------------------
 # Experiment parameters
 # -------------------------------
@@ -18,9 +21,9 @@ cd ..
 # -------------------------------
 # Paths (relative to project root)
 # -------------------------------
-APP="./parallel/bin/rra_parallel"
-DATASET="./datasets/random-128-100.csv"
-OUTDIR="./output"
+APP="${SCRIPT_DIR}/parallel/bin/rra_parallel"
+DATASET="${SCRIPT_DIR}/datasets/random-128-100.csv"
+OUTDIR="${SCRIPT_DIR}/output"
 
 # -------------------------------
 # Algorithm parameters
@@ -28,19 +31,19 @@ OUTDIR="./output"
 LOWER="-600"
 UPPER="600"
 ITER="1000"
-FLIGHT="50"
+FLIGHT="10"
 LOOKOUT="10"
-RADIUS="1.0"
+RADIUS="600"
 
-mkdir -p pbs_scripts
-mkdir -p logs/output
-mkdir -p logs/error
-mkdir -p output
+mkdir -p "${SCRIPT_DIR}/pbs_scripts"
+mkdir -p "${SCRIPT_DIR}/logs/output"
+mkdir -p "${SCRIPT_DIR}/logs/error"
+mkdir -p "${SCRIPT_DIR}/output"
 
 for PLACE in "${PLACES[@]}"; do
   for NP in "${PROCS[@]}"; do
 
-    JOBSCRIPT="pbs_scripts/rra_${PLACE}_np${NP}.pbs"
+    JOBSCRIPT="${SCRIPT_DIR}/pbs_scripts/rra_${PLACE}_np${NP}.pbs"
 
     cat > "$JOBSCRIPT" <<EOF
 #!/bin/bash
@@ -79,3 +82,10 @@ EOF
 
   done
 done
+
+# Sleep 10 seconds
+sleep 10
+# See if jobs are finished
+qstat | grep "hector.floresreynoso"
+
+cat "${SCRIPT_DIR}/logs/error/*"
