@@ -57,7 +57,7 @@ cd "${SCRIPT_DIR}" || exit 1
 # -------------------------------
 APP="${SCRIPT_DIR}/parallel/bin/rra_parallel"
 DATASET="${SCRIPT_DIR}/dataset/random-128-100.csv"
-TRIAL="${SCRIPT_DIR}/logs/trial${TRIAL_NUM}/"
+TRIAL="${SCRIPT_DIR}/logs/trial${TRIAL_NUM}"
 PBS_SCRIPT="${SCRIPT_DIR}/pbs_scripts/speedup.pbs"
 
 # -------------------------------
