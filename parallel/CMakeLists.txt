@@ -3,7 +3,6 @@ project(rra_parallel C)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-
 find_package(MPI REQUIRED)
 
 file(GLOB_RECURSE MAIN_SRC CONFIGURE_DEPENDS

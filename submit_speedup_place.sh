@@ -29,6 +29,8 @@ LOOKOUT="10"
 RADIUS="1.0"
 
 mkdir -p pbs_scripts
+mkdir -p logs/output
+mkdir -p logs/error
 mkdir -p output
 
 for PLACE in "${PLACES[@]}"; do
@@ -43,8 +45,8 @@ for PLACE in "${PLACES[@]}"; do
 #PBS -l select=1:ncpus=${NP}:mem=${MEM_PER_JOB}
 #PBS -l place=${PLACE}
 #PBS -l walltime=${WALLTIME}
-#PBS -o rra_${PLACE}_np${NP}.o
-#PBS -e rra_${PLACE}_np${NP}.e
+#PBS -o logs/output/rra_${PLACE}_np${NP}.o
+#PBS -e logs/error/rra_${PLACE}_np${NP}.e
 
 cd \$PBS_O_WORKDIR
 
