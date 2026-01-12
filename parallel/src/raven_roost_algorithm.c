@@ -77,7 +77,7 @@ void RRA(const int pop_size, const int features, const int iterations, const int
     MPI_Barrier(MPI_COMM_WORLD);
     exec_timings[1] = MPI_Wtime();
 
-    log_info("Looking radii is %f", rPcpt);
+    log_main("Looking radii is %f", rPcpt);
 
     // Set the initial position
     gather_to_roosting(pop_size, features, roosting_site, current_position);
