@@ -23,7 +23,6 @@ int err_cleanup(void) {
     return EXIT_FAILURE; // unreachable, but explicit
 }
 
-
 void print_env(const char * str) {
     const char *env = getenv(str);
 
