@@ -9,3 +9,6 @@ cd build
 
 cmake -DCMAKE_C_COMPILER=mpicc -DCMAKE_BUILD_TYPE=Release ..
 
+cd ..
+make -j
+
