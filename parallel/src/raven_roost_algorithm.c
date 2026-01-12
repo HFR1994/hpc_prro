@@ -26,7 +26,7 @@ double calculate_distance(const double *initial, const double *finish, const int
 
 void RRA(const int pop_size, const int features, const int iterations, const int flight_steps, const int lookout_steps,
          const double lower_bound, const double upper_bound, const double radius, const char *dataset_path,
-         double *exec_timings, bool is_measure_speedup, pcg32_random_t *rng) {
+         double *exec_timings, const bool is_measure_speedup, pcg32_random_t *rng) {
 
     const double percFollow = 0.2;
 

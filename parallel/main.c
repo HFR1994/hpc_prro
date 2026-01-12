@@ -182,7 +182,7 @@ int main(int argc, char **argv) {
     log_info("Random number generator seeded with %lu %lu", time_seed, 52u);
 
     // // Call the GTO function and time the whole run
-    RRA(pop_size, features, iterations, flight_steps, lookout_steps, lower_bound, upper_bound, radius, dataset_path, exec_timings, measure_speedup, &rng);
+    RRA(pop_size, features, iterations, flight_steps, lookout_steps, lower_bound, upper_bound, radius, dataset_path, exec_timings, is_measure_speedup, &rng);
 
     MPI_Barrier(MPI_COMM_WORLD);
     exec_timings[2] = MPI_Wtime();

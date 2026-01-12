@@ -9,7 +9,10 @@ PLACES=("pack" "scatter")
 QUEUE="short_cpuQ"
 WALLTIME="00:20:00"
 MEM_PER_JOB="4gb"
-MODULES=("mpich-3.2" "cmake-3.10.2" "gcc91")
+MODULES=("mpich-3.2")
+
+echo "Building project on compute node..."
+./parallel/build.sh || exit 1
 
 # -------------------------------
 # Paths (relative to project root)
@@ -48,8 +51,9 @@ for PLACE in "${PLACES[@]}"; do
 #PBS -o logs/output/rra_${PLACE}_np${NP}.o
 #PBS -e logs/error/rra_${PLACE}_np${NP}.e
 
-cd \$PBS_O_WORKDIR
+cd $PBS_O_WORKDIR || exit 1
 
+module purge
 for MODULE in "${MODULES[@]}"; do
   module load "${MODULE}"
 done
