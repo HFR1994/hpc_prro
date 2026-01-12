@@ -35,6 +35,9 @@ FLIGHT="10"
 LOOKOUT="10"
 RADIUS="600"
 
+rm -rf logs
+rm -rf pbs_scripts
+
 mkdir -p "${SCRIPT_DIR}/pbs_scripts"
 mkdir -p "${SCRIPT_DIR}/logs/output"
 mkdir -p "${SCRIPT_DIR}/logs/error"
@@ -54,8 +57,6 @@ for PLACE in "${PLACES[@]}"; do
 #PBS -l walltime=${WALLTIME}
 #PBS -o logs/output/rra_${PLACE}_np${NP}.o
 #PBS -e logs/error/rra_${PLACE}_np${NP}.e
-
-cd $PBS_O_WORKDIR || exit 1
 
 module purge
 module load "mpich-3.2"
