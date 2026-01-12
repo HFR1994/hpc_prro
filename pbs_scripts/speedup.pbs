@@ -27,7 +27,6 @@ export PRRO_PLACEMENT=${PLACE}
 export PRRO_SEED=42
 
 echo "Running NP=${NP} on ${NODES} nodes (${PLACE})"
-echo "Trial=${TRIAL} Execution=${EXEC}"
 
 mpirun.actual -n ${NP} \
     ${APP} \

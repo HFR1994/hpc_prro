@@ -74,6 +74,8 @@ int main(int argc, char **argv) {
     double exec_timings[3];
     exec_timings[0] = MPI_Wtime();
 
+    log_enable_timestamps(1);
+
     // Set once at program start
     if (world_rank != 0) {
         log_set_level(LOG_LEVEL_ERR);
@@ -85,8 +87,6 @@ int main(int argc, char **argv) {
         print_env("PRRO_EXECUTION");
         print_env("PRRO_PLACEMENT");
     }
-
-    log_enable_timestamps(1);
 
     // Seed the random number generator
     pcg32_random_t rng;

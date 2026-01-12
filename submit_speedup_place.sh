@@ -105,19 +105,8 @@ for EXEC in "${EXECUTIONS[@]}"; do
         -l "place=${PLACE}" \
         -v NP=${NP},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL_NUM},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
         "${PBS_SCRIPT}"
-        
-      ARGUMENTS="qsub \
-              -N \"${JOBNAME}\" \
-              -o \"${PBS_OUTPUT}/${JOBNAME}.o\" \
-              -e \"${PBS_ERR}/${JOBNAME}.e\" \
-              -l \"select=${NODES}:ncpus=${RANKS_PER_NODE}:mem=${MEM_PER_JOB}\" \
-              -l \"place=${PLACE}\" \
-              -v NP=${NP},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL_NUM},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
-              \"${PBS_SCRIPT}\""
 
-      echo "Submitted ${JOBNAME} (nodes=${NODES}) with ${ARGUMENTS}"
-
-      exit 0;
+      echo "Submitted ${JOBNAME} (nodes=${NODES})"
     done
   done
 
