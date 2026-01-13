@@ -22,11 +22,11 @@ double initialize_params(const prra_cfg_t global, prro_state_t * local, const mp
     read_dataset_csv(global.dataset_path, local, global, ctx);
 
     // Make sure all vector positions are inside the bounds otherwise set the min/max
-    check_bounds(local->food_source, local->local_rows, global.features, global.lower_bound, global.upper_bound);
+    check_bounds(local->food_source, local->local_rows, global);
 
     // Evaluate Griewank function
     for (int i = 0; i < local->local_rows; i++) {
-        local->fitness[i] = objective_function(local->food_source + i * global.features, global.features);
+        local->fitness[i] = objective_function(local->food_source + i * global.features, global);
     }
 
     // Set roosting site

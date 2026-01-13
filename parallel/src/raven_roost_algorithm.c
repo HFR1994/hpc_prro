@@ -95,23 +95,23 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
     log_main("Looking radii is %f", rPcpt);
 
     // Set the initial position
-    gather_to_roosting(local.local_rows, global.features, local.roosting_site, local.current_position);
+    gather_to_roosting(&local, global);
 
     // Set leader to the position with the lowest fitness
-    int current_leader = set_leader(local.leader, local.fitness, local.food_source, local.local_rows, global.features);
+    int current_leader = set_leader(&local, global);
     log_info("Current leader is %d with %f", current_leader, local.fitness[current_leader]);
 
     log_info("Using %d followers out of %d", local.num_followers, local.local_rows);
 
     // Set followers to '1' otherwise '0'
-    define_followers(local.is_follower, local.local_rows, current_leader, local.num_followers, rng);
+    define_followers(&local, current_leader, rng);
 
     for (int iter = 0; iter < global.iterations; iter++) {
         for (int i = 0; i < local.local_rows; i++) {
             // We only want to follower to alternate the "flight path"
             if (local.is_follower[i] == 1) {
                 // Set a nearby location to the leader center position based on hypersphere (N dimensions) radii
-                set_lookout(global.features, local.leader, local.final_location, rng, rPcpt);
+                set_lookout(&local, global, local.leader, rPcpt, rng);
             } else {
                 // Just copy the food source position
                 memcpy(local.final_location, local.food_source + i * global.features, global.features * sizeof(double));
@@ -146,21 +146,19 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
                 }
 
                 // Check if the new location doesn't fall out of bounds
-                check_bounds(local.current_position + i * global.features, 1, global.features, global.lower_bound,
-                             global.upper_bound);
+                check_bounds(local.current_position + i * global.features, 1, global);
 
                 // Add the paths
                 path_distance += calculate_distance(local.prev_location, local.current_position + i * global.features, global.features);
 
                 for (int lookout = 0; lookout < global.lookout_steps; ++lookout) {
                     // Pass only from the current_position we care about
-                    set_lookout(global.features, local.current_position + i * global.features, local.n_candidate_position, rng,
-                                rPcpt);
+                    set_lookout(&local, global, local.current_position + i * global.features, rPcpt, rng);
 
                     // Again check location
-                    check_bounds(local.n_candidate_position, 1, global.features, global.lower_bound, global.upper_bound);
+                    check_bounds(local.n_candidate_position, 1, global);
 
-                    const double n_fitness = objective_function(local.n_candidate_position, global.features);
+                    const double n_fitness = objective_function(local.n_candidate_position, global);
                     if (n_fitness < local.fitness[i]) {
                         //log_debug("New best fitness found for individual %d at iteration %d", i, iter);
                         memcpy(local.food_source + i * global.features, local.n_candidate_position, global.features * sizeof(double));
@@ -187,13 +185,13 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
         }
 
         // Evaluate all functions again and designate the leader
-        current_leader = set_leader(local.leader, local.fitness, local.food_source, local.local_rows, global.features);
+        current_leader = set_leader(&local, global);
 
         // Reshuffle the followers
-        define_followers(local.is_follower, local.local_rows, current_leader, local.num_followers, rng);
+        define_followers(&local, current_leader, rng);
 
         // Restart from Roosting position
-        gather_to_roosting(local.local_rows, global.features, local.roosting_site, local.current_position);
+        gather_to_roosting(&local, global);
     }
 
     log_info("Finished execution, the best is %d with %f", current_leader, local.fitness[current_leader]);
