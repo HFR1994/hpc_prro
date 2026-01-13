@@ -91,76 +91,7 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
 
     MPI_CHECK(MPI_Barrier(ctx->comm));
     exec_timings[1] = MPI_Wtime();
-
-    if (global.pop_size % ctx->size != 0) {
-        if (ctx->rank == 0) log_err("pop_size must be divisible by world size");
-        ERR_CLEANUP();
-    }
-
-    const size_t elems_per_rank = (size_t)local.local_rows * (size_t)global.features;
-    const size_t global_elems   = (size_t)global.pop_size * (size_t)global.features;
-
-    double *food_source_global       = malloc(global_elems * sizeof(double));
-    double *current_position_global  = malloc(global_elems * sizeof(double));
-    double *fitness_global           = malloc((size_t)global.pop_size * sizeof(double));
-
-    if (!food_source_global || !current_position_global || !fitness_global) {
-        log_err("malloc failed");
-        ERR_CLEANUP();
-    }
-
-    // Send a copy of the local food source to the global array respecting the rank order
-    MPI_Allgather(
-        local.food_source,
-        (int)elems_per_rank,
-        MPI_DOUBLE,
-        food_source_global,
-        (int)elems_per_rank,
-        MPI_DOUBLE,
-        ctx->comm
-    );
-    free(local.food_source);
-    local.food_source = food_source_global;
-
-    // Send a copy of the local food source to the global array respecting the rank order
-    MPI_Allgather(
-        local.fitness,
-        local.local_rows,
-        MPI_DOUBLE,
-        fitness_global,
-        local.local_rows,
-        MPI_DOUBLE,
-        ctx->comm
-    );
-    free(local.fitness);
-    local.fitness = fitness_global;
-
-    // Send a copy of the local food source to the global array respecting the rank order
-    MPI_Allgather(
-        local.current_position,
-        (int)elems_per_rank,
-        MPI_DOUBLE,
-        current_position_global,
-        (int)elems_per_rank,
-        MPI_DOUBLE,
-        ctx->comm
-    );
-    free(local.current_position);
-    local.current_position = current_position_global;
-
-    const double percFollow = 0.2;
-    local.local_rows = global.pop_size;
-    local.num_followers = ceil(percFollow * local.local_rows - 1);
-    if (local.num_followers < 0) {
-        local.num_followers = 0;
-    }
-
-    free(local.is_follower);
-    local.is_follower = malloc(local.local_rows * sizeof(int));
-
-    MPI_CHECK(MPI_Barrier(ctx->comm));
-    exec_timings[2] = MPI_Wtime();
-
+    
     log_main("Looking radii is %f", rPcpt);
 
     // Set the initial position
