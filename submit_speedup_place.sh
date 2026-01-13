@@ -40,7 +40,7 @@ echo "Running trial: $TRIAL_NUM"
 # -------------------------------
 # Experiment parameters
 # -------------------------------
-PROCS=(1 2 4 16 32 64 128)
+PROCS=(1 2 4 16 32 64)
 RANKS_PER_NODE=16
 EXECUTIONS=(1 2 3)
 PLACES=("pack" "scatter")
