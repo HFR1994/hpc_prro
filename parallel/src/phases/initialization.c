@@ -29,13 +29,18 @@ double initialize_params(const prra_cfg_t global, prro_state_t * local, const mp
         local->fitness[i] = objective_function(local->food_source + i * global.features, global);
     }
 
-    // Set roosting site
-    for (int i = 0; i < global.features; i++) {
-        // Pick a random number between upper and lower bound
-        local->roosting_site[i] = unif_interval(rng, global.lower_bound, global.upper_bound);
+    if (ctx->rank == 0) {
+        // Set roosting site
+        for (int i = 0; i < global.features; i++) {
+            // Pick a random number between upper and lower bound
+            local->roosting_site[i] = unif_interval(rng, global.lower_bound, global.upper_bound);
+        }
     }
+
+    MPI_Bcast(local->roosting_site, global.features, MPI_DOUBLE,0, ctx->comm);
 
     // Instead of adding more variables to the method, we just compute the value and assign
     const double term = pow(global.pop_size, 1.0 / global.features);
     return global.radius/(3.6 * term);
+
 }
