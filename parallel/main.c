@@ -165,19 +165,17 @@ int main(int argc, char **argv) {
     MPI_CHECK(MPI_Barrier(ctx.comm));
     exec_timings[0] = MPI_Wtime();
 
-    log_enable_timestamps(1);
-
     char *placement = NULL;
     
     // Set once at program start, identify which is the main process
     // Set once at program start
     if (ctx.rank != 0) {
-        log_set_level(LOG_LEVEL_INFO);
+        log_set_level(LOG_LEVEL_DEBUG);
     }else {
         log_set_level(LOG_LEVEL_INFO);
     }
-
     log_world_rank(ctx.rank);
+    log_enable_timestamps(1);
 
     log_main("MPI world size: %d", ctx.size);
 
@@ -260,7 +258,7 @@ int main(int argc, char **argv) {
                 log_main("computation_time: %.10f", global_compute);
 
                 fprintf(fp, "total_time: %.10f\n", global_total);
-                fprintf(fp, "gather_all: %.10f", global_gather_all);
+                fprintf(fp, "gather_all: %.10f\n", global_gather_all);
                 fprintf(fp, "computation_time: %.10f\n", global_compute);
 
                 fclose(fp);

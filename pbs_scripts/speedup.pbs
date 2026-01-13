@@ -19,7 +19,6 @@ set -euo pipefail
 
 module purge
 module load "mpich-3.2"
-module load "openmpi-3.0.0"
 
 export MEASURE_SPEEDUP=1
 export PRRO_TRIAL=${TRIAL}
@@ -29,13 +28,4 @@ export PRRO_SEED=42
 
 echo "Running NP=${NP} on ${NODES} nodes (${PLACE})"
 
-# Complains about mca_osc_ucx: libucp.so.0: cannot open shared object file
-mpirun.actual -n ${NP} \
-    ${APP} \
-    ${DATASET} \
-    -600 600 \
-    1000 \
-    10 \
-    10 \
-    600 \
-    ${OUTDIR}
+mpiexec -n ${NP} ${APP} ${DATASET} -600 600 1000 10 10 600 ${OUTDIR}

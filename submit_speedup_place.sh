@@ -88,30 +88,30 @@ for EXEC in "${EXECUTIONS[@]}"; do
   mkdir -p "${OUTDIR}"
 
   for PLACE in "${PLACES[@]}"; do
-    for NP in "${PROCS[@]}"; do
+      for NP in "${PROCS[@]}"; do
 
-      # Derive nodes
-      if (( NP <= RANKS_PER_NODE )); then
-        NODES=1
-      else
-        NODES=$(( (NP + RANKS_PER_NODE - 1) / RANKS_PER_NODE ))
-      fi
+        # Derive nodes
+        if (( NP <= RANKS_PER_NODE )); then
+          NODES=1
+        else
+          NODES=$(( (NP + RANKS_PER_NODE - 1) / RANKS_PER_NODE ))
+        fi
 
-      JOBNAME="rra_t${TRIAL_NUM}_e${EXEC}_${PLACE}_np${NP}"
+        JOBNAME="rra_t${TRIAL_NUM}_e${EXEC}_${PLACE}_np${NP}"
 
-      qsub \
-        -N "${JOBNAME}" \
-        -o "${PBS_OUTPUT}/${JOBNAME}.o" \
-        -e "${PBS_ERR}/${JOBNAME}.e" \
-        -l "select=${NODES}:ncpus=${RANKS_PER_NODE}:mem=${MEM_PER_JOB}" \
-        -l "place=${PLACE}" \
-        -v NP=${NP},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL_NUM},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
-        "${PBS_SCRIPT}"
+        qsub \
+          -N "${JOBNAME}" \
+          -o "${PBS_OUTPUT}/${JOBNAME}.o" \
+          -e "${PBS_ERR}/${JOBNAME}.e" \
+          -l "select=${NODES}:ncpus=${RANKS_PER_NODE}:mem=${MEM_PER_JOB}" \
+          -l "place=${PLACE}" \
+          -v NP=${NP},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL_NUM},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
+          "${PBS_SCRIPT}"
 
-      echo "Submitted ${JOBNAME} (nodes=${NODES})"
-    done
+        echo "Submitted ${JOBNAME} (nodes=${NODES})"
+      done
   done
-
+  
   # Sleep 10 seconds
   wait_for_execution "$EXEC"
 done
