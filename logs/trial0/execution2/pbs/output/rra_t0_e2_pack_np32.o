@@ -1,48 +1,14 @@
-Running NP=32 on 1 nodes (pack)
-[2026-01-12 20:07:04] [37m[INFO][0m MPI world size: 32
-[2026-01-12 20:07:04] [37m[INFO][0m PRRO_TRIAL: 0
-[2026-01-12 20:07:04] [37m[INFO][0m PRRO_EXECUTION: 2
-[2026-01-12 20:07:04] [37m[INFO][0m PRRO_PLACEMENT: pack
-[2026-01-12 20:07:04] [37m[INFO][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial0/execution2/output
+Running NP=32 on 2 nodes (pack)
+[2026-01-13 01:03:15] [34m[MAIN:0][0m MPI world size: 32
+[2026-01-13 01:03:15] [34m[MAIN:0][0m PRRO_TRIAL: 0
+[2026-01-13 01:03:15] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 01:03:15] [34m[MAIN:0][0m PRRO_PLACEMENT: pack
+[2026-01-13 01:03:15] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial0/execution2/output
 
-[2026-01-12 20:07:04] [37m[INFO][0m Random number generator seeded with 42 52
-[2026-01-12 20:07:04] [37m[INFO][0m Looking radii is 158.773000
-[2026-01-12 20:07:04] [37m[INFO][0m Current leader is 20 with 2393.962084
-[2026-01-12 20:07:04] [37m[INFO][0m Using 25 followers out of 128
-[2026-01-12 20:10:52] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[2026-01-12 20:10:53] [37m[INFO][0m total_time: 228.7824053764
-
-[2026-01-12 20:10:53] [37m[INFO][0m computation_time: 228.7597465515
-
-
+[2026-01-13 01:03:15] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 01:03:15] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 01:03:15] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 01:03:15] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 01:06:36] [37m[INFO:0][0m Finished execution, the best is 74 with 10.585910
+[2026-01-13 01:06:51] [34m[MAIN:0][0m total_time: 215.9976975918
+[2026-01-13 01:06:51] [34m[MAIN:0][0m computation_time: 215.9877903461
