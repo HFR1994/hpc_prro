@@ -1,11 +1,65 @@
 #include "phases/initialization.h"
 
 #include <math.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "utils/dir_file_handler.h"
 #include "utils/global.h"
+#include "utils/logger.h"
 #include "utils/number_generators.h"
 #include "utils/objective_function.h"
+
+
+void local_state_init(prro_state_t * local, const prra_cfg_t global, const mpi_ctx_t * ctx) {
+
+    memset(local, 0, sizeof *local);
+    const metadata_state_t metadata = get_bounds(global, ctx);
+
+    local->local_rows = metadata.local_rows;
+    local->start_row = metadata.start_row;
+
+    // Allocate memory for population and temporary population
+    local->food_source = malloc(local->local_rows * global.features * sizeof(double));
+    local->current_position = malloc(local->local_rows * global.features * sizeof(double));
+    local->fitness = malloc(local->local_rows * sizeof(double));
+    local->roosting_site = malloc(global.features * sizeof(double));
+    local->leader = malloc(global.features * sizeof(double));
+
+    local->prev_location = malloc(global.features * sizeof(double));
+    local->final_location = malloc(global.features * sizeof(double));
+
+    // Store the values of each search for a better food source
+    local->n_candidate_position = malloc(global.features * sizeof(double));
+
+    // Use to calculate in which direction is the next step
+    local->direction = malloc(global.features * sizeof(double));
+
+    // Initialize the count to zero because we don't still know how many followers each rank will recieve
+    local->num_followers = 0;
+    local->is_follower = malloc(local->local_rows * sizeof(int));
+
+    if (!local->food_source || !local->current_position || !local->fitness
+        || !local->roosting_site || !local->leader || !local->is_follower
+        || !local->n_candidate_position || !local->direction || !local->prev_location
+        || !local->final_location) {
+
+        log_err("Memory allocation failed");
+
+        // Clean up already allocated memory and exit gracefully
+        free(local->food_source);
+        free(local->current_position);
+        free(local->fitness);
+        free(local->roosting_site);
+        free(local->leader);
+        free(local->is_follower);
+        free(local->n_candidate_position);
+        free(local->direction);
+        free(local->prev_location);
+        free(local->final_location);
+        ERR_CLEANUP();
+    }
+}
 
 /**
  * \brief Initialization stage

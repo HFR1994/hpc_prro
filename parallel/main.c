@@ -13,7 +13,7 @@
 #include "include/utils/pcg_basic.h"
 
 #include "utils/global.h"
-#include "mpi/wrapper.h"
+#include "mpi/handlers.h"
 
 /**
  * \brief Force to print an environment variable

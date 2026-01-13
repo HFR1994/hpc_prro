@@ -1,7 +1,7 @@
 #ifndef RRA_PARALLEL_OBJECTIVE_FUNCTION_H
 #define RRA_PARALLEL_OBJECTIVE_FUNCTION_H
 
-#include "mpi/wrapper.h"
+#include "mpi/handlers.h"
 
 /**
  * \brief Use the Griewank function as an objective function

@@ -29,13 +29,17 @@ export PRRO_SEED=42
 
 echo "Running NP=${NP} on ${NODES} nodes (${PLACE})"
 
-# Complains about mca_osc_ucx: libucp.so.0: cannot open shared object file
-mpirun.actual -n ${NP} \
-    ${APP} \
-    ${DATASET} \
-    -600 600 \
-    1000 \
-    10 \
-    10 \
-    600 \
-    ${OUTDIR}
+# Complains optional high-performance plugin Open MPI skips, just silent them
+# Just annoying for error files
+mpirun.actual --mca pml ob1 \
+              --mca btl self,vader,tcp \
+              --mca osc pt2pt \
+              --mca mpi_cuda_support 0 -n ${NP} \
+              ${APP} \
+              ${DATASET} \
+              -600 600 \
+              1000 \
+              10 \
+              10 \
+              600 \
+              ${OUTDIR}

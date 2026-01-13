@@ -28,6 +28,12 @@ typedef struct {
     /* Population owned by this rank */
     int local_rows;
     int start_row;
+} metadata_state_t;
+
+typedef struct {
+    /* Population owned by this rank */
+    int local_rows;
+    int start_row;
 
     double *food_source; // [local_rows * features]
     double *current_position; // [local_rows * features]
@@ -38,7 +44,7 @@ typedef struct {
     double *roosting_site; // [features]
     double *n_candidate_position; // [features]
     double *direction; // [features]
-    int *is_follower; // [features]
+    int *is_follower; // [local_rows]
     double *prev_location; // [features]
     double *final_location; // [features]
 
@@ -49,11 +55,12 @@ typedef struct {
 
 } prro_state_t;
 
-int err_cleanup_impl(const char *file, int line, const char *func, int mpi_err);
+__attribute__((noreturn)) int err_cleanup_impl(const char *file, int line, const char *func, int mpi_err);
 
 /* Lifecycle */
 void mpi_ctx_init(mpi_ctx_t *ctx);
 void mpi_ctx_finalize(mpi_ctx_t *ctx);
+void mpi_assert_vector(double *vec, int features, const mpi_ctx_t *ctx);
 
 /**
  * \brief Macro Call to check an MPI Call error and clean up
