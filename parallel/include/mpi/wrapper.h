@@ -18,11 +18,36 @@ typedef struct {
     double lower_bound;
     double upper_bound;
     double radius;
-    int is_measure_speedup;          // use int for MPI portability
+    int is_measure_speedup;  // use int for MPI portability
     char dataset_path[1024];
     char output_dir[1024];
     char placement[128];
-} prro_cfg_t;
+} prra_cfg_t;
+
+typedef struct {
+    /* Population owned by this rank */
+    int local_rows;
+    int start_row;
+
+    double *food_source; // [local_rows * features]
+    double *current_position; // [local_rows * features]
+    double *fitness; // [local_rows]
+
+    /* Algorithm execution tmp buffers */
+    double *leader; // [features]
+    double *roosting_site; // [features]
+    double *n_candidate_position; // [features]
+    double *direction; // [features]
+    int *is_follower; // [features]
+    double *prev_location; // [features]
+    double *final_location; // [features]
+
+    /* Optional bookkeeping */
+    int num_followers;
+    int best_idx;
+    double best_fitness;
+
+} prro_state_t;
 
 int err_cleanup_impl(const char *file, int line, const char *func, int mpi_err);
 
