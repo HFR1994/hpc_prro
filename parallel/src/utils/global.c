@@ -22,9 +22,12 @@ void check_bounds(double *X, const int pop_size, const int features, const doubl
     }
 }
 
-bool str_to_bool(const char *s, const bool default_value) {
+int str_to_bool(const char *s, const bool default_value) {
+
+    const int default_int_value = default_value ? 1 : 0;
+
     if (s == NULL || *s == '\0') {
-        return default_value;
+        return default_int_value;
     }
 
     // Skip leading whitespace
@@ -45,5 +48,5 @@ bool str_to_bool(const char *s, const bool default_value) {
         }
 
     // Fallback
-    return default_value;
+    return default_int_value;
 }

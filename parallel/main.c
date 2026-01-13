@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #include <utils/logger.h>
@@ -47,6 +48,117 @@ int do_work(int world_rank, int world_size){
 
     MPI_Finalize();
     return EXIT_SUCCESS;
+}
+
+const char* check_params(int argc, char **argv, prro_cfg_t * cfg){
+
+    // No defaults here; main requires all args except output_dir
+    if (argc < 8) {
+        log_err("Usage: %s dataset_path lower_bound upper_bound, iterations, flight_steps, lookout_steps, radius, [output_dir]\n",
+                argv[0]);
+        ERR_CLEANUP();
+    }
+
+    const char *dataset_path = argv[1];
+    if (!dataset_path || dataset_path[0] == '\0') {
+        log_err("Error: dataset_path is empty\n");
+        ERR_CLEANUP();
+    }
+    snprintf(cfg->dataset_path, sizeof(cfg->dataset_path), "%s", dataset_path);
+
+    // Parse bounds/ints
+    char *endptr = NULL;
+
+    cfg->lower_bound = strtod(argv[2], &endptr);
+    if (endptr == argv[2]) {
+        log_err("Error: invalid lower_bound '%s'\n", argv[2]);
+        ERR_CLEANUP();
+    }
+
+    endptr = NULL;
+    cfg->upper_bound = strtod(argv[3], &endptr);
+    if (endptr == argv[3]) {
+        log_err("Error: invalid lower_bound '%s'\n", argv[3]);
+        ERR_CLEANUP();
+    }
+
+    endptr = NULL;
+    const long iterations_l = strtol(argv[4], &endptr, 10);
+    if (endptr == argv[4] || iterations_l <= 0) {
+        log_err("Error: invalid iterations '%s'\n", argv[4]);
+        ERR_CLEANUP();
+    }
+    cfg->iterations=(int) iterations_l;
+
+    endptr = NULL;
+    const long flight_steps_l = strtol(argv[5], &endptr, 10);
+    if (endptr == argv[5] || flight_steps_l <= 0) {
+        log_err("Error: invalid flight_steps '%s'\n", argv[5]);
+        ERR_CLEANUP();
+    }
+    cfg->flight_steps=(int) flight_steps_l;
+
+    endptr = NULL;
+    const long lookout_steps_l = strtol(argv[6], &endptr, 10);
+    if (endptr == argv[6] || lookout_steps_l <= 0) {
+        log_err("Error: invalid lookout_steps '%s'\n", argv[6]);
+        ERR_CLEANUP();
+    }
+    cfg->lookout_steps=(int) lookout_steps_l;
+
+    endptr = NULL;
+    cfg->radius=strtod(argv[7], &endptr);
+    if (endptr == argv[7]) {
+        log_err("Error: invalid radius '%s'\n", argv[7]);
+        ERR_CLEANUP();
+    }
+
+    // Optional output directory: argv[7] or env OUTPUT_DIR or default ./output
+    const char *output_dir = NULL;
+    if (argc > 8 && argv[8] != NULL && argv[8][0] != '\0') {
+        output_dir = argv[8];
+    } else {
+        const char *env_out = getenv("OUTPUT_DIR");
+        if (env_out != NULL && env_out[0] != '\0') output_dir = env_out;
+        else output_dir = "./output";
+    }
+    snprintf(cfg->output_dir, sizeof(cfg->output_dir), "%s", output_dir);
+
+
+    ensure_dir_exists(output_dir);
+
+    if (cfg->lower_bound >= cfg->upper_bound) {
+        log_warning("lower_bound >= upper_bound (%f >= %f). Swapping values.\n", cfg->lower_bound, cfg->upper_bound);
+        const double t = cfg->lower_bound;
+        cfg->lower_bound = cfg->upper_bound;
+        cfg->upper_bound = t;
+    }
+
+    if (cfg->lower_bound < -600 && cfg->upper_bound > 600) {
+        log_err("lower_bound and upper_bound need to be between [-600, 600].\n");
+        ERR_CLEANUP()
+    }
+
+    if (parse_dims_from_name(cfg->dataset_path, &cfg->pop_size, &cfg->features) != 0) {
+        log_err("Failed to parse dimensions\n");
+        ERR_CLEANUP();
+    }
+
+    // placement from env (required in your code)
+    const char *pl = getenv("PRRO_PLACEMENT");
+    if (!pl || pl[0] == '\0') {
+        log_err("Missing env PRRO_PLACEMENT\n");
+        return 0;
+    }
+    snprintf(cfg->placement, sizeof(cfg->placement), "%s", pl);
+
+    const char *env_out = getenv("MEASURE_SPEEDOUT");
+    cfg->is_measure_speedup = str_to_bool(env_out, false);
+
+    if (cfg->is_measure_speedup) {
+        log_main("Speedup measurement enabled\n");
+    }
+    return output_dir;
 }
 
 /*
@@ -101,107 +213,34 @@ int main(int argc, char **argv) {
     uint64_t time_seed = seed_env ? strtoull(seed_env, NULL, 10) : (uint64_t)time(NULL) ^ (uint64_t)clock();
     pcg32_srandom_r(&rng, time_seed + ctx.rank, 52u);
 
-    // return do_work(world_rank, world_size);
-    
-    // Optional output directory: argv[7] or env OUTPUT_DIR or default ./output
-    const char *output_dir = NULL;
-    if (argc > 8 && argv[8] != NULL && argv[8][0] != '\0') {
-        output_dir = argv[8];
-    } else {
-        const char *env_out = getenv("OUTPUT_DIR");
-        if (env_out != NULL && env_out[0] != '\0') output_dir = env_out;
-        else output_dir = "./output";
+    // Define global params
+    prro_cfg_t cfg;
+    memset(&cfg, 0, sizeof(cfg));
+
+    int ok = 1;
+
+    if (ctx.rank == 0) {
+        const char *output_dir = check_params(argc, argv, &cfg);
     }
 
-    ensure_dir_exists(output_dir);
+    MPI_CHECK(MPI_Bcast(&ok, 1, MPI_INT, 0, ctx.comm));
 
-    // No defaults here; main requires all args except output_dir
-    if (argc < 8) {
-        log_err("Usage: %s dataset_path lower_bound upper_bound, iterations, flight_steps, lookout_steps, radius, [output_dir]\n",
-                argv[0]);
-        ERR_CLEANUP();        
-    }
-
-    const char *dataset_path = argv[1];
-    if (dataset_path == NULL || dataset_path[0] == '\0') {
-        log_err("Error: dataset_path is empty\n");
+    if (!ok) {
+        log_err("Argument validation failed. Aborting all ranks.\n");
         ERR_CLEANUP();
     }
 
-    // Parse required positional args
-    char *endptr = NULL;
-    double lower_bound = strtod(argv[2], &endptr);
-    if (endptr == argv[2]) {
-        log_err("Error: invalid lower_bound '%s'\n", argv[2]);
-        ERR_CLEANUP();
-    }
-
-    endptr = NULL;
-    double upper_bound = strtod(argv[3], &endptr);
-    if (endptr == argv[3]) {
-        log_err("Error: invalid lower_bound '%s'\n", argv[3]);
-        ERR_CLEANUP();
-    }
-
-    endptr = NULL;
-    const long iterations_l = strtol(argv[4], &endptr, 10);
-    if (endptr == argv[4] || iterations_l <= 0) {
-        log_err("Error: invalid iterations '%s'\n", argv[4]);
-        ERR_CLEANUP();
-    }
-    const int iterations = (int) iterations_l;
-
-    endptr = NULL;
-    const long flight_steps_l = strtol(argv[5], &endptr, 10);
-    if (endptr == argv[5] || flight_steps_l <= 0) {
-        log_err("Error: invalid flight_steps '%s'\n", argv[5]);
-        ERR_CLEANUP();
-    }
-    const int flight_steps = (int) flight_steps_l;
-
-    endptr = NULL;
-    const long lookout_steps_l = strtol(argv[6], &endptr, 10);
-    if (endptr == argv[6] || lookout_steps_l <= 0) {
-        log_err("Error: invalid lookout_steps '%s'\n", argv[6]);
-        ERR_CLEANUP();
-    }
-    const int lookout_steps = (int) lookout_steps_l;
-
-    endptr = NULL;
-    const double radius = strtod(argv[7], &endptr);
-    if (endptr == argv[7]) {
-        log_err("Error: invalid radius '%s'\n", argv[7]);
-        ERR_CLEANUP();
-    }
-
-    if (lower_bound >= upper_bound) {
-        log_warning("Warning: lower_bound >= upper_bound (%f >= %f). Swapping values.\n", lower_bound, upper_bound);
-        const double t = lower_bound;
-        lower_bound = upper_bound;
-        upper_bound = t;
-    }
-
-    int pop_size, features;
-
-    if (parse_dims_from_name(dataset_path, &pop_size, &features) != 0) {
-        log_err("Failed to parse dimensions\n");
-        ERR_CLEANUP();
-    }
-
-    const char *env_out = getenv("MEASURE_SPEEDOUT");
-    const bool is_measure_speedup = str_to_bool(env_out, false);
-
-    if (is_measure_speedup) {
-        log_main("Speedup measurement enabled\n");
-    }
+    MPI_CHECK(MPI_Bcast(&cfg, sizeof(cfg), MPI_BYTE, 0, ctx.comm));
 
     log_main("Running parallel RRA: dataset=%s, pop_size=%d, features=%d, iter=%d, flight_steps=%d, look_steps=%d, radius=%f, bounds=[%f,%f], output_dir=%s\n",
-           dataset_path, pop_size, features, iterations, flight_steps, lookout_steps, radius, lower_bound, upper_bound, output_dir);
+            cfg.dataset_path, cfg.pop_size, cfg.features, cfg.iterations, cfg.flight_steps, cfg.lookout_steps,
+            cfg.radius, cfg.lower_bound, cfg.upper_bound, cfg.output_dir);
 
     log_main("Random number generator seeded with %lu %lu", time_seed, 52u);
 
     // // Call the GTO function and time the whole run
-    RRA(pop_size, features, iterations, flight_steps, lookout_steps, lower_bound, upper_bound, radius, dataset_path, exec_timings, is_measure_speedup, &rng, &ctx);
+    RRA(cfg.pop_size, cfg.features, cfg.iterations, cfg.flight_steps, cfg.lookout_steps, cfg.lower_bound,
+        cfg.upper_bound, cfg.radius, cfg.dataset_path, exec_timings, cfg.is_measure_speedup, &rng, &ctx);
 
     MPI_CHECK(MPI_Barrier(ctx.comm));
     exec_timings[2] = MPI_Wtime();
@@ -227,7 +266,7 @@ int main(int argc, char **argv) {
 
         char filename[1024];
         if (ctx.rank == 0) {
-            snprintf(filename, sizeof(filename), "%s/exec_timings_%s_np%d_iter%d_pop%d_feat%d.log", output_dir, placement, ctx.size, iterations, pop_size, features);
+            snprintf(filename, sizeof(filename), "%s/exec_timings_%s_np%d_iter%d_pop%d_feat%d.log", cfg.output_dir, placement, ctx.size, cfg.iterations, cfg.pop_size, cfg.features);
 
             FILE *fp = fopen(filename, "w");
             if (fp) {
