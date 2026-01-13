@@ -161,9 +161,9 @@ int main(int argc, char **argv) {
     mpi_ctx_t ctx;
     mpi_ctx_init(&ctx);
 
-    MPI_CHECK(MPI_Barrier(ctx.comm));
+    double exec_timings[4];
 
-    double exec_timings[3];
+    MPI_CHECK(MPI_Barrier(ctx.comm));
     exec_timings[0] = MPI_Wtime();
 
     log_enable_timestamps(1);
@@ -223,7 +223,7 @@ int main(int argc, char **argv) {
     RRA(exec_timings, global, &rng, &ctx);
 
     MPI_CHECK(MPI_Barrier(ctx.comm));
-    exec_timings[2] = MPI_Wtime();
+    exec_timings[3] = MPI_Wtime();
 
     // Log total elapsed
 
@@ -232,13 +232,18 @@ int main(int argc, char **argv) {
     // Write exec_timings to a log file
     // Self contained
     {
-        double const local_total = exec_timings[2] - exec_timings[0];
-        double const local_compute = exec_timings[2] - exec_timings[1];
+        double const local_total = exec_timings[3] - exec_timings[0];
+        double const local_gather_all = exec_timings[2] - exec_timings[1];
+        double const local_compute = exec_timings[3] - exec_timings[2];
 
         double global_total = 0.0;
+        double global_gather_all = 0.0;
         double global_compute = 0.0;
 
         MPI_CHECK(MPI_Reduce(&local_total, &global_total, 1,
+                   MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD));
+
+        MPI_CHECK(MPI_Reduce(&local_gather_all, &global_gather_all, 1,
                    MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD));
 
         MPI_CHECK(MPI_Reduce(&local_compute, &global_compute, 1,
@@ -252,9 +257,11 @@ int main(int argc, char **argv) {
             if (fp) {
                 // To aggregate on the logs
                 log_main("total_time: %.10f", global_total);
+                log_main("gather_all: %.10f", global_gather_all);
                 log_main("computation_time: %.10f", global_compute);
 
                 fprintf(fp, "total_time: %.10f\n", global_total);
+                fprintf(fp, "gather_all: %.10f", global_gather_all);
                 fprintf(fp, "computation_time: %.10f\n", global_compute);
 
                 fclose(fp);

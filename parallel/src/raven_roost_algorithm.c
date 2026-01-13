@@ -38,9 +38,9 @@ void local_state_init(prro_state_t * local, const prra_cfg_t global, const mpi_c
     // Allocate memory for population and temporary population
     local->food_source = malloc(local->local_rows * global.features * sizeof(double));
     local->current_position = malloc(local->local_rows * global.features * sizeof(double));
-    local->leader = malloc(global.features * sizeof(double));
     local->fitness = malloc(local->local_rows * sizeof(double));
     local->roosting_site = malloc(global.features * sizeof(double));
+    local->leader = malloc(global.features * sizeof(double));
 
     local->prev_location = malloc(global.features * sizeof(double));
     local->final_location = malloc(global.features * sizeof(double));
@@ -55,7 +55,7 @@ void local_state_init(prro_state_t * local, const prra_cfg_t global, const mpi_c
     // Minus one to not count the leader
     const double percFollow = 0.2;
     local->num_followers = ceil(percFollow * local->local_rows - 1);
-    local->is_follower = malloc(global.pop_size * sizeof(int));
+    local->is_follower = malloc(local->local_rows * sizeof(int));
 
     if (!local->food_source || !local->current_position || !local->fitness
         || !local->roosting_site || !local->leader || !local->is_follower
@@ -91,6 +91,65 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
 
     MPI_CHECK(MPI_Barrier(ctx->comm));
     exec_timings[1] = MPI_Wtime();
+
+    const size_t elems_per_rank = (size_t)local.local_rows * (size_t)global.features;
+    const size_t global_elems   = (size_t)global.pop_size * (size_t)global.features;
+
+    double *food_source_global       = malloc(global_elems * sizeof(double));
+    double *current_position_global  = malloc(global_elems * sizeof(double));
+    double *fitness_global           = malloc((size_t)global.pop_size * sizeof(double));
+
+    if (!food_source_global || !current_position_global || !fitness_global) {
+        log_err("malloc failed");
+        ERR_CLEANUP();
+    }
+
+    // Send a copy of the local food source to the global array respecting the rank order
+    MPI_Allgather(
+        local.food_source,
+        (int)elems_per_rank,
+        MPI_DOUBLE,
+        food_source_global,
+        (int)elems_per_rank,
+        MPI_DOUBLE,
+        ctx->comm
+    );
+
+    local.food_source = food_source_global;
+
+    // Send a copy of the local food source to the global array respecting the rank order
+    MPI_Allgather(
+        local.fitness,
+        global.pop_size,
+        MPI_DOUBLE,
+        fitness_global,
+        global.pop_size,
+        MPI_DOUBLE,
+        ctx->comm
+    );
+
+    local.fitness = fitness_global;
+
+    // Send a copy of the local food source to the global array respecting the rank order
+    MPI_Allgather(
+        local.current_position,
+        (int)elems_per_rank,
+        MPI_DOUBLE,
+        current_position_global,
+        (int)elems_per_rank,
+        MPI_DOUBLE,
+        ctx->comm
+    );
+
+    local.current_position = current_position_global;
+
+    const double percFollow = 0.2;
+    local.local_rows = global.pop_size;
+    local.num_followers = ceil(percFollow * local.local_rows - 1);
+    local.is_follower = malloc(local.local_rows * sizeof(int));
+
+    MPI_CHECK(MPI_Barrier(ctx->comm));
+    exec_timings[2] = MPI_Wtime();
 
     log_main("Looking radii is %f", rPcpt);
 
@@ -207,4 +266,7 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
     free(local.direction);
     free(local.prev_location);
     free(local.final_location);
+    free(food_source_global);
+    free(current_position_global);
+    free(fitness_global);
 }
