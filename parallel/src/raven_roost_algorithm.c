@@ -92,6 +92,11 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
     MPI_CHECK(MPI_Barrier(ctx->comm));
     exec_timings[1] = MPI_Wtime();
 
+    if (global.pop_size % ctx->size != 0) {
+        if (ctx->rank == 0) log_err("pop_size must be divisible by world size");
+        ERR_CLEANUP();
+    }
+
     const size_t elems_per_rank = (size_t)local.local_rows * (size_t)global.features;
     const size_t global_elems   = (size_t)global.pop_size * (size_t)global.features;
 
@@ -114,20 +119,20 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
         MPI_DOUBLE,
         ctx->comm
     );
-
+    free(local.food_source);
     local.food_source = food_source_global;
 
     // Send a copy of the local food source to the global array respecting the rank order
     MPI_Allgather(
         local.fitness,
-        global.pop_size,
+        local.local_rows,
         MPI_DOUBLE,
         fitness_global,
-        global.pop_size,
+        local.local_rows,
         MPI_DOUBLE,
         ctx->comm
     );
-
+    free(local.fitness);
     local.fitness = fitness_global;
 
     // Send a copy of the local food source to the global array respecting the rank order
@@ -140,12 +145,17 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
         MPI_DOUBLE,
         ctx->comm
     );
-
+    free(local.current_position);
     local.current_position = current_position_global;
 
     const double percFollow = 0.2;
     local.local_rows = global.pop_size;
     local.num_followers = ceil(percFollow * local.local_rows - 1);
+    if (local.num_followers < 0) {
+        local.num_followers = 0;
+    }
+
+    free(local.is_follower);
     local.is_follower = malloc(local.local_rows * sizeof(int));
 
     MPI_CHECK(MPI_Barrier(ctx->comm));
@@ -266,7 +276,8 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
     free(local.direction);
     free(local.prev_location);
     free(local.final_location);
-    free(food_source_global);
-    free(current_position_global);
-    free(fitness_global);
+
+    food_source_global = NULL;
+    fitness_global = NULL;
+    current_position_global = NULL;
 }
