@@ -9,41 +9,38 @@
 
 /**
  * \brief Initialization stage
- * \param dataset_path A valid CSV file path
- * \param food_source The raven's food source
- * \param fitness The fitness value for each individual in the population (Initialized to 0)
- * \param roosting_site The initial site for each raven
- * \param radius The looking radius for each raven step
- * \param pop_size Total population size
- * \param features Number of features in the raven's position
- * \param lower_bound The maximum lower bound for a feature
- * \param upper_bound The maximum upper bound for a feature
+ * \param global Global program configurations
+ * \param local Local state for this rank
+ * \param ctx MPI context
  * \param rng The random number generator seed
  * \return The radii for the initialization
  */
-double initialize_params(const char *dataset_path, double *food_source, double *fitness, double *roosting_site,
-                         const double radius, const int pop_size, const int features, const double lower_bound,
-                         const double upper_bound, pcg32_random_t *rng) {
+double initialize_params(const prra_cfg_t global, prro_state_t * local, const mpi_ctx_t * ctx, pcg32_random_t * rng){
 
     // Read CSV and map a 1D array to the X variable
     // Represent the best source for
-    read_dataset_csv(dataset_path, food_source, pop_size, features);
+    read_dataset_csv(global.dataset_path, local, global, ctx);
 
     // Make sure all vector positions are inside the bounds otherwise set the min/max
-    check_bounds(food_source, pop_size, features, lower_bound, upper_bound);
+    check_bounds(local->food_source, local->local_rows, global);
 
     // Evaluate Griewank function
-    for (int i = 0; i < pop_size; i++) {
-        fitness[i] = objective_function(food_source + i * features, features);
+    for (int i = 0; i < local->local_rows; i++) {
+        local->fitness[i] = objective_function(local->food_source + i * global.features, global);
     }
 
-    // Set roosting site
-    for (int i = 0; i < features; i++) {
-        // Pick a random number between upper and lower bound
-        roosting_site[i] = unif_interval(rng, lower_bound, upper_bound);
+    if (ctx->rank == 0) {
+        // Set roosting site
+        for (int i = 0; i < global.features; i++) {
+            // Pick a random number between upper and lower bound
+            local->roosting_site[i] = unif_interval(rng, global.lower_bound, global.upper_bound);
+        }
     }
+
+    MPI_Bcast(local->roosting_site, global.features, MPI_DOUBLE,0, ctx->comm);
 
     // Instead of adding more variables to the method, we just compute the value and assign
-    const double term = pow(pop_size, 1.0 / features);
-    return radius/(3.6 * term);
+    const double term = pow(global.pop_size, 1.0 / global.features);
+    return global.radius/(3.6 * term);
+
 }

@@ -1,0 +1,449 @@
+Running NP=32 on 2 nodes (scatter)
+[2026-01-13 13:39:24] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:24] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:24] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:24] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:24] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:24] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:24] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:24] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:24] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:24] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:24] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:24] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:24] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:24] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:24] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:24] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:24] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:24] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:24] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:24] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:24] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:24] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:24] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:24] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:24] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:24] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:24] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:25] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:25] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:25] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:25] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:25] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:25] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:25] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:25] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:25] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:25] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:25] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:25] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:25] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:25] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:25] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:25] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:25] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:25] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:25] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:25] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:25] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:25] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:25] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:25] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:25] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:25] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:25] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:25] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:25] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:25] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:25] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:25] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:25] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:26] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:26] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:26] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:26] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:26] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:26] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:26] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:26] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:26] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:26] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:26] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:26] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:26] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:26] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:26] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:26] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:26] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:26] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:26] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:26] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:26] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:27] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:27] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:27] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:27] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:27] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:27] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:27] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:27] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:27] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:27] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:27] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:27] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:27] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:27] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:27] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:27] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:27] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:27] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:27] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:27] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:27] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:27] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:27] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:27] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:27] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:27] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:27] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:28] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:28] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:28] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:28] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:28] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:28] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:28] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:28] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:28] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:28] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:28] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:28] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:28] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:28] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:28] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:28] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:28] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:28] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:28] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:28] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:28] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:28] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:28] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:28] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:28] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:28] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:28] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:28] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:28] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:28] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:28] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:28] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:28] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:28] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:28] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:28] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:39:28] [34m[MAIN:0][0m MPI world size: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_EXECUTION: 2
+[2026-01-13 13:39:28] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution2/output
+
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-13 13:39:28] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-13 13:39:28] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-13 13:39:28] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-13 13:43:58] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:43:58] [34m[MAIN:0][0m total_time: 270.1539611947
+[2026-01-13 13:43:58] [34m[MAIN:0][0m gather_all: 0.0001353715
+[2026-01-13 13:43:58] [34m[MAIN:0][0m computation_time: 270.1372418031
+[2026-01-13 13:43:58] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:43:58] [34m[MAIN:0][0m total_time: 270.6464749407
+[2026-01-13 13:43:58] [34m[MAIN:0][0m gather_all: 0.0001811031
+[2026-01-13 13:43:58] [34m[MAIN:0][0m computation_time: 270.5856804103
+[2026-01-13 13:43:58] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:43:58] [34m[MAIN:0][0m total_time: 270.4037822112
+[2026-01-13 13:43:58] [34m[MAIN:0][0m gather_all: 0.0001444519
+[2026-01-13 13:43:58] [34m[MAIN:0][0m computation_time: 270.3796502184
+[2026-01-13 13:44:05] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:05] [34m[MAIN:0][0m total_time: 277.2899594270
+[2026-01-13 13:44:05] [34m[MAIN:0][0m gather_all: 0.0001281425
+[2026-01-13 13:44:05] [34m[MAIN:0][0m computation_time: 277.2729641348
+[2026-01-13 13:44:05] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:05] [34m[MAIN:0][0m total_time: 277.5003193226
+[2026-01-13 13:44:05] [34m[MAIN:0][0m gather_all: 0.0001301579
+[2026-01-13 13:44:05] [34m[MAIN:0][0m computation_time: 277.4848979451
+[2026-01-13 13:44:05] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:05] [34m[MAIN:0][0m total_time: 277.7101295181
+[2026-01-13 13:44:05] [34m[MAIN:0][0m gather_all: 0.0002553649
+[2026-01-13 13:44:05] [34m[MAIN:0][0m computation_time: 277.6760248002
+[2026-01-13 13:44:09] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:09] [34m[MAIN:0][0m total_time: 280.8631076850
+[2026-01-13 13:44:09] [34m[MAIN:0][0m gather_all: 0.0000946876
+[2026-01-13 13:44:09] [34m[MAIN:0][0m computation_time: 280.8481469881
+[2026-01-13 13:44:09] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:09] [34m[MAIN:0][0m total_time: 281.0836901013
+[2026-01-13 13:44:09] [34m[MAIN:0][0m gather_all: 0.0001309123
+[2026-01-13 13:44:09] [34m[MAIN:0][0m computation_time: 281.0672046337
+[2026-01-13 13:44:09] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:09] [34m[MAIN:0][0m total_time: 281.0951434243
+[2026-01-13 13:44:09] [34m[MAIN:0][0m gather_all: 0.0001394209
+[2026-01-13 13:44:09] [34m[MAIN:0][0m computation_time: 281.0759522710
+[2026-01-13 13:44:09] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:09] [34m[MAIN:0][0m total_time: 281.2875212431
+[2026-01-13 13:44:09] [34m[MAIN:0][0m gather_all: 0.0001173913
+[2026-01-13 13:44:09] [34m[MAIN:0][0m computation_time: 281.2607892081
+[2026-01-13 13:44:09] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:09] [34m[MAIN:0][0m total_time: 281.1989023406
+[2026-01-13 13:44:09] [34m[MAIN:0][0m gather_all: 0.0001171120
+[2026-01-13 13:44:09] [34m[MAIN:0][0m computation_time: 281.1808532011
+[2026-01-13 13:44:09] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:09] [34m[MAIN:0][0m total_time: 281.5387659464
+[2026-01-13 13:44:09] [34m[MAIN:0][0m gather_all: 0.0001056120
+[2026-01-13 13:44:09] [34m[MAIN:0][0m computation_time: 281.5237145443
+[2026-01-13 13:44:09] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:09] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:09] [34m[MAIN:0][0m total_time: 281.2593173813
+[2026-01-13 13:44:09] [34m[MAIN:0][0m gather_all: 0.0001395661
+[2026-01-13 13:44:09] [34m[MAIN:0][0m computation_time: 281.2426658310
+[2026-01-13 13:44:09] [34m[MAIN:0][0m total_time: 281.4449056648
+[2026-01-13 13:44:09] [34m[MAIN:0][0m gather_all: 0.0001874473
+[2026-01-13 13:44:09] [34m[MAIN:0][0m computation_time: 281.4216986038
+[2026-01-13 13:44:09] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:09] [34m[MAIN:0][0m total_time: 281.4849594962
+[2026-01-13 13:44:09] [34m[MAIN:0][0m gather_all: 0.0000964925
+[2026-01-13 13:44:09] [34m[MAIN:0][0m computation_time: 281.4646452796
+[2026-01-13 13:44:10] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:10] [34m[MAIN:0][0m total_time: 281.9776294455
+[2026-01-13 13:44:10] [34m[MAIN:0][0m gather_all: 0.0000939555
+[2026-01-13 13:44:10] [34m[MAIN:0][0m computation_time: 281.9622567724
+[2026-01-13 13:44:47] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:47] [34m[MAIN:0][0m total_time: 321.5803092904
+[2026-01-13 13:44:47] [34m[MAIN:0][0m gather_all: 0.0001250040
+[2026-01-13 13:44:47] [34m[MAIN:0][0m computation_time: 321.5510466937
+[2026-01-13 13:44:54] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:54] [34m[MAIN:0][0m total_time: 329.8166414928
+[2026-01-13 13:44:54] [34m[MAIN:0][0m gather_all: 0.0001508631
+[2026-01-13 13:44:54] [34m[MAIN:0][0m computation_time: 329.7928350177
+[2026-01-13 13:44:57] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:57] [34m[MAIN:0][0m total_time: 332.4195547048
+[2026-01-13 13:44:57] [34m[MAIN:0][0m gather_all: 0.0001290441
+[2026-01-13 13:44:57] [34m[MAIN:0][0m computation_time: 332.3952042051
+[2026-01-13 13:44:58] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:58] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:58] [34m[MAIN:0][0m total_time: 333.1252574567
+[2026-01-13 13:44:58] [34m[MAIN:0][0m gather_all: 0.0001522973
+[2026-01-13 13:44:58] [34m[MAIN:0][0m computation_time: 333.0957847126
+[2026-01-13 13:44:58] [34m[MAIN:0][0m total_time: 332.9843803067
+[2026-01-13 13:44:58] [34m[MAIN:0][0m gather_all: 0.0001347102
+[2026-01-13 13:44:58] [34m[MAIN:0][0m computation_time: 332.9565556534
+[2026-01-13 13:44:58] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:44:58] [34m[MAIN:0][0m total_time: 333.6562243793
+[2026-01-13 13:44:58] [34m[MAIN:0][0m gather_all: 0.0001371298
+[2026-01-13 13:44:58] [34m[MAIN:0][0m computation_time: 333.6338618938
+[2026-01-13 13:45:00] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:45:00] [34m[MAIN:0][0m total_time: 334.8847226184
+[2026-01-13 13:45:00] [34m[MAIN:0][0m gather_all: 0.0001273490
+[2026-01-13 13:45:00] [34m[MAIN:0][0m computation_time: 334.8683487009
+[2026-01-13 13:45:00] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:45:00] [34m[MAIN:0][0m total_time: 334.8019027691
+[2026-01-13 13:45:00] [34m[MAIN:0][0m gather_all: 0.0001429655
+[2026-01-13 13:45:00] [34m[MAIN:0][0m computation_time: 334.7858616933
+[2026-01-13 13:45:02] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:45:02] [34m[MAIN:0][0m total_time: 337.3220710475
+[2026-01-13 13:45:02] [34m[MAIN:0][0m gather_all: 0.0001117941
+[2026-01-13 13:45:02] [34m[MAIN:0][0m computation_time: 337.2906549666
+[2026-01-13 13:45:03] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:45:03] [34m[MAIN:0][0m total_time: 337.9729717020
+[2026-01-13 13:45:03] [34m[MAIN:0][0m gather_all: 0.0001474954
+[2026-01-13 13:45:03] [34m[MAIN:0][0m computation_time: 337.9485533554
+[2026-01-13 13:45:04] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:45:04] [34m[MAIN:0][0m total_time: 338.1761634443
+[2026-01-13 13:45:04] [34m[MAIN:0][0m gather_all: 0.0001231525
+[2026-01-13 13:45:04] [34m[MAIN:0][0m computation_time: 337.9866633769
+[2026-01-13 13:45:06] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:45:06] [34m[MAIN:0][0m total_time: 342.0562637579
+[2026-01-13 13:45:06] [34m[MAIN:0][0m gather_all: 0.0001410972
+[2026-01-13 13:45:06] [34m[MAIN:0][0m computation_time: 342.0367048774
+[2026-01-13 13:45:08] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:45:08] [34m[MAIN:0][0m total_time: 343.0272490345
+[2026-01-13 13:45:08] [34m[MAIN:0][0m gather_all: 0.0001249220
+[2026-01-13 13:45:08] [34m[MAIN:0][0m computation_time: 343.0097103324
+[2026-01-13 13:45:10] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:45:10] [34m[MAIN:0][0m total_time: 344.7933277637
+[2026-01-13 13:45:10] [34m[MAIN:0][0m gather_all: 0.0001291521
+[2026-01-13 13:45:10] [34m[MAIN:0][0m computation_time: 344.7796632089
+[2026-01-13 13:45:13] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:45:14] [34m[MAIN:0][0m total_time: 349.2002975401
+[2026-01-13 13:45:14] [34m[MAIN:0][0m gather_all: 0.0001298375
+[2026-01-13 13:45:14] [34m[MAIN:0][0m computation_time: 349.1772752814
+[2026-01-13 13:45:15] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-13 13:45:15] [34m[MAIN:0][0m total_time: 349.6619824637
+[2026-01-13 13:45:15] [34m[MAIN:0][0m gather_all: 0.0001232661
+[2026-01-13 13:45:15] [34m[MAIN:0][0m computation_time: 349.6199999116

@@ -1,8 +1,9 @@
 #ifndef RRA_PARALLEL_INITIALIZATION_H
 #define RRA_PARALLEL_INITIALIZATION_H
+#include "mpi/wrapper.h"
+
 #include "utils/pcg_basic.h"
 
-double initialize_params(const char * dataset_path, double *food_source, double * fitness, double * roosting_site, double radius,
-    int pop_size, int features, double lower_bound, double upper_bound, pcg32_random_t * rng);
+double initialize_params(const prra_cfg_t global, prro_state_t * local, const mpi_ctx_t * ctx, pcg32_random_t * rng);
 
 #endif //RRA_PARALLEL_INITIALIZATION_H

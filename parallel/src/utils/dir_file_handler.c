@@ -7,6 +7,9 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include "mpi/wrapper.h"
+#include "utils/logger.h"
+
 int ensure_dir_exists(const char *path) {
     struct stat st;
 
@@ -15,7 +18,7 @@ int ensure_dir_exists(const char *path) {
         if (S_ISDIR(st.st_mode)) {
             return 0; // already exists
         }
-        fprintf(stderr, "%s exists but is not a directory\n", path);
+        log_err("%s exists but is not a directory\n", path);
         return -1;
     }
 
@@ -58,49 +61,46 @@ int parse_dims_from_name(const char *name, int *out_rows,int *out_cols) {
 
 // Helper: read CSV file at `path` and populate X (row-major).
 // Returns number of rows read on success (>=0), or -1 on error (file open/read error).
-int read_dataset_csv(const char *path, double *X, const int rows, const int cols) {
+int read_dataset_csv(const char *path, prro_state_t * local, const prra_cfg_t global, const mpi_ctx_t *ctx) {
+
     if (path == NULL || path[0] == '\0') {
         return -1;
     }
 
-    FILE *f = fopen(path, "r");
-    if (f == NULL) {
+    const MPI_Offset line_bytes = CSV_LINE_BYTES(global.features);
+    const MPI_Offset offset = (MPI_Offset)local->start_row * line_bytes;
+    const MPI_Offset nbytes = (MPI_Offset)local->local_rows * line_bytes;
+
+    char *buffer = malloc(nbytes);
+    if (!buffer) {
+        log_err("Failed to allocate buffer for CSV read");
+        free(buffer);
         return -1;
     }
 
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
-    int row = 0;
+    // Use MPI aware file functions
+    MPI_File fh;
+    MPI_CHECK(MPI_File_open(ctx->comm, path, MPI_MODE_RDONLY, MPI_INFO_NULL, &fh));
+    MPI_CHECK(MPI_File_read_at_all(fh, offset,buffer, nbytes, MPI_CHAR, MPI_STATUS_IGNORE));
+    MPI_CHECK(MPI_File_close(&fh));
 
-    while ((read = getline(&line, &len, f)) != -1 && row < rows) {
-        // Remove trailing newline characters
-        while (read > 0 && (line[read - 1] == '\n' || line[read - 1] == '\r')) {
-            line[--read] = '\0';
+    /* Parse fixed-width rows */
+    for (int i = 0; i < local->local_rows; ++i) {
+        const char *line = buffer + (size_t)i * line_bytes;
+
+        for (int j = 0; j < global.features; ++j) {
+            char field[CSV_FIELD_WIDTH + 1];
+
+            const size_t pos = (size_t)j * (CSV_FIELD_WIDTH + CSV_DELIM_BYTES);
+
+            memcpy(field, line + pos, CSV_FIELD_WIDTH);
+            field[CSV_FIELD_WIDTH] = '\0';
+
+            local->food_source[i * global.features + j] = strtod(field, NULL);
         }
-
-        if (read == 0) continue;  // skip empty lines
-
-        // Parse comma-separated tokens
-        const char *token = strtok(line, ",");
-        int col = 0;
-        while (token) {
-            if (col+1 > cols) {
-                fprintf(stderr,"Row %d doesn't match the expected number of columns %d > %d\n", row, col+1, cols);
-                free(line);
-                fclose(f);
-                return -1;
-            }
-
-            X[row * cols + col] = strtod(token, NULL);
-            col++;
-            token = strtok(NULL, ",");
-        }
-
-        row++;
     }
 
-    free(line);
-    fclose(f);
-    return row; // number of rows read
+    free(buffer);
+
+    return local->local_rows; // number of rows read
 }
