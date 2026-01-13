@@ -31,9 +31,13 @@ void gather_to_roosting(prro_state_t * local, const prra_cfg_t global) {
  */
 void define_followers(prro_state_t * local, prra_cfg_t global, const leader_t current_leader, pcg32_random_t *rng, const mpi_ctx_t * ctx) {
 
+    int *counts = NULL;
+    int *displs = NULL;
+    int* followers = NULL;
+
     if (global.pop_size > 1 && ctx->rank == 0) {
         // Initialize the array to 0's
-        int* followers = malloc(global.pop_size * sizeof(int));
+        followers = malloc(global.pop_size * sizeof(int));
         int *available = malloc(global.pop_size * sizeof(int));
         memset(followers, 0, global.pop_size * sizeof(int));
 
@@ -68,12 +72,33 @@ void define_followers(prro_state_t * local, prra_cfg_t global, const leader_t cu
             followers[available[i]] = 1;
         }
 
-        const metadata_state_t metadata = get_bounds(global, ctx);
+        counts = malloc(ctx->size * sizeof(int));
+        displs = malloc(ctx->size * sizeof(int));
 
-        
+        for (int i = 0; i < ctx->size; i++) {
+            const metadata_state_t metadata = get_bounds(global, ctx->size, i);
+            counts[i] = metadata.local_rows;
+            displs[i] = metadata.start_row;
+        }
 
         free(available);
     }
+
+    MPI_CHECK(MPI_Scatterv(
+        followers,   // send buffer (root only)
+        counts, // send counts per rank
+        displs, // displacements
+        MPI_INT, // datatype
+        local->is_follower, // receive buffer (local)
+        local->local_rows,  // receive count
+        MPI_INT,
+        0, // root
+        ctx->comm
+    ));
+
+    free(counts);
+    free(displs);
+    free(followers);
 }
 
 /**

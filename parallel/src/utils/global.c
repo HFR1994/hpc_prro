@@ -63,15 +63,15 @@ int str_to_bool(const char *s, const bool default_value) {
     return default_int_value;
 }
 
-metadata_state_t get_bounds(prra_cfg_t global, const mpi_ctx_t * ctx) {
+metadata_state_t get_bounds(prra_cfg_t global, const int size, const int rank) {
 
     metadata_state_t metadata;
 
-    const int rows_per_rank = global.pop_size / ctx->size;
-    const int remainder = global.pop_size % ctx->size;
+    const int rows_per_rank = global.pop_size / size;
+    const int remainder = global.pop_size % size;
 
-    metadata.local_rows = rows_per_rank + (ctx->rank < remainder);
-    metadata.start_row = ctx->rank * rows_per_rank + (ctx->rank < remainder ? ctx->rank : remainder);
+    metadata.local_rows = rows_per_rank + (rank < remainder);
+    metadata.start_row = rank * rows_per_rank + (rank < remainder ? rank : remainder);
 
     return metadata;
 }

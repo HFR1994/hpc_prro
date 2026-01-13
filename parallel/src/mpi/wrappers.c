@@ -4,6 +4,7 @@
 
 #include "mpi/registers.h"
 
+#include "utils/global.h"
 #include "utils/logger.h"
 #include "utils/objective_function.h"
 
@@ -34,7 +35,8 @@ leader_t set_global_leader(prro_state_t *local, const prra_cfg_t global, const m
 
     int leader_location = 0;
     if (ctx->rank == 0) {
-        leader_location = rank_points[g_leader.rank].start_row + g_leader.index;
+        metadata_state_t metadata = get_bounds(global, ctx->size, ctx->rank);
+        leader_location = metadata.start_row + g_leader.index;
     }
 
     MPI_CHECK(MPI_Bcast(&leader_location, 1, MPI_INT, 0, ctx->comm));

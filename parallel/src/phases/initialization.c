@@ -14,7 +14,7 @@
 void local_state_init(prro_state_t * local, const prra_cfg_t global, const mpi_ctx_t * ctx) {
 
     memset(local, 0, sizeof *local);
-    const metadata_state_t metadata = get_bounds(global, ctx);
+    const metadata_state_t metadata = get_bounds(global, ctx->size, ctx->rank);
 
     local->local_rows = metadata.local_rows;
     local->start_row = metadata.start_row;
