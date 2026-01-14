@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include "mpi/wrapper.h"
+#include "mpi/handlers.h"
 #include "utils/logger.h"
 
 int ensure_dir_exists(const char *path) {

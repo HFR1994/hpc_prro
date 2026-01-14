@@ -4,7 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "mpi/registers.h"
+
 #include "utils/global.h"
+#include "utils/logger.h"
 #include "utils/number_generators.h"
 
 /**
@@ -22,38 +25,90 @@ void gather_to_roosting(prro_state_t * local, const prra_cfg_t global) {
 /**
  * \brief Define which are the followers, excluding the leader
  * \param local Local state for this rank
- * \param current_leader Index of the current leader
+ * \param global Global configuration
+ * \param current_leader Struct with the global leader
  * \param rng The random number generator
  */
-void define_followers(prro_state_t * local, const int current_leader, pcg32_random_t *rng) {
+void define_followers(prro_state_t * local, prra_cfg_t global, const leader_t current_leader, pcg32_random_t *rng, const mpi_ctx_t * ctx) {
 
-    if (local->local_rows > 1 && local->num_followers < local->local_rows) {
-        // Initialize the array to 0's
-        memset(local->is_follower, 0, local->local_rows * sizeof(int));
+    int *counts = NULL;
+    int *displs = NULL;
+    int* followers = NULL;
 
-        // Create a list of available indices (excluding current_leader)
-        int *available = malloc((local->local_rows - 1) * sizeof(int));
-        int count = 0;
+    if (global.pop_size > 1) {
+        if (ctx->rank == 0) {
+            // Initialize the array to 0's
+            followers = malloc(global.pop_size * sizeof(int));
+            int *available = malloc(global.pop_size * sizeof(int));
+            memset(followers, 0, global.pop_size * sizeof(int));
+
+            if (!available || !followers) {
+                free(available);
+                free(followers);
+                log_err("Failed to allocate memory for available indices");
+                ERR_CLEANUP();
+            }
+
+            int count = 0;
+
+            // Create a list of available indices (excluding current_leader) if it's part of this rank
+            for (int i = 0; i < global.pop_size; i++) {
+                if (i != current_leader.index) {
+                    available[count++] = i;
+                }
+            }
+
+            // Shuffle available indices using Fisher-Yates
+            for (int i = count - 1; i > 0; i--) {
+                const int j = (int) (unif_0_1(rng) * (i + 1));
+                const int temp = available[i];
+                available[i] = available[j];
+                available[j] = temp;
+            }
+
+            const int num_followers = ceil(0.2 * global.pop_size - 1);
+
+            // Set first num_followers indices to 1
+            for (int i = 0; i < num_followers && i < count; i++) {
+                followers[available[i]] = 1;
+            }
+
+            counts = malloc(ctx->size * sizeof(int));
+            displs = malloc(ctx->size * sizeof(int));
+
+            for (int i = 0; i < ctx->size; i++) {
+                const metadata_state_t metadata = get_bounds(global, ctx->size, i);
+                counts[i] = metadata.local_rows;
+                displs[i] = metadata.start_row;
+            }
+
+            free(available);
+        }
+
+        MPI_CHECK(MPI_Scatterv(
+            followers,   // send buffer (root only)
+            counts, // send counts per rank
+            displs, // displacements
+            MPI_INT, // datatype
+            local->is_follower, // receive buffer (local)
+            local->local_rows,  // receive count
+            MPI_INT,
+            0, // root
+            ctx->comm
+        ));
+
+        int total_followers = 0;
         for (int i = 0; i < local->local_rows; i++) {
-            if (i != current_leader) {
-                available[count++] = i;
+            if (local->is_follower[i] == 1) {
+                total_followers += 1;
             }
         }
 
-        // Shuffle available indices using Fisher-Yates
-        for (int i = count - 1; i > 0; i--) {
-            const int j = (int) (unif_0_1(rng) * (i + 1));
-            const int temp = available[i];
-            available[i] = available[j];
-            available[j] = temp;
-        }
+        local->num_followers = total_followers;
 
-        // Set first num_followers indices to 1
-        for (int i = 0; i < local->num_followers && i < count; i++) {
-            local->is_follower[available[i]] = 1;
-        }
-
-        free(available);
+        free(counts);
+        free(displs);
+        free(followers);
     }
 }
 

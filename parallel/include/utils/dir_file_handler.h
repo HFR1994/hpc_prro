@@ -4,7 +4,7 @@
 
 #ifndef RRA_PARALLEL_DATASET_HANDLER_H
 #define RRA_PARALLEL_DATASET_HANDLER_H
-#include "mpi/wrapper.h"
+#include "mpi/handlers.h"
 
 // Use to control the size of the csv file, so it can be parallelize based on the exact number of
 #define CSV_FIELD_WIDTH 18   // must match generator.py

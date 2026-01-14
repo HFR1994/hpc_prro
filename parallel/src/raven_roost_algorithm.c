@@ -5,7 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "mpi/wrapper.h"
+#include "mpi/handlers.h"
+#include "mpi/registers.h"
+#include "mpi/wrappers.h"
 
 #include "phases/execution.h"
 #include "phases/initialization.h"
@@ -26,63 +28,12 @@ double calculate_distance(const double *initial, const double *finish, const int
     return sqrt(dist2);
 }
 
-void local_state_init(prro_state_t * local, const prra_cfg_t global, const mpi_ctx_t * ctx) {
-    
-    const int rows_per_rank = global.pop_size / ctx->size;
-    const int remainder = global.pop_size % ctx->size;
-
-    local->local_rows = rows_per_rank + (ctx->rank < remainder);
-    local->start_row = ctx->rank * rows_per_rank + (ctx->rank < remainder
-        ? ctx->rank : remainder);
-
-    // Allocate memory for population and temporary population
-    local->food_source = malloc(local->local_rows * global.features * sizeof(double));
-    local->current_position = malloc(local->local_rows * global.features * sizeof(double));
-    local->fitness = malloc(local->local_rows * sizeof(double));
-    local->roosting_site = malloc(global.features * sizeof(double));
-    local->leader = malloc(global.features * sizeof(double));
-
-    local->prev_location = malloc(global.features * sizeof(double));
-    local->final_location = malloc(global.features * sizeof(double));
-
-    // Store the values of each search for a better food source
-    local->n_candidate_position = malloc(global.features * sizeof(double));
-
-    // Use to calculate in which direction is the next step
-    local->direction = malloc(global.features * sizeof(double));
-
-    // Make sure always to have more (using ceiling) than percFollow percent
-    // Minus one to not count the leader
-    const double percFollow = 0.2;
-    local->num_followers = ceil(percFollow * local->local_rows - 1);
-    local->is_follower = malloc(local->local_rows * sizeof(int));
-
-    if (!local->food_source || !local->current_position || !local->fitness
-        || !local->roosting_site || !local->leader || !local->is_follower
-        || !local->n_candidate_position || !local->direction || !local->prev_location
-        || !local->final_location) {
-
-        log_err("Memory allocation failed");
-
-        // Clean up already allocated memory and exit gracefully
-        free(local->food_source);
-        free(local->current_position);
-        free(local->fitness);
-        free(local->roosting_site);
-        free(local->leader);
-        free(local->is_follower);
-        free(local->n_candidate_position);
-        free(local->direction);
-        free(local->prev_location);
-        free(local->final_location);
-        ERR_CLEANUP()
-    }
-}
 
 void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, const mpi_ctx_t * ctx) {
 
     prro_state_t local;
 
+    // Set the struct for MPI
     local_state_init(&local, global, ctx);
 
     // Initialize all initial calculations return the looking radii
@@ -92,88 +43,18 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
     MPI_CHECK(MPI_Barrier(ctx->comm));
     exec_timings[1] = MPI_Wtime();
 
-    if (global.pop_size % ctx->size != 0) {
-        if (ctx->rank == 0) log_err("pop_size must be divisible by world size");
-        ERR_CLEANUP();
-    }
-
-    const size_t elems_per_rank = (size_t)local.local_rows * (size_t)global.features;
-    const size_t global_elems   = (size_t)global.pop_size * (size_t)global.features;
-
-    double *food_source_global       = malloc(global_elems * sizeof(double));
-    double *current_position_global  = malloc(global_elems * sizeof(double));
-    double *fitness_global           = malloc((size_t)global.pop_size * sizeof(double));
-
-    if (!food_source_global || !current_position_global || !fitness_global) {
-        log_err("malloc failed");
-        ERR_CLEANUP();
-    }
-
-    // Send a copy of the local food source to the global array respecting the rank order
-    MPI_Allgather(
-        local.food_source,
-        (int)elems_per_rank,
-        MPI_DOUBLE,
-        food_source_global,
-        (int)elems_per_rank,
-        MPI_DOUBLE,
-        ctx->comm
-    );
-    free(local.food_source);
-    local.food_source = food_source_global;
-
-    // Send a copy of the local food source to the global array respecting the rank order
-    MPI_Allgather(
-        local.fitness,
-        local.local_rows,
-        MPI_DOUBLE,
-        fitness_global,
-        local.local_rows,
-        MPI_DOUBLE,
-        ctx->comm
-    );
-    free(local.fitness);
-    local.fitness = fitness_global;
-
-    // Send a copy of the local food source to the global array respecting the rank order
-    MPI_Allgather(
-        local.current_position,
-        (int)elems_per_rank,
-        MPI_DOUBLE,
-        current_position_global,
-        (int)elems_per_rank,
-        MPI_DOUBLE,
-        ctx->comm
-    );
-    free(local.current_position);
-    local.current_position = current_position_global;
-
-    const double percFollow = 0.2;
-    local.local_rows = global.pop_size;
-    local.num_followers = ceil(percFollow * local.local_rows - 1);
-    if (local.num_followers < 0) {
-        local.num_followers = 0;
-    }
-
-    free(local.is_follower);
-    local.is_follower = malloc(local.local_rows * sizeof(int));
-
-    MPI_CHECK(MPI_Barrier(ctx->comm));
-    exec_timings[2] = MPI_Wtime();
-
     log_main("Looking radii is %f", rPcpt);
 
     // Set the initial position
     gather_to_roosting(&local, global);
 
     // Set leader to the position with the lowest fitness
-    int current_leader = set_leader(&local, global);
-    log_info("Current leader is %d with %f", current_leader, local.fitness[current_leader]);
+    leader_t current_global_leader = set_global_leader(&local, global, ctx);
+    log_main("Current global leader is %d with %f", current_global_leader.index, current_global_leader.fitness);
 
+    // // Set followers to '1' otherwise '0'
+    define_followers(&local, global, current_global_leader, rng, ctx);
     log_info("Using %d followers out of %d", local.num_followers, local.local_rows);
-
-    // Set followers to '1' otherwise '0'
-    define_followers(&local, current_leader, rng);
 
     for (int iter = 0; iter < global.iterations; iter++) {
         for (int i = 0; i < local.local_rows; i++) {
@@ -254,16 +135,16 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
         }
 
         // Evaluate all functions again and designate the leader
-        current_leader = set_leader(&local, global);
+        current_global_leader = set_global_leader(&local, global, ctx);
 
         // Reshuffle the followers
-        define_followers(&local, current_leader, rng);
+        define_followers(&local, global, current_global_leader, rng, ctx);
 
         // Restart from Roosting position
         gather_to_roosting(&local, global);
     }
 
-    log_info("Finished execution, the best is %d with %f", current_leader, local.fitness[current_leader]);
+    log_info("Finished execution, the best is %d with %f", current_global_leader.index, current_global_leader.fitness);
 
     // Cleanup
     free(local.food_source);
@@ -276,8 +157,4 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
     free(local.direction);
     free(local.prev_location);
     free(local.final_location);
-
-    food_source_global = NULL;
-    fitness_global = NULL;
-    current_position_global = NULL;
 }
