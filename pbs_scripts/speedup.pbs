@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -q short_cpuQ
+#PBS -q short_HPC4DS
 #PBS -l walltime=00:20:00
 
 # ---------- Safety ----------
@@ -18,8 +18,7 @@ set -euo pipefail
 # ---------- MAIN ----------
 
 module purge
-module load "mpich-3.2"
-module load "openmpi-3.0.0"
+module load mpich-3.2
 
 export MEASURE_SPEEDUP=1
 export PRRO_TRIAL=${TRIAL}
@@ -27,19 +26,6 @@ export PRRO_EXECUTION=${EXEC}
 export PRRO_PLACEMENT=${PLACE}
 export PRRO_SEED=42
 
-echo "Running NP=${NP} on ${NODES} nodes (${PLACE})"
+echo "Running NP=${NP} on ${NODES} nodes (${PLACE}:excl)"
 
-# Complains optional high-performance plugin Open MPI skips, just silent them
-# Just annoying for error files
-mpirun.actual --mca pml ob1 \
-              --mca btl self,vader,tcp \
-              --mca osc pt2pt \
-              --mca mpi_cuda_support 0 -n ${NP} \
-              ${APP} \
-              ${DATASET} \
-              -600 600 \
-              1000 \
-              10 \
-              10 \
-              600 \
-              ${OUTDIR}
+mpirun.actual -n ${NP} ${APP} ${DATASET} -600 600 1000 10 10 600 ${OUTDIR}

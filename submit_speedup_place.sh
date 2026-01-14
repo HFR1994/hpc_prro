@@ -1,6 +1,8 @@
 #!/bin/bash
 
 git pull
+rm -rf parallel/bin
+rm -rf parallel/build
 
 wait_for_execution() {
   local USERNAME="hector.floresrey"
@@ -11,6 +13,19 @@ wait_for_execution() {
 
   while qstat | grep -q "${USERNAME}"; do
     JOBS=$(qstat | grep "${USERNAME}" | wc -l)
+#    if [ "$JOBS" -eq 1 ]; then
+#      echo "$JOBS job still running in iter $1... checking configuration"
+#      JOB_ID=$(qstat | grep "${USERNAME}" | awk '{print $1}' | cut -d'.' -f1)
+#      JOB_INFO=$(qstat -f "${JOB_ID}")
+#
+#      if echo "$JOB_INFO" | grep -q "Resource_List.ncpus = 128" && \
+#         echo "$JOB_INFO" | grep -q "Resource_List.nodect = 4" && \
+#         echo "$JOB_INFO" | grep -q "Resource_List.place = pack:excl"; then
+#        echo "Job ${JOB_ID} matches configuration. Deleting..."
+#        qdel "${JOB_ID}"
+#      fi
+#      break
+#    fi
     echo "$JOBS jobs still running in iter $1... sleeping 10s"
     sleep 10
   done
@@ -45,7 +60,6 @@ RANKS_PER_NODE=16
 EXECUTIONS=(1 2 3)
 PLACES=("pack" "scatter")
 
-QUEUE="short_cpuQ"
 WALLTIME="00:20:00"
 MEM_PER_JOB="4gb"
 
@@ -61,16 +75,6 @@ APP="${SCRIPT_DIR}/parallel/bin/rra_parallel"
 DATASET="${SCRIPT_DIR}/dataset/random-128-100.csv"
 TRIAL="${SCRIPT_DIR}/logs/trial${TRIAL_NUM}"
 PBS_SCRIPT="${SCRIPT_DIR}/pbs_scripts/speedup.pbs"
-
-# -------------------------------
-# Algorithm parameters
-# -------------------------------
-LOWER="-600"
-UPPER="600"
-ITER="1000"
-FLIGHT="10"
-LOOKOUT="10"
-RADIUS="600"
 
 for EXEC in "${EXECUTIONS[@]}"; do
 
@@ -88,28 +92,30 @@ for EXEC in "${EXECUTIONS[@]}"; do
   mkdir -p "${OUTDIR}"
 
   for PLACE in "${PLACES[@]}"; do
-    for NP in "${PROCS[@]}"; do
+      for NP in "${PROCS[@]}"; do
 
-      # Derive nodes
-      if (( NP <= RANKS_PER_NODE )); then
-        NODES=1
-      else
-        NODES=$(( (NP + RANKS_PER_NODE - 1) / RANKS_PER_NODE ))
-      fi
+        # Derive nodes
+        if (( NP <= RANKS_PER_NODE )); then
+          NODES=1
+        else
+          NODES=$(( (NP + RANKS_PER_NODE - 1) / RANKS_PER_NODE ))
+        fi
 
-      JOBNAME="rra_t${TRIAL_NUM}_e${EXEC}_${PLACE}_np${NP}"
+        NCPUS=$(( (NP + NODES - 1) / NODES ))
 
-      qsub \
-        -N "${JOBNAME}" \
-        -o "${PBS_OUTPUT}/${JOBNAME}.o" \
-        -e "${PBS_ERR}/${JOBNAME}.e" \
-        -l "select=${NODES}:ncpus=${RANKS_PER_NODE}:mem=${MEM_PER_JOB}" \
-        -l "place=${PLACE}" \
-        -v NP=${NP},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL_NUM},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
-        "${PBS_SCRIPT}"
+        JOBNAME="rra_t${TRIAL_NUM}_e${EXEC}_${PLACE}_np${NP}"
 
-      echo "Submitted ${JOBNAME} (nodes=${NODES})"
-    done
+        qsub \
+          -N "${JOBNAME}" \
+          -o "${PBS_OUTPUT}/${JOBNAME}.o" \
+          -e "${PBS_ERR}/${JOBNAME}.e" \
+          -l "select=${NODES}:ncpus=${NCPUS}:mem=${MEM_PER_JOB}:mpiprocs=${NCPUS}" \
+          -l "place=${PLACE}:excl" \
+          -v NP=${NP},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL_NUM},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
+          "${PBS_SCRIPT}"
+
+        echo "Submitted ${JOBNAME} (nodes=${NODES})"
+      done
   done
 
   # Sleep 10 seconds
