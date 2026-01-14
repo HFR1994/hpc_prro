@@ -1,0 +1,16 @@
+Running NP=2 on 1 nodes (scatter:excl)
+[2026-01-14 16:10:09] [34m[MAIN:0][0m MPI world size: 2
+[2026-01-14 16:10:09] [34m[MAIN:0][0m PRRO_TRIAL: 2
+[2026-01-14 16:10:09] [34m[MAIN:0][0m PRRO_EXECUTION: 1
+[2026-01-14 16:10:09] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-14 16:10:09] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial2/execution1/output
+
+[2026-01-14 16:10:09] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-14 16:10:09] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-14 16:10:09] [34m[MAIN:0][0m Current global leader is 20 with 2393.962084
+[2026-01-14 16:10:09] [37m[INFO:0][0m Using 14 followers out of 64
+[2026-01-14 16:10:09] [37m[INFO:1][0m Using 11 followers out of 64
+[2026-01-14 16:11:45] [37m[INFO:0][0m Finished execution, the best is 77 with 9.613181
+[2026-01-14 16:11:45] [37m[INFO:1][0m Finished execution, the best is 77 with 9.613181
+[2026-01-14 16:11:45] [34m[MAIN:0][0m total_time: 96.4339911938
+[2026-01-14 16:11:45] [34m[MAIN:0][0m computation_time: 96.3855664730
