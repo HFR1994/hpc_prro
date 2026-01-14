@@ -156,9 +156,6 @@ void write_convergence_csv(const mpi_ctx_t * ctx, const prro_state_t * local, pr
     // Each rank has global->iterations convergence points
     int local_count = global->iterations;
 
-    // Compute offset for this rank
-    MPI_Offset offset = ctx->rank * local_count;
-
     // Build filename
     char filename[1024];
     snprintf(filename, sizeof(filename), "%s/convergence_results_%s_np%d_iter%d_pop%d_feat%d.csv",
@@ -256,8 +253,8 @@ int main(int argc, char **argv) {
 
     log_main("MPI world size: %d", ctx.size);
 
-    print_env("PRRO_TRIAL");
-    print_env("PRRO_EXECUTION");
+    //print_env("PRRO_TRIAL");
+    //print_env("PRRO_EXECUTION");
     placement = print_env("PRRO_PLACEMENT");
     
     // Seed the random number generator
