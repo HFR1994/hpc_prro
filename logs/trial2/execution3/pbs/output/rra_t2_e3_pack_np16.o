@@ -1,0 +1,44 @@
+Running NP=16 on 1 nodes (pack:excl)
+[2026-01-14 16:18:21] [34m[MAIN:0][0m MPI world size: 16
+[2026-01-14 16:18:21] [34m[MAIN:0][0m PRRO_TRIAL: 2
+[2026-01-14 16:18:21] [34m[MAIN:0][0m PRRO_EXECUTION: 3
+[2026-01-14 16:18:21] [34m[MAIN:0][0m PRRO_PLACEMENT: pack
+[2026-01-14 16:18:21] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial2/execution3/output
+
+[2026-01-14 16:18:21] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-14 16:18:21] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-14 16:18:21] [34m[MAIN:0][0m Current global leader is 20 with 2393.962084
+[2026-01-14 16:18:21] [37m[INFO:0][0m Using 2 followers out of 8
+[2026-01-14 16:18:21] [37m[INFO:4][0m Using 2 followers out of 8
+[2026-01-14 16:18:21] [37m[INFO:7][0m Using 1 followers out of 8
+[2026-01-14 16:18:21] [37m[INFO:10][0m Using 1 followers out of 8
+[2026-01-14 16:18:21] [37m[INFO:1][0m Using 3 followers out of 8
+[2026-01-14 16:18:21] [37m[INFO:2][0m Using 3 followers out of 8
+[2026-01-14 16:18:21] [37m[INFO:6][0m Using 0 followers out of 8
+[2026-01-14 16:18:21] [37m[INFO:8][0m Using 2 followers out of 8
+[2026-01-14 16:18:21] [37m[INFO:9][0m Using 1 followers out of 8
+[2026-01-14 16:18:21] [37m[INFO:12][0m Using 0 followers out of 8
+[2026-01-14 16:18:21] [37m[INFO:3][0m Using 1 followers out of 8
+[2026-01-14 16:18:21] [37m[INFO:5][0m Using 2 followers out of 8
+[2026-01-14 16:18:21] [37m[INFO:11][0m Using 1 followers out of 8
+[2026-01-14 16:18:21] [37m[INFO:13][0m Using 1 followers out of 8
+[2026-01-14 16:18:21] [37m[INFO:14][0m Using 2 followers out of 8
+[2026-01-14 16:18:21] [37m[INFO:15][0m Using 3 followers out of 8
+[2026-01-14 16:18:34] [37m[INFO:0][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [37m[INFO:1][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [37m[INFO:2][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [37m[INFO:3][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [37m[INFO:4][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [37m[INFO:5][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [37m[INFO:6][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [37m[INFO:7][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [37m[INFO:8][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [37m[INFO:9][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [37m[INFO:10][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [37m[INFO:11][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [37m[INFO:12][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [37m[INFO:13][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [37m[INFO:14][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [37m[INFO:15][0m Finished execution, the best is 56 with 6.525574
+[2026-01-14 16:18:34] [34m[MAIN:0][0m total_time: 13.1880540848
+[2026-01-14 16:18:34] [34m[MAIN:0][0m computation_time: 13.1804656982
