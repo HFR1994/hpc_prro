@@ -31,6 +31,8 @@ PLACE="scatter"
 WALLTIME="00:40:00"
 MEM_PER_JOB="4gb"
 
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
 echo "Building project on compute node..."
 cd "${SCRIPT_DIR}/parallel" || exit 1
 ./build.sh || exit 1
