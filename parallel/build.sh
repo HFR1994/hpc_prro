@@ -9,6 +9,5 @@ cd build
 
 cmake ..
 
-cd ..
-make clean 
+make clean all
 
