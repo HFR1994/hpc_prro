@@ -35,70 +35,81 @@ void define_followers(prro_state_t * local, prra_cfg_t global, const leader_t cu
     int *displs = NULL;
     int* followers = NULL;
 
-    if (global.pop_size > 1 && ctx->rank == 0) {
-        // Initialize the array to 0's
-        followers = malloc(global.pop_size * sizeof(int));
-        int *available = malloc(global.pop_size * sizeof(int));
-        memset(followers, 0, global.pop_size * sizeof(int));
+    if (global.pop_size > 1) {
+        if (ctx->rank == 0) {
+            // Initialize the array to 0's
+            followers = malloc(global.pop_size * sizeof(int));
+            int *available = malloc(global.pop_size * sizeof(int));
+            memset(followers, 0, global.pop_size * sizeof(int));
 
-        if (!available || !followers) {
+            if (!available || !followers) {
+                free(available);
+                free(followers);
+                log_err("Failed to allocate memory for available indices");
+                ERR_CLEANUP();
+            }
+
+            int count = 0;
+
+            // Create a list of available indices (excluding current_leader) if it's part of this rank
+            for (int i = 0; i < global.pop_size; i++) {
+                if (i != current_leader.index) {
+                    available[count++] = i;
+                }
+            }
+
+            // Shuffle available indices using Fisher-Yates
+            for (int i = count - 1; i > 0; i--) {
+                const int j = (int) (unif_0_1(rng) * (i + 1));
+                const int temp = available[i];
+                available[i] = available[j];
+                available[j] = temp;
+            }
+
+            const int num_followers = ceil(0.2 * global.pop_size - 1);
+
+            // Set first num_followers indices to 1
+            for (int i = 0; i < num_followers && i < count; i++) {
+                followers[available[i]] = 1;
+            }
+
+            counts = malloc(ctx->size * sizeof(int));
+            displs = malloc(ctx->size * sizeof(int));
+
+            for (int i = 0; i < ctx->size; i++) {
+                const metadata_state_t metadata = get_bounds(global, ctx->size, i);
+                counts[i] = metadata.local_rows;
+                displs[i] = metadata.start_row;
+            }
+
             free(available);
-            free(followers);
-            log_err("Failed to allocate memory for available indices");
-            ERR_CLEANUP();
         }
 
-        int count = 0;
+        MPI_CHECK(MPI_Scatterv(
+            followers,   // send buffer (root only)
+            counts, // send counts per rank
+            displs, // displacements
+            MPI_INT, // datatype
+            local->is_follower, // receive buffer (local)
+            local->local_rows,  // receive count
+            MPI_INT,
+            0, // root
+            ctx->comm
+        ));
 
-        // Create a list of available indices (excluding current_leader) if it's part of this rank
-        for (int i = 0; i < global.pop_size; i++) {
-            if (i != current_leader.index) {
-                available[count++] = i;
+        int total_followers = 0;
+        for (int i = 0; i < local->local_rows; i++) {
+            if (local->is_follower[i] == 1) {
+                total_followers += 1;
             }
         }
 
-        // Shuffle available indices using Fisher-Yates
-        for (int i = count - 1; i > 0; i--) {
-            const int j = (int) (unif_0_1(rng) * (i + 1));
-            const int temp = available[i];
-            available[i] = available[j];
-            available[j] = temp;
-        }
+        local->num_followers = total_followers;
 
-        const int num_followers = ceil(0.2 * global.pop_size - 1);
-
-        // Set first num_followers indices to 1
-        for (int i = 0; i < num_followers && i < count; i++) {
-            followers[available[i]] = 1;
-        }
-
-        counts = malloc(ctx->size * sizeof(int));
-        displs = malloc(ctx->size * sizeof(int));
-
-        for (int i = 0; i < ctx->size; i++) {
-            const metadata_state_t metadata = get_bounds(global, ctx->size, i);
-            counts[i] = metadata.local_rows;
-            displs[i] = metadata.start_row;
-        }
-
-        free(available);
+        free(counts);
+        free(displs);
+        free(followers);
     }
-
-    MPI_CHECK(MPI_Scatterv(
-        followers,   // send buffer (root only)
-        counts, // send counts per rank
-        displs, // displacements
-        MPI_INT, // datatype
-        local->is_follower, // receive buffer (local)
-        local->local_rows,  // receive count
-        MPI_INT,
-        0, // root
-        ctx->comm
-    ));
-
-    free(counts);
-    free(displs);
-    free(followers);
 }
 
 /**
