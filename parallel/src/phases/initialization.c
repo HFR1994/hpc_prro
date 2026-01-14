@@ -39,10 +39,18 @@ void local_state_init(prro_state_t * local, const prra_cfg_t global, const mpi_c
     local->num_followers = 0;
     local->is_follower = malloc(local->local_rows * sizeof(int));
 
+    bool allocation_convergence = false;
+    if (global.convergence_results) {
+        local-> convergence_results = malloc(global.iterations * sizeof(convergence_point_t));
+
+        // Since it not always enable we only check when needed
+        allocation_convergence = !local->convergence_results;
+    }
+
     if (!local->food_source || !local->current_position || !local->fitness
         || !local->roosting_site || !local->leader || !local->is_follower
         || !local->n_candidate_position || !local->direction || !local->prev_location
-        || !local->final_location) {
+        || !local->final_location || allocation_convergence) {
 
         log_err("Memory allocation failed");
 
@@ -57,6 +65,7 @@ void local_state_init(prro_state_t * local, const prra_cfg_t global, const mpi_c
         free(local->direction);
         free(local->prev_location);
         free(local->final_location);
+        free(local->convergence_results);
         ERR_CLEANUP();
     }
 }

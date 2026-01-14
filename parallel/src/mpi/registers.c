@@ -7,8 +7,11 @@
 
 /* Define the globals */
 MPI_Datatype MPI_LEADER;
-MPI_Datatype MPI_METADATA;
+MPI_Datatype MPI_CONVERGENCE_POINT;
 MPI_Op       MPI_LEADER_MIN;
+
+static int leader_type_committed      = 0;
+static int leader_op_created          = 0;
 
 /**
  * \brief Custom min function to register to MPI
@@ -48,5 +51,24 @@ void register_leader_struct() {
     MPI_CHECK(MPI_Type_create_struct(3, block_lengths, offsets, types, &MPI_LEADER));
     MPI_CHECK(MPI_Type_commit(&MPI_LEADER));
 
+    leader_type_committed = 1;
+
     MPI_CHECK(MPI_Op_create(leader_min, 1, &MPI_LEADER_MIN));
+
+    leader_op_created = 1;
+}
+
+void mpi_registers_cleanup(void) {
+
+    if (leader_op_created) {
+        MPI_Op_free(&MPI_LEADER_MIN);
+        MPI_LEADER_MIN = MPI_OP_NULL;
+        leader_op_created = 0;
+    }
+
+    if (leader_type_committed) {
+        MPI_Type_free(&MPI_LEADER);
+        MPI_LEADER = MPI_DATATYPE_NULL;
+        leader_type_committed = 0;
+    }
 }

@@ -14,6 +14,7 @@
 
 #include "utils/global.h"
 #include "mpi/handlers.h"
+#include "mpi/registers.h"
 
 /**
  * \brief Force to print an environment variable
@@ -32,7 +33,9 @@ char *print_env(const char *str) {
     return env;
 }
 
-int check_params(int argc, char **argv, prra_cfg_t * global){
+
+
+int check_params(int argc, char **argv, prra_cfg_t * global, int size){
 
     // No defaults here; main requires all args except output_dir
     if (argc < 8) {
@@ -140,7 +143,78 @@ int check_params(int argc, char **argv, prra_cfg_t * global){
         log_main("Speedup measurement enabled\n");
     }
 
+    const char *track_conv = getenv("TRACK_CONVERGENCE");
+    global->convergence_results = str_to_bool(track_conv, false);
+    if (global->convergence_results) {
+        log_main("Convergence tracking enabled\n");
+    }
+
     return true;
+}
+
+void write_convergence_csv(const mpi_ctx_t * ctx, const prro_state_t * local, prra_cfg_t * global) {
+    // Each rank has global->iterations convergence points
+    int local_count = global->iterations;
+
+    // Compute offset for this rank
+    MPI_Offset offset = ctx->rank * local_count;
+
+    // Build filename
+    char filename[1024];
+    snprintf(filename, sizeof(filename), "%s/convergence_results_%s_np%d_iter%d_pop%d_feat%d.csv",
+             global->output_dir, global->placement, ctx->size,
+             global->iterations, global->pop_size, global->features);
+
+    // Rank 0 writes the header
+    if (ctx->rank == 0) {
+        FILE *fp = fopen(filename, "w");
+        if (!fp) {
+            log_err("Failed to open convergence CSV for writing: %s\n", filename);
+            ERR_CLEANUP();
+        }
+        fprintf(fp, "iteration,rank,fitness,timestamp,local_best_idx,global_best_fitness,improvement\n");
+        fclose(fp);
+    }
+
+    MPI_CHECK(MPI_Barrier(ctx->comm));
+
+    // Open file for parallel writing
+    MPI_File fh;
+    MPI_CHECK(MPI_File_open(ctx->comm, filename,
+                           MPI_MODE_WRONLY | MPI_MODE_APPEND,
+                           MPI_INFO_NULL, &fh));
+
+    // Get current file size (after header)
+    MPI_Offset header_size;
+    MPI_CHECK(MPI_File_get_size(fh, &header_size));
+
+    // Format all local convergence results into a buffer
+    char *buffer = malloc(local_count * 256); // ~256 bytes per line should be enough
+    if (!buffer) {
+        log_err("Failed to allocate buffer for convergence results\n");
+        MPI_File_close(&fh);
+        ERR_CLEANUP();
+    }
+
+    int buffer_len = 0;
+    for (int i = 0; i < local_count; i++) {
+        convergence_point_t *cp = &local->convergence_results[i];
+        buffer_len += snprintf(buffer + buffer_len, 256,
+                              "%d,%d,%.15f,%.10f,%d,%.15f,%.15f\n",
+                              cp->iteration, cp->rank, cp->fitness,
+                              cp->timestamp, cp->local_best_idx, cp->global_best_fitness,cp->improvement);
+    }
+
+    // Write at computed offset from end of header
+    MPI_Offset write_offset = header_size + buffer_len * ctx->rank;
+    MPI_CHECK(MPI_File_write_at(fh, write_offset, buffer, buffer_len, MPI_CHAR, MPI_STATUS_IGNORE));
+
+    free(buffer);
+    MPI_CHECK(MPI_File_close(&fh));
+
+    if (ctx->rank == 0) {
+        log_main("Convergence results written to %s\n", filename);
+    }
 }
 
 /*
@@ -201,7 +275,7 @@ int main(int argc, char **argv) {
     int ok = false;
 
     if (ctx.rank == 0) {
-        ok = check_params(argc, argv, &global);
+        ok = check_params(argc, argv, &global, ctx.size);
     }
 
     MPI_CHECK(MPI_Bcast(&ok, 1, MPI_INT, 0, ctx.comm));
@@ -220,14 +294,18 @@ int main(int argc, char **argv) {
     log_main("Random number generator seeded with %lu %lu", time_seed, 52u);
 
     // // Call the GTO function and time the whole run
-    RRA(exec_timings, global, &rng, &ctx);
+    prro_state_t local = RRA(exec_timings, global, &rng, &ctx);
 
     MPI_CHECK(MPI_Barrier(ctx.comm));
     exec_timings[2] = MPI_Wtime();
 
     // Log total elapsed
 
-    // write_convergence_csv(convergence_iterations, convergence_values, num_stored, output_dir);
+    // // Gather all convergence data to rank 0 and write to CSV
+    if (global.convergence_results && local.convergence_results) {
+        // Gather all convergence points to rank 0
+        write_convergence_csv(&ctx, &local, &global);
+    }
 
     // Write exec_timings to a log file
     // Self contained
@@ -244,8 +322,8 @@ int main(int argc, char **argv) {
         MPI_CHECK(MPI_Reduce(&local_compute, &global_compute, 1,
                    MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD));
 
-        char filename[1024];
         if (ctx.rank == 0) {
+            char filename[1024];
             snprintf(filename, sizeof(filename), "%s/exec_timings_%s_np%d_iter%d_pop%d_feat%d.log", global.output_dir, placement, ctx.size, global.iterations, global.pop_size, global.features);
 
             FILE *fp = fopen(filename, "w");
@@ -264,7 +342,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    mpi_ctx_finalize(&ctx);
+    mpi_ctx_finalize(&ctx, &local);
     MPI_Finalize();
     return EXIT_SUCCESS;
 }

@@ -22,11 +22,25 @@ void mpi_ctx_init(mpi_ctx_t *ctx)
     register_leader_struct();
 }
 
-void mpi_ctx_finalize(mpi_ctx_t *ctx)
+void mpi_ctx_finalize(mpi_ctx_t *ctx, prro_state_t *local)
 {
-    MPI_Type_free(&MPI_LEADER);
-    MPI_Op_free(&MPI_LEADER_MIN);
-    (void)ctx; /* currently unused */
+    // Cleanup
+    free(local->food_source);
+    free(local->current_position);
+    free(local->fitness);
+    free(local->roosting_site);
+    free(local->leader);
+    free(local->is_follower);
+    free(local->n_candidate_position);
+    free(local->direction);
+    free(local->prev_location);
+    free(local->final_location);
+    free(local->convergence_results);
+
+    // Cleanup customs mpi operation types
+    mpi_registers_cleanup();
+
+    (void)ctx; /* currently unused, reserve for future */
 }
 
 /**

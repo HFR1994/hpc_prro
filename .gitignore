@@ -20,3 +20,4 @@ cmake-build-*
 .idea
 /output/
 /parallel/bin/rra_parallel
+MCP

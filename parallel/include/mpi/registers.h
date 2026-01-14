@@ -14,5 +14,6 @@ typedef struct {
 } leader_t;
 
 void register_leader_struct();
+void mpi_registers_cleanup();
 
 #endif //RRA_PARALLEL_REGISTERS_H

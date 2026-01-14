@@ -2,6 +2,7 @@
 
 #include <mpi.h>
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -28,8 +29,7 @@ double calculate_distance(const double *initial, const double *finish, const int
     return sqrt(dist2);
 }
 
-
-void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, const mpi_ctx_t * ctx) {
+prro_state_t RRA(double *exec_timings, const prra_cfg_t global, pcg32_random_t *rng, const mpi_ctx_t *ctx) {
 
     prro_state_t local;
 
@@ -51,6 +51,9 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
     // Set leader to the position with the lowest fitness
     leader_t current_global_leader = set_global_leader(&local, global, ctx);
     log_main("Current global leader is %d with %f", current_global_leader.index, current_global_leader.fitness);
+
+    // Used for convergence results
+    double prev_best_fitness = prev_best_fitness = current_global_leader.fitness;
 
     // // Set followers to '1' otherwise '0'
     define_followers(&local, global, current_global_leader, rng, ctx);
@@ -137,6 +140,18 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
         // Evaluate all functions again and designate the leader
         current_global_leader = set_global_leader(&local, global, ctx);
 
+        // // Track convergence data for all ranks
+        if (global.convergence_results) {
+            local.convergence_results[iter].iteration = iter;
+            local.convergence_results[iter].rank = ctx->rank;
+            local.convergence_results[iter].fitness = current_global_leader.fitness;
+            local.convergence_results[iter].timestamp = MPI_Wtime() - exec_timings[1];
+            local.convergence_results[iter].local_best_idx = current_global_leader.index;
+            local.convergence_results[iter].improvement = prev_best_fitness - current_global_leader.fitness;
+            local.convergence_results[iter].global_best_fitness = prev_best_fitness;
+            prev_best_fitness = current_global_leader.fitness;
+        }
+
         // Reshuffle the followers
         define_followers(&local, global, current_global_leader, rng, ctx);
 
@@ -146,15 +161,5 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
 
     log_info("Finished execution, the best is %d with %f", current_global_leader.index, current_global_leader.fitness);
 
-    // Cleanup
-    free(local.food_source);
-    free(local.current_position);
-    free(local.fitness);
-    free(local.roosting_site);
-    free(local.leader);
-    free(local.is_follower);
-    free(local.n_candidate_position);
-    free(local.direction);
-    free(local.prev_location);
-    free(local.final_location);
+    return local;
 }

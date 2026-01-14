@@ -10,6 +10,16 @@ typedef struct {
 } mpi_ctx_t;
 
 typedef struct {
+    int iteration;
+    int rank;
+    double fitness;
+    double timestamp;
+    int local_best_idx;
+    double global_best_fitness;
+    double improvement;
+} convergence_point_t;
+
+typedef struct {
     int pop_size;
     int features;
     int iterations;
@@ -19,6 +29,7 @@ typedef struct {
     double upper_bound;
     double radius;
     int is_measure_speedup;  // use int for MPI portability
+    int convergence_results; // use int for MPI portability
     char dataset_path[1024];
     char output_dir[1024];
     char placement[128];
@@ -49,6 +60,7 @@ typedef struct {
     double *final_location; // [features]
 
     /* Optional bookkeeping */
+    convergence_point_t* convergence_results; // [iterations]
     int num_followers;
     int best_idx;
     double best_fitness;
@@ -59,7 +71,7 @@ __attribute__((noreturn)) int err_cleanup_impl(const char *file, int line, const
 
 /* Lifecycle */
 void mpi_ctx_init(mpi_ctx_t *ctx);
-void mpi_ctx_finalize(mpi_ctx_t *ctx);
+void mpi_ctx_finalize(mpi_ctx_t *ctx, prro_state_t *local);
 void mpi_assert_vector(double *vec, int features, const mpi_ctx_t *ctx);
 
 /**
