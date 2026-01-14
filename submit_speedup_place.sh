@@ -1,6 +1,8 @@
 #!/bin/bash
 
 git pull
+rm -rf parallel/bin
+rm -rf parallel/build
 
 wait_for_execution() {
   local USERNAME="hector.floresrey"
