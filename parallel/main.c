@@ -170,7 +170,7 @@ int main(int argc, char **argv) {
     // Set once at program start, identify which is the main process
     // Set once at program start
     if (ctx.rank != 0) {
-        log_set_level(LOG_LEVEL_DEBUG);
+        log_set_level(LOG_LEVEL_ERR);
     }else {
         log_set_level(LOG_LEVEL_INFO);
     }
