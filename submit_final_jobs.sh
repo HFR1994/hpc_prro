@@ -21,25 +21,6 @@ wait_for_execution() {
 }
 
 # -------------------------------
-# Argument handling
-# -------------------------------
-if [[ $# -lt 1 ]]; then
-  echo "Usage: $0 <trial_number>"
-  exit 1
-fi
-
-TRIAL_NUM="$1"
-
-# Validate: integer ≥ 1
-if ! [[ "$TRIAL_NUM" =~ ^[0-9]+$ ]]; then
-  echo "Error: trial_number must be a positive integer"
-  exit 1
-fi
-
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-echo "Running trial: $TRIAL_NUM"
-
-# -------------------------------
 # Experiment parameters
 # -------------------------------
 PROCS=(16 32 64 128)
