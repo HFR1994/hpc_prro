@@ -21,3 +21,4 @@ cmake-build-*
 /output/
 /parallel/bin/rra_parallel
 MCP
+.ai
