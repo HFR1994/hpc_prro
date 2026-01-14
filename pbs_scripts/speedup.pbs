@@ -18,7 +18,7 @@ set -euo pipefail
 # ---------- MAIN ----------
 
 module purge
-module load "openmpi-3.0.0"
+module load mpich-3.2
 
 export MEASURE_SPEEDUP=1
 export PRRO_TRIAL=${TRIAL}
