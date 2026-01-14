@@ -13,6 +13,19 @@ wait_for_execution() {
 
   while qstat | grep -q "${USERNAME}"; do
     JOBS=$(qstat | grep "${USERNAME}" | wc -l)
+    if [ "$JOBS" -eq 1 ]; then
+      echo "$JOBS job still running in iter $1... checking configuration"
+      JOB_ID=$(qstat | grep "${USERNAME}" | awk '{print $1}' | cut -d'.' -f1)
+      JOB_INFO=$(qstat -f "${JOB_ID}")
+
+      if echo "$JOB_INFO" | grep -q "Resource_List.ncpus = 128" && \
+         echo "$JOB_INFO" | grep -q "Resource_List.nodect = 4" && \
+         echo "$JOB_INFO" | grep -q "Resource_List.place = pack:excl"; then
+        echo "Job ${JOB_ID} matches configuration. Deleting..."
+        qdel "${JOB_ID}"
+      fi
+      break
+    fi
     echo "$JOBS jobs still running in iter $1... sleeping 10s"
     sleep 10
   done
@@ -47,7 +60,6 @@ RANKS_PER_NODE=32
 EXECUTIONS=(1 2 3)
 PLACES=("pack" "scatter")
 
-QUEUE="short_cpuQ"
 WALLTIME="00:20:00"
 MEM_PER_JOB="4gb"
 
