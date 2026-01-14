@@ -71,6 +71,19 @@ void local_state_init(prro_state_t * local, const prra_cfg_t global, const mpi_c
  */
 double initialize_params(const prra_cfg_t global, prro_state_t * local, const mpi_ctx_t * ctx, pcg32_random_t * rng){
 
+    MPI_Request req;
+
+    // Start by computing the roosting, meanwhile do extra work
+    if (ctx->rank == 0) {
+        // Set roosting site
+        for (int i = 0; i < global.features; i++) {
+            // Pick a random number between upper and lower bound
+            local->roosting_site[i] = unif_interval(rng, global.lower_bound, global.upper_bound);
+        }
+    }
+
+    MPI_CHECK(MPI_Ibcast(local->roosting_site, global.features, MPI_DOUBLE,0, ctx->comm, &req));
+
     // Read CSV and map a 1D array to the X variable
     // Represent the best source for
     read_dataset_csv(global.dataset_path, local, global, ctx);
@@ -83,18 +96,12 @@ double initialize_params(const prra_cfg_t global, prro_state_t * local, const mp
         local->fitness[i] = objective_function(local->food_source + i * global.features, global);
     }
 
-    if (ctx->rank == 0) {
-        // Set roosting site
-        for (int i = 0; i < global.features; i++) {
-            // Pick a random number between upper and lower bound
-            local->roosting_site[i] = unif_interval(rng, global.lower_bound, global.upper_bound);
-        }
-    }
-
-    MPI_Bcast(local->roosting_site, global.features, MPI_DOUBLE,0, ctx->comm);
-
     // Instead of adding more variables to the method, we just compute the value and assign
     const double term = pow(global.pop_size, 1.0 / global.features);
-    return global.radius/(3.6 * term);
+    const double radii = global.radius/(3.6 * term);
 
+    // Wait for broadcast to complete not need to wrap it in MPI_CHECK
+    MPI_CHECK(MPI_Wait(&req, MPI_STATUS_IGNORE));
+
+    return radii;
 }

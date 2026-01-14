@@ -42,7 +42,7 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
 
     MPI_CHECK(MPI_Barrier(ctx->comm));
     exec_timings[1] = MPI_Wtime();
-    
+
     log_main("Looking radii is %f", rPcpt);
 
     // Set the initial position
@@ -55,7 +55,6 @@ void RRA(double * exec_timings, const prra_cfg_t global, pcg32_random_t *rng, co
     // // Set followers to '1' otherwise '0'
     define_followers(&local, global, current_global_leader, rng, ctx);
     log_info("Using %d followers out of %d", local.num_followers, local.local_rows);
-
 
     for (int iter = 0; iter < global.iterations; iter++) {
         for (int i = 0; i < local.local_rows; i++) {

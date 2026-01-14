@@ -1,5 +1,6 @@
 #ifndef RRA_PARALLEL_WRAPPERS_H
 #define RRA_PARALLEL_WRAPPERS_H
+#include <mpi.h>
 #include "handlers.h"
 #include "registers.h"
 
