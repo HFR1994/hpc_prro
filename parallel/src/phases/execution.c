@@ -85,6 +85,7 @@ void define_followers(prro_state_t * local, prra_cfg_t global, const leader_t cu
             free(available);
         }
 
+        // ScatterV using displacements in cas
         MPI_CHECK(MPI_Scatterv(
             followers,   // send buffer (root only)
             counts, // send counts per rank
