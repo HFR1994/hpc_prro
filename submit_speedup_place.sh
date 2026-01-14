@@ -55,10 +55,10 @@ echo "Running trial: $TRIAL_NUM"
 # -------------------------------
 # Experiment parameters
 # -------------------------------
-PROCS=(1 2 4 16 32 64)
+PROCS=(64)
 RANKS_PER_NODE=16
-EXECUTIONS=(1 2 3)
-PLACES=("pack" "scatter")
+EXECUTIONS=(1)
+PLACES=("scatter")
 
 WALLTIME="00:20:00"
 MEM_PER_JOB="4gb"

@@ -1,57 +1,15 @@
-Running NP=4 on 1 nodes (scatter)
-[2026-01-13 13:46:21] [34m[MAIN:0][0m MPI world size: 1
-[2026-01-13 13:46:21] [34m[MAIN:0][0m PRRO_TRIAL: 1
-[2026-01-13 13:46:21] [34m[MAIN:0][0m PRRO_EXECUTION: 3
-[2026-01-13 13:46:21] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
-[2026-01-13 13:46:21] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution3/output
+Running NP=4 on 1 nodes (scatter:excl)
+[2026-01-14 12:46:52] [34m[MAIN:0][0m MPI world size: 4
+[2026-01-14 12:46:52] [34m[MAIN:0][0m PRRO_TRIAL: 1
+[2026-01-14 12:46:52] [34m[MAIN:0][0m PRRO_EXECUTION: 3
+[2026-01-14 12:46:52] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-01-14 12:46:52] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution3/output
 
-[2026-01-13 13:46:21] [34m[MAIN:0][0m Random number generator seeded with 42 52
-[2026-01-13 13:46:21] [34m[MAIN:0][0m MPI world size: 1
-[2026-01-13 13:46:21] [34m[MAIN:0][0m PRRO_TRIAL: 1
-[2026-01-13 13:46:21] [34m[MAIN:0][0m PRRO_EXECUTION: 3
-[2026-01-13 13:46:21] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
-[2026-01-13 13:46:21] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution3/output
-
-[2026-01-13 13:46:21] [34m[MAIN:0][0m Random number generator seeded with 42 52
-[2026-01-13 13:46:21] [34m[MAIN:0][0m MPI world size: 1
-[2026-01-13 13:46:21] [34m[MAIN:0][0m PRRO_TRIAL: 1
-[2026-01-13 13:46:21] [34m[MAIN:0][0m PRRO_EXECUTION: 3
-[2026-01-13 13:46:21] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
-[2026-01-13 13:46:21] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution3/output
-
-[2026-01-13 13:46:21] [34m[MAIN:0][0m Random number generator seeded with 42 52
-[2026-01-13 13:46:21] [34m[MAIN:0][0m MPI world size: 1
-[2026-01-13 13:46:21] [34m[MAIN:0][0m PRRO_TRIAL: 1
-[2026-01-13 13:46:21] [34m[MAIN:0][0m PRRO_EXECUTION: 3
-[2026-01-13 13:46:21] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
-[2026-01-13 13:46:21] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro/logs/trial1/execution3/output
-
-[2026-01-13 13:46:21] [34m[MAIN:0][0m Random number generator seeded with 42 52
-[2026-01-13 13:46:21] [34m[MAIN:0][0m Looking radii is 158.773000
-[2026-01-13 13:46:21] [37m[INFO:0][0m Current leader is 20 with 2393.962084
-[2026-01-13 13:46:21] [37m[INFO:0][0m Using 25 followers out of 128
-[2026-01-13 13:46:21] [34m[MAIN:0][0m Looking radii is 158.773000
-[2026-01-13 13:46:21] [37m[INFO:0][0m Current leader is 20 with 2393.962084
-[2026-01-13 13:46:21] [37m[INFO:0][0m Using 25 followers out of 128
-[2026-01-13 13:46:21] [34m[MAIN:0][0m Looking radii is 158.773000
-[2026-01-13 13:46:21] [37m[INFO:0][0m Current leader is 20 with 2393.962084
-[2026-01-13 13:46:21] [37m[INFO:0][0m Using 25 followers out of 128
-[2026-01-13 13:46:21] [34m[MAIN:0][0m Looking radii is 158.773000
-[2026-01-13 13:46:21] [37m[INFO:0][0m Current leader is 20 with 2393.962084
-[2026-01-13 13:46:21] [37m[INFO:0][0m Using 25 followers out of 128
-[2026-01-13 13:50:20] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
-[2026-01-13 13:50:20] [34m[MAIN:0][0m total_time: 239.3208599612
-[2026-01-13 13:50:20] [34m[MAIN:0][0m gather_all: 0.0001926422
-[2026-01-13 13:50:20] [34m[MAIN:0][0m computation_time: 239.2796022221
-[2026-01-13 13:50:20] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
-[2026-01-13 13:50:20] [34m[MAIN:0][0m total_time: 239.5140696969
-[2026-01-13 13:50:20] [34m[MAIN:0][0m gather_all: 0.0001947526
-[2026-01-13 13:50:20] [34m[MAIN:0][0m computation_time: 239.4715530742
-[2026-01-13 13:50:20] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
-[2026-01-13 13:50:20] [34m[MAIN:0][0m total_time: 239.5769648626
-[2026-01-13 13:50:20] [34m[MAIN:0][0m gather_all: 0.0002790838
-[2026-01-13 13:50:20] [34m[MAIN:0][0m computation_time: 239.5435159970
-[2026-01-13 13:50:29] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
-[2026-01-13 13:50:29] [34m[MAIN:0][0m total_time: 248.1218133904
-[2026-01-13 13:50:29] [34m[MAIN:0][0m gather_all: 0.0001572762
-[2026-01-13 13:50:29] [34m[MAIN:0][0m computation_time: 248.0815113373
+[2026-01-14 12:46:52] [34m[MAIN:0][0m Random number generator seeded with 42 52
+[2026-01-14 12:46:52] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-01-14 12:46:52] [37m[INFO:0][0m Current leader is 20 with 2393.962084
+[2026-01-14 12:46:52] [37m[INFO:0][0m Using 25 followers out of 128
+[2026-01-14 12:50:27] [37m[INFO:0][0m Finished execution, the best is 68 with 10.676074
+[2026-01-14 12:50:27] [34m[MAIN:0][0m total_time: 214.8329582214
+[2026-01-14 12:50:27] [34m[MAIN:0][0m gather_all: 0.0003736019
+[2026-01-14 12:50:27] [34m[MAIN:0][0m computation_time: 214.8250610828

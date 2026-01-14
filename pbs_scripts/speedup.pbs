@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -q short_HPC4DS
+#PBS -q short_cpuQ 
 #PBS -l walltime=00:20:00
 
 # ---------- Safety ----------

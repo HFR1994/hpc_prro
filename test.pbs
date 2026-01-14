@@ -1,0 +1,32 @@
+#!/bin/bash
+#PBS -j oe
+#PBS -V
+#PBS -q common_cpuQ
+#PBS -l walltime=00:20:00
+
+module load openmpi-3.0.0 
+
+export OMPI_MCA_mca_base_component_show_load_errors=0
+
+# Algorithm parameters
+LOWER=-600
+UPPER=600
+ITER=1000
+FLIGHT=10
+LOOKOUT=10
+RADIUS=600
+
+echo "===================================="
+echo "PBS job running on nodes:"
+cat "$PBS_NODEFILE"
+echo "===================================="
+echo "NP = ${NP}"
+echo "===================================="
+
+mpiexec -np "${NP}" \
+  "${APP}" \
+  "${DATASET}" \
+  "${LOWER}" "${UPPER}" \
+  "${ITER}" "${FLIGHT}" "${LOOKOUT}" "${RADIUS}" \
+  "${OUTDIR}"
+
