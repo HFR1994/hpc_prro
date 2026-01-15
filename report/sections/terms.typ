@@ -1,4 +1,5 @@
 Throughout this paper the following notation is used:
+
 - $t$ represents the current iteration number and $T$ is the maximum number of iterations;
 - $P$ is the total population of Ravens and $F$ the number of features for each Raven;
 - $X(t)$ is the position vector of ravens in iteration $t$;

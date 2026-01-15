@@ -1,4 +1,3 @@
-#import "@preview/cetz:0.3.2"
 #import "@preview/lovelace:0.3.0": *
 
 == Algorithm Structure
@@ -73,6 +72,3 @@
   - *Objective function evaluations*: $O(I dot.c P dot.c F dot.c L)$
 
   Note: The early stopping mechanism (p < 0.1) can reduce the number of objective function evaluations by terminating lookout steps prematurely when a significantly better solution is found, potentially reducing evaluations by up to 10% in practice.
-  
-  
-
