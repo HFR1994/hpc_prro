@@ -43,14 +43,23 @@ fi
 
 TRIAL_NUM="$1"
 
-# Validate: integer ≥ 1
-if ! [[ "$TRIAL_NUM" =~ ^[0-9]+$ ]]; then
-  echo "Error: trial_number must be a positive integer"
-  exit 1
-fi
-
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 echo "Running trial: $TRIAL_NUM"
+
+BUILD_DIR="parallel"
+TRIAL="${SCRIPT_DIR}/logs/trial${TRIAL_NUM}"
+
+# Determine if serial or parallel mode
+if [[ "$TRIAL_NUM" == "serial" ]]; then
+  BUILD_DIR="serial"
+  TRIAL="${SCRIPT_DIR}/logs/serial"
+else
+  # Validate: integer ≥ 1
+  if ! [[ "$TRIAL_NUM" =~ ^[0-9]+$ ]]; then
+    echo "Error: trial_number must be a positive integer or 'serial'"
+    exit 1
+  fi
+fi
 
 # -------------------------------
 # Experiment parameters
@@ -64,16 +73,15 @@ WALLTIME="00:20:00"
 MEM_PER_JOB="4gb"
 
 echo "Building project on compute node..."
-cd "${SCRIPT_DIR}/parallel" || exit 1
+cd "${SCRIPT_DIR}/${BUILD_DIR}" || exit 1
 ./build.sh || exit 1
 cd "${SCRIPT_DIR}" || exit 1
 
 # -------------------------------
 # Paths (relative to project root)
 # -------------------------------
-APP="${SCRIPT_DIR}/parallel/bin/rra_parallel"
+APP="${SCRIPT_DIR}/${BUILD_DIR}/bin/rra_${BUILD_DIR}"
 DATASET="${SCRIPT_DIR}/dataset/random-128-100.csv"
-TRIAL="${SCRIPT_DIR}/logs/trial${TRIAL_NUM}"
 PBS_SCRIPT="${SCRIPT_DIR}/pbs_scripts/speedup.pbs"
 
 for EXEC in "${EXECUTIONS[@]}"; do
