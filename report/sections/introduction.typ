@@ -10,8 +10,7 @@
   - *Foraging Behavior*: Ravens explore the search space looking for food sources (optimal solutions) through a series of flight steps with exploratory lookouts.
   - *Social Hierarchy*: Ravens follow a leader-follower dynamic where the best-performing individual becomes the leader, and a subset of the population acts as followers who explore in the vicinity of the leader.
 
-  In real life, ravens has shown a social behaviour mainly through communal roosting that functions as an information‑sharing system about food. At night, juvenile, non‑breeding ravens gather to successful foragers to scout for short‑lived carcasses as described by the Information Center Hypothesis. This social system is flexible: different individuals are knowledgeable at different times, and ravens combine socially acquired information with their own private knowledge when deciding whether to follow others or search independently @wright_raven_roosts_europe.
-
+  In real life, ravens has shown a social behaviour mainly through communal roosting that functions as an information‑sharing system about food. At night, juvenile, non‑breeding ravens gather to successful gather foragers to scout for short‑lived carcasses as described by the Information Center Hypothesis. This social system is flexible: different individuals are knowledgeable at different times, and ravens combine socially acquired information with their own private knowledge when deciding whether to follow others or search independently @wright_raven_roosts_europe.
 
 == Problem Statement
 

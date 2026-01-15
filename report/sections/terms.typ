@@ -1,5 +1,27 @@
+Throughout this paper the following notation is used:
+- $t$ represents the current iteration number and $T$ is the maximum number of iterations;
+- $N$ is the total population of Ravens and $F$ the number of features for each Raven;
+- $X(t)$ is the position vector of ravens in iteration $t$;
+- $D(t)$ is direction where the raven is moving on $t+1$;
+- $L (t)$ Represent the leader, with the best location of source food (global);
+- $F S (t)$ is the best local food source know to a raven. These will be replace by the current positions $X (t)$ if they yield better fitness values;
+- $R (t)$ is the remaining distance to get the final destination represented as a scalar. Which can be $L (t)$ or $F S (t)$, see bellow.
+- $U(a, b)$ denotes a random number drawn uniformly in the range $[a, b]$ based on PCG;
+- $U B$ and $L B$ are the upper and lower bounds of the search space;
+- $r_i$ are random numbers drawn from $U(0, 1)$;
+- $R$ is the defined looking radius (in a hypersphere) from a specific position $X(t)$. Usually is equal to the upper bound $U B$;
 
+== PCG Implementation
 
+    PCG (Permuted Congruential Generator) is a family of simple, fast, space-efficient, and statistically good random number generators developed by O'Neill @pcg_paper. Unlike traditional linear congruential generators (LCGs), PCG applies a permutation function to the output of an LCG to improve statistical quality while maintaining computational efficiency.
+
+    The basic PCG algorithm uses a linear congruential generator as its core:
+
+    $ s_(t+1) = a times s_t + c mod m $
+
+    where $s_t$ is the internal state, $a$ is the multiplier, $c$ is the increment, and $m$ is the modulus. The output is then passed through a permutation function that scrambles the bits to eliminate the statistical weaknesses inherent in LCGs. This permutation typically involves bit shifts, rotations, and XOR operations, which are computationally inexpensive but dramatically improve the randomness quality.
+
+    PCG generators offer several advantages: they pass stringent statistical test suites (including TestU01's BigCrush), have small state sizes, are extremely fast, and provide strong statistical properties suitable for scientific simulations and optimization algorithms. In this implementation, PCG is used to generate the uniform random numbers $U(a, b)$ that drive the stochastic behavior of the Raven Roost Algorithm.
 
 == Objective Function
 
@@ -19,23 +41,54 @@
 
 == Movement of ravens
 
-    The movement of ravens in the algorithm is defined by the position update equation $bold(p)_(i,t) = bold(p)_(i,t-1) + bold(d)_(i,t)$, where $bold(d)_(i,t)$ represents the distance vector for raven $i$ at iteration $t$. The distance vector $bold(d)_(i,t)$ is constructed through two key steps in the implementation. First, the direction is determined by converting the previous direction vector ($bold(p)_(i,t-1)$) into a magnitud using norm:
+    The movement of ravens in the algorithm is defined by the position update equation $bold(p)_(i,t) = bold(p)_(i,t-1) + bold(d)_(i,t)$, where $bold(d)_(i,t)$ represents a random distance vector for raven $i$ at iteration $t$. The distance vector $bold(d)_(i,t)$ is constructed through two key steps in the implementation. A direction, and a random amplifier:
+    
+    $ bold(d)_(i,t) = bold(s)_(i,t) times D(t) $
+     
+    To mimic the real behavoir, $D(t)$ is the direction of each bird to find the best food source. At the start of each $t$, each raven decides if he is going to pursue his best food source point or follow the leader and scout the area.
+    
+    $
+      arrow(d) = cases(
+        L (t) - X(t) quad U(0, 1) <= 0.2,
+        F S (t) - X(t) quad U(0, 1) > 0.2
+      )
+    $
+         
+    First we calculate $arrow(d)$ into a magnitud using norm:
 
-    $ $||bold(v)|| = d(bold(x)) = sqrt(sum_(i=1)^n (x_i)^2) $
+    $ ||bold(v)|| = sqrt(sum_(i=1)^n (x_i)^2) $
 
-    where $v$ holds the $n$ number of parameters (dimensions) in the search space. This is later used in the computation of a unit vector scaled using:
+    where $v$ is any given vector ($arrow(d)$ in this case) that holds the $n$ number of parameters (dimensions) in the search space. This is later used the computation of a unit vector using:
 
-    $ hat(bold(v)) = bold(v) / (||bold(v)||) $
+    $ D(t) = hat(bold(v)) = bold(v) / (||bold(v)||) $
 
     This vector represents the exploration direction for the current iteration, influenced by the previous movement patterns. 
 
-    Second, the step size is calculated adaptively based on the remaining distance to the target location. The implementation computes the Euclidean distance between the current position and the best known location:
+    Second, we calculated a random modifier based on the remaining distance to the target location using *Euclidean distance* to get a scalar value between the final destination $F S (t)$ or $L (t)$ and the current position $X(t)$:
 
-    $ d(bold(p)_i, bold(p)_"best") = sqrt(sum_(j=1)^n (p_(i,j) - p_("best",j))^2) $
+    $ d(bold(a), bold(b)) = sqrt(sum_(i=1)^n (a - b)^2) $
 
-    then generates a random step size $s_t$ as a fraction of this remaining distance using a uniform random value. This creates a Lévy flight-like behavior where ravens take larger steps when far from the target and smaller steps when approaching it. The actual displacement vector is therefore $bold(d)_(i,t) = "direction_unit_vector" times s_t$, resulting in an adaptive movement strategy that balances exploration through randomness with exploitation through proximity-based step sizing. The final position update follows $bold(p)_(i,t) = bold(p)_(i,t-1) + ("direction" times s_t)$, where the direction is influenced by historical movement and the magnitude adapts dynamically to the distance from the target.
+    $a$ and $b$ represent any vector of $n$ number of parameters (dimensions) in the search space. We multiply this distance to random step size $r_i$ to get fraction of this remaining distance using a uniform distribution value, giving the following formula:
     
+    $ bold(s)_(i,t) = r_i times R (T) $ 
+        
+    This creates a Lévy flight-like behavior, where ravens take larger steps when they are far from the target and smaller steps as they approach to the target. The actual displacement vector is therefore $bold(d)_(i,t) = s_t times D(t)$, resulting in an adaptive movement strategy that balances exploration through randomness with exploitation through proximity-based step sizing.
     
-    
+== Lookout function
+
+   As mentioned earlier, raven's move a fraction of the total remaining distance governed by $bold(d)_(i,t) = s_t times D(t)$. This so that each point they stop they can scout the area with a Hypersphere vision across $n$ dimensions. The looking radii is governed by:  
+   
+   $ r = R / (3.6 times N^(1/F)) $
+   
+   When a raven finds a promising food source, he can decide to ignore it and continue or set it as it personal best and report it back to the rooster immediately.
+   
+    $
+      F S (t) = cases(
+        "RETURN HOME" quad U(0, 1) <= 0.1,
+        "CONTINUE WITH CURRENT" quad U(0, 1) > 0.1
+      )
+    $
+   
+
 
 
