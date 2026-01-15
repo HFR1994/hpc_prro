@@ -1,9 +1,10 @@
 #import "@preview/cetz:0.3.2"
+#import "@preview/lovelace:0.3.0": *
 
 #let parallel_content = [
   == Parallelization Strategy
 
-  The parallel implementation in the `parallel/` directory uses MPI @mpi_standard to distribute the raven population across multiple processes. The key parallelization approach is *domain decomposition* @parallel_metaheuristics, where each MPI process manages a subset of the total population.
+  The parallel implementation in the `parallel/` directory uses MPI to distribute the raven population across multiple processes. The key parallelization approach is *domain decomposition* @parallel_metaheuristics, where each MPI process manages a subset of the total population.
 
   === MPI Context and Configuration
 
@@ -20,85 +21,81 @@
   === Parallel Algorithm Pseudocode
 
   #figure(
-    box(width: 100%, fill: rgb("#f5f5f5"), inset: 10pt)[
-      ```
-      Algorithm: Raven Roosting Optimization (Parallel MPI)
-      Input: Same as serial + MPI context
-      Output: Best solution found
-
-      1. MPI_Init()
-      2. rank ← MPI_Comm_rank()
-      3. size ← MPI_Comm_size()
-
-      4. if rank == 0 then
-      5.   Parse command-line arguments
-      6. end if
-      7. MPI_Bcast(parameters, root=0)
-
-      8. local_rows ← pop_size / size
-      9. Initialize local population segment
-      10. Evaluate local fitness values
-      11. Set roosting_site (shared across all processes)
-
-      12. MPI_Barrier()  // Synchronize before timing
-      13.
-      14. // Find global leader using MPI_Allreduce
-      15. local_best ← argmin(local_fitness)
-      16. global_best ← MPI_Allreduce(local_best, op=MINLOC)
-      17. MPI_Bcast(leader_position, root=global_best.rank)
-      18.
-      19. // Determine followers (distributed)
-      20. num_local_followers ← 0.2 × local_rows
-      21. local_followers ← random_select(num_local_followers)
-      22.
-      23. for iter = 1 to iterations do
-      24.   for i = 1 to local_rows do
-      25.     // Same flight logic as serial version
-      26.     current_position[i] ← roosting_site
-      27.
-      28.     if is_follower[i] then
-      29.       target ← random_point_near(leader, r_pcpt)
-      30.     else
-      31.       target ← food_source[i]
-      32.     end if
-      33.
-      34.     for step = 1 to flight_steps do
-      35.       direction ← normalize(target - current_position[i])
-      36.       remaining ← distance(current_position[i], target)
-      37.       step_size ← uniform(0, remaining)
-      38.       current_position[i] ← current_position[i] +
-      39.                              step_size × direction
-      40.       enforce_bounds(current_position[i])
-      41.
-      42.       for lookout = 1 to lookout_steps do
-      43.         candidate ← random_point_near(current_position[i],
-      44.                                        r_pcpt)
-      45.         enforce_bounds(candidate)
-      46.
-      47.         if f(candidate) < fitness[i] then
-      48.           food_source[i] ← candidate
-      49.           fitness[i] ← f(candidate)
-      50.         end if
-      51.       end for
-      52.     end for
-      53.   end for
-      54.
-      55.   // Update global leader
-      56.   local_best ← argmin(local_fitness)
-      57.   global_best ← MPI_Allreduce(local_best, op=MINLOC)
-      58.   MPI_Bcast(leader_position, root=global_best.rank)
-      59.
-      60.   // Reshuffle followers locally
-      61.   local_followers ← random_select(num_local_followers)
-      62. end for
-      63.
-      64. // Gather timing statistics
-      65. local_time ← MPI_Wtime() - start_time
-      66. max_time ← MPI_Reduce(local_time, op=MPI_MAX, root=0)
-      67.
-      68. MPI_Finalize()
-      69. return food_source[global_best.local_index] on root
-      ```
+    pseudocode-list[
+      + *Algorithm:* Raven Roosting Optimization (Parallel MPI)
+      + *Input:* Same as serial + MPI context
+      + *Output:* Best solution found
+      +
+      + MPI_Init()
+      + rank ← MPI_Comm_rank()
+      + size ← MPI_Comm_size()
+      +
+      + *if* rank == 0 *then*
+        + Parse command-line arguments
+      + *end if*
+      + MPI_Bcast(parameters, root=0)
+      +
+      + local_rows ← pop_size / size
+      + Initialize local population segment
+      + Evaluate local fitness values
+      + Set roosting_site (shared across all processes)
+      +
+      + MPI_Barrier() // Synchronize before timing
+      +
+      + // Find global leader using MPI_Allreduce
+      + local_best ← argmin(local_fitness)
+      + global_best ← MPI_Allreduce(local_best, op=MINLOC)
+      + MPI_Bcast(leader_position, root=global_best.rank)
+      +
+      + // Determine followers (distributed)
+      + num_local_followers ← 0.2 × local_rows
+      + local_followers ← random_select(num_local_followers)
+      +
+      + *for* iter = 1 *to* iterations *do*
+        + *for* i = 1 *to* local_rows *do*
+          + // Same flight logic as serial version
+          + current_position[i] ← roosting_site
+          +
+          + *if* is_follower[i] *then*
+            + target ← random_point_near(leader, r_pcpt)
+          + *else*
+            + target ← food_source[i]
+          + *end if*
+          +
+          + *for* step = 1 *to* flight_steps *do*
+            + direction ← normalize(target - current_position[i])
+            + remaining ← distance(current_position[i], target)
+            + step_size ← uniform(0, remaining)
+            + current_position[i] ← current_position[i] + step_size × direction
+            + enforce_bounds(current_position[i])
+            +
+            + *for* lookout = 1 *to* lookout_steps *do*
+              + candidate ← random_point_near(current_position[i], r_pcpt)
+              + enforce_bounds(candidate)
+              +
+              + *if* f(candidate) < fitness[i] *then*
+                + food_source[i] ← candidate
+                + fitness[i] ← f(candidate)
+              + *end if*
+            + *end for*
+          + *end for*
+        + *end for*
+        +
+        + // Update global leader
+        + local_best ← argmin(local_fitness)
+        + global_best ← MPI_Allreduce(local_best, op=MINLOC)
+        + MPI_Bcast(leader_position, root=global_best.rank)
+        +
+        + // Reshuffle followers locally
+        + local_followers ← random_select(num_local_followers)
+      + *end for*
+      +
+      + // Gather timing statistics
+      + local_time ← MPI_Wtime() - start_time
+      + max_time ← MPI_Reduce(local_time, op=MPI_MAX, root=0)
+      +
+      + MPI_Finalize()
+      + *return* food_source[global_best.local_index] on root
     ],
     caption: [Pseudocode for parallel MPI RRO implementation]
   )
