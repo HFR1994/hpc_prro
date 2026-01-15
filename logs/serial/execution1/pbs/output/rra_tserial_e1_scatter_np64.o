@@ -1,0 +1,449 @@
+Running NP=64 on 4 nodes (scatter:excl)
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+Running serial RRA: dataset=/home/hector.floresreynoso/hpc_prro/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=./output
+[2026-01-15 18:15:14] [37m[INFO][0m Random number generator seeded with 42 52
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Looking radii is 158.773000
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:15:14] [37m[INFO][0m Current leader is 20 with 2393.962084
+[2026-01-15 18:15:14] [37m[INFO][0m Using 25 followers out of 128
+[2026-01-15 18:18:26] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:26] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:26] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:26] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:26] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:26] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:26] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:26] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:26] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:26] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:26] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:26] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:26] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:26] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:27] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:27] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:37] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:38] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:38] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:38] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:39] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:40] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:40] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:40] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:41] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:41] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:41] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:41] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:41] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:41] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:41] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:41] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:41] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:41] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+[2026-01-15 18:18:41] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:41] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:41] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+
+[2026-01-15 18:18:42] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:42] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:42] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:42] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:44] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:44] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:45] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
+[2026-01-15 18:18:45] [37m[INFO][0m Finished execution, the best is 74 with 10.585910
+
