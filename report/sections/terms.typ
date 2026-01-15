@@ -1,7 +1,8 @@
 Throughout this paper the following notation is used:
 - $t$ represents the current iteration number and $T$ is the maximum number of iterations;
-- $N$ is the total population of Ravens and $F$ the number of features for each Raven;
+- $P$ is the total population of Ravens and $F$ the number of features for each Raven;
 - $X(t)$ is the position vector of ravens in iteration $t$;
+- $R S(t)$ is the roosting site across all $T$;
 - $D(t)$ is direction where the raven is moving on $t+1$;
 - $L (t)$ Represent the leader, with the best location of source food (global);
 - $F S (t)$ is the best local food source know to a raven. These will be replace by the current positions $X (t)$ if they yield better fitness values;
@@ -76,16 +77,16 @@ Throughout this paper the following notation is used:
     
 == Lookout function
 
-   As mentioned earlier, raven's move a fraction of the total remaining distance governed by $bold(d)_(i,t) = s_t times D(t)$. This so that each point they stop they can scout the area with a Hypersphere vision across $n$ dimensions. The looking radii is governed by:  
+   As mentioned earlier, raven's move a fraction of the total remaining distance governed by $bold(d)_(i,t) = s_t times D(t)$. This so that each point they stop they can scout the area with a Hypersphere vision across $n$ dimensions. The looking radii ($r$) is governed by:  
    
-   $ r = R / (3.6 times N^(1/F)) $
+   $ r = R / (3.6 times P^(1/F)) $
    
-   When a raven finds a promising food source, he can decide to ignore it and continue or set it as it personal best and report it back to the rooster immediately.
+   When a raven finds a promising food source, he updates it and decides to continue or report it back to the rooster immediately.
    
     $
-      F S (t) = cases(
-        "RETURN HOME" quad U(0, 1) <= 0.1,
-        "CONTINUE WITH CURRENT" quad U(0, 1) > 0.1
+      bold(p)_(i,t+1) = cases(
+        p_(i,t) + d_(i,t) quad U(0, 1) <= 0.1,
+        R S(t) quad U(0, 1) > 0.1
       )
     $
    
