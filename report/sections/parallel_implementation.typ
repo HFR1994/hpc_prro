@@ -127,4 +127,7 @@ Assumuing a static problem size (i.e., population size and dimensionality) but t
 Assuming a linear increment betwee the problem size and the number of processes can the computational workload should remain balanced as relative impact of communication overhead stays stable.
 This allows the algorithm to preserve a high level of parallel efficiency, as most operations are performed locally and collective communications scale logarithmically with the number of processes.
 
+==== Analysis Result 
+
+
 

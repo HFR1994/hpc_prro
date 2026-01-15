@@ -102,7 +102,7 @@ def process_logs(logs_dir):
         # Parse filename
         params = parse_filename(filename)
         if not params:
-            print(f"Skipping {filename}: doesn't match expected format")
+            print(f"Skipping {filename} in {log_file.parent}: doesn't match expected format")
             continue
 
         # Extract timings
