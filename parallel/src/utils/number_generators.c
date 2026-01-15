@@ -30,7 +30,7 @@ double norm_0_1(pcg32_random_t *rng) {
 }
 
 /**
- * \brief Calculates the distance of vector using Euclidean Distance
+ * \brief Calculates the distance of vector using norm
  * \param unit_vector The vector to calculate distance for
  * \param features Dimension of the vector
  * \param rng Random number generator state

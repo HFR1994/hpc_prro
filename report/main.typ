@@ -18,30 +18,37 @@
   bibliography: bibliography("references.bib"),
 )
 
-// Import section content
-#import "sections/introduction.typ": introduction_content
-#import "sections/terms.typ": terms_content
-#import "sections/serial_implementation.typ": serial_content
-#import "sections/parallel_implementation.typ": parallel_content
-#import "sections/optimizations.typ": optimizations_content
-#import "sections/conclusion.typ": conclusion_content
+#show list: it => [
+  #v(0.3cm)
+  #it
+  #v(0.3cm)
+]
+
+#show heading: it => {
+  if it.level >= 3 {
+    set par(first-line-indent: 0pt)
+    block(above: 0.3cm, below: 0.3cm, it)
+  } else {
+    it
+  }
+}
 
 // Main content
 = Introduction
-#introduction_content
+#include "sections/introduction.typ"
 
 // Formulas Discussion
-= Term Discussion
-#terms_content
+= Terminology Discussion
+#include "sections/terms.typ"
 
 = Serial Implementation
-#serial_content
+#include "sections/serial_implementation.typ"
 
 = Parallel Implementation with MPI
-#parallel_content
+#include "sections/parallel_implementation.typ"
 
 = Optimizations
-#optimizations_content
+#include "sections/optimizations.typ"
 
 = Conclusion
-#conclusion_content
+#include "sections/conclusion.typ"

@@ -1,26 +1,25 @@
 #import "@preview/cetz:0.3.2"
 #import "@preview/lovelace:0.3.0": *
 
-#let parallel_content = [
-  == Parallelization Strategy
+== Parallelization Strategy
 
-  The parallel implementation in the `parallel/` directory uses MPI to distribute the raven population across multiple processes. The key parallelization approach is *domain decomposition* @parallel_metaheuristics, where each MPI process manages a subset of the total population.
+    The parallel implementation in the `parallel/` directory uses MPI to distribute the raven population across multiple processes. The key parallelization approach is *domain decomposition* @parallel_metaheuristics, where each MPI process manages a subset of the total population.
 
-  === MPI Context and Configuration
+=== MPI Context and Configuration
 
-  The implementation initializes an MPI context structure that tracks process rank and world size, communicator, and global configuration parameters broadcast to all processes. The context is initialized at program startup to establish the distributed computing environment.
+    The implementation initializes an MPI context structure that tracks process rank and world size, communicator, and global configuration parameters broadcast to all processes. The context is initialized at program startup to establish the distributed computing environment.
 
-  === Data Distribution
+=== Data Distribution
 
-  Each process handles a local subset of ravens:
-  - Process 0 reads parameters and broadcasts to all processes
-  - Population is divided among processes
-  - Each process maintains local copies of: food sources, positions, fitness values
-  - Global leader information is shared across all processes
+    Each process handles a local subset of ravens:
+        - Process 0 reads parameters and broadcasts to all processes
+        - Population is divided among processes
+        - Each process maintains local copies of: food sources, positions, fitness values
+        - Global leader information is shared across all processes
 
-  === Parallel Algorithm Pseudocode
+=== Parallel Algorithm Pseudocode
 
-  #figure(
+    #figure(
     pseudocode-list[
       + *Algorithm:* Raven Roosting Optimization (Parallel MPI)
       + *Input:* Same as serial + MPI context
@@ -98,59 +97,59 @@
       + *return* food_source[global_best.local_index] on root
     ],
     caption: [Pseudocode for parallel MPI RRO implementation]
-  )
+    )
 
-  === Communication Patterns
+=== Communication Patterns
 
-  ==== Leader Selection
+    ==== Leader Selection
 
-  Finding the global leader requires collective communication. Each process first finds its local minimum:
+        Finding the global leader requires collective communication. Each process first finds its local minimum:
+        
+        $ text("local_best")_p = op("arg min")_(i in text("local_ravens")_p) f(bold(x)_i) $
+        
+        Then a global reduction determines the overall minimum across all processes, followed by broadcasting the leader position from the owning process to all others. This requires $O(log space k)$ communication time for $k$ processes.
 
-  $ text("local_best")_p = op("arg min")_(i in text("local_ravens")_p) f(bold(x)_i) $
+==== Parameter Broadcasting
 
-  Then a global reduction determines the overall minimum across all processes, followed by broadcasting the leader position from the owning process to all others. This requires $O(log space k)$ communication time for $k$ processes.
+Configuration is broadcast from rank 0 to all processes. The global parameter structure is transmitted as a byte buffer, distributing algorithm configuration uniformly across the distributed system in $O(log space k)$ time.
 
-  ==== Parameter Broadcasting
+==== Timing Reduction
 
-  Configuration is broadcast from rank 0 to all processes. The global parameter structure is transmitted as a byte buffer, distributing algorithm configuration uniformly across the distributed system in $O(log space k)$ time.
+Maximum execution time across all processes is gathered using a reduction operation:
 
-  ==== Timing Reduction
+$ T_{text("max")} = max_(p in {0,...,k-1}) T_p $
 
-  Maximum execution time across all processes is gathered using a reduction operation:
+This determines the wall-clock time as the slowest process duration.
 
-  $ T_{text("max")} = max_(p in {0,...,k-1}) T_p $
+=== Synchronization Points
 
-  This determines the wall-clock time as the slowest process duration.
+The parallel implementation uses several synchronization barriers:
+- Before starting computation
+- After initialization
+- Before timing measurements
 
-  === Synchronization Points
+=== Load Balancing
 
-  The parallel implementation uses several synchronization barriers:
-  - Before starting computation
-  - After initialization
-  - Before timing measurements
+Population distribution aims for balanced workload. Ravens are divided as evenly as possible with each process handling
 
-  === Load Balancing
+$ P_{text("local")} = floor(P / k) $
 
-  Population distribution aims for balanced workload. Ravens are divided as evenly as possible with each process handling
+ravens (where $P$ is total population and $k$ is number of processes). Each process handles the same number of iterations, and computational work scales linearly with local population size.
 
-  $ P_{text("local")} = floor(P / k) $
+=== Scalability Considerations
 
-  ravens (where $P$ is total population and $k$ is number of processes). Each process handles the same number of iterations, and computational work scales linearly with local population size.
+*Strong Scaling*: For fixed problem size, speedup is limited by:
+- Communication overhead (leader updates, broadcasts)
+- Load imbalance if population doesn't divide evenly
+- Synchronization barriers
 
-  === Scalability Considerations
+*Weak Scaling*: Increasing problem size proportionally with processes maintains efficiency better, as communication-to-computation ratio remains favorable.
 
-  *Strong Scaling*: For fixed problem size, speedup is limited by:
-  - Communication overhead (leader updates, broadcasts)
-  - Load imbalance if population doesn't divide evenly
-  - Synchronization barriers
+=== Random Number Generation
 
-  *Weak Scaling*: Increasing problem size proportionally with processes maintains efficiency better, as communication-to-computation ratio remains favorable.
+Each process uses an independent random number generator seeded with rank-dependent values. The seed for process $p$ is computed as
 
-  === Random Number Generation
+$ s_p = s_{text("base")} + p $
 
-  Each process uses an independent random number generator seeded with rank-dependent values. The seed for process $p$ is computed as
+where $s_{text("base")}$ is the initial seed. This ensures reproducibility while maintaining statistical independence across processes.
 
-  $ s_p = s_{text("base")} + p $
-
-  where $s_{text("base")}$ is the initial seed. This ensures reproducibility while maintaining statistical independence across processes.
-]
