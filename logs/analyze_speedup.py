@@ -91,6 +91,14 @@ def process_logs(logs_dir):
     for log_file in logs_path.glob('trial*/execution*/output/*.log'):
         filename = log_file.name
 
+        # Extract trial and execution numbers from the path
+        parts = log_file.parts
+        trial_dir = next((p for p in parts if p.startswith('trial')), None)
+        execution_dir = next((p for p in parts if p.startswith('execution')), None)
+
+        trial_num = int(re.search(r'trial(\d+)', trial_dir).group(1)) if trial_dir else None
+        execution_num = int(re.search(r'execution(\d+)', execution_dir).group(1)) if execution_dir else None
+
         # Parse filename
         params = parse_filename(filename)
         if not params:
@@ -103,8 +111,8 @@ def process_logs(logs_dir):
             print(f"Warning: Could not extract timings from {filename}")
             continue
 
-        # Combine parameters and timings
-        record = {**params, **timings}
+        # Combine parameters, timings, and metadata
+        record = {**params, **timings, 'trial': trial_num, 'execution': execution_num}
         data.append(record)
 
     # Create DataFrame
@@ -112,7 +120,7 @@ def process_logs(logs_dir):
 
     if not df.empty:
         # Sort by parameters for better organization
-        df = df.sort_values(['placement', 'population', 'features', 'iterations', 'np'])
+        df = df.sort_values(['placement', 'population', 'features', 'iterations', 'np', 'trial', 'execution'])
 
     return df
 
