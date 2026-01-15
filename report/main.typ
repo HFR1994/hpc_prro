@@ -44,7 +44,7 @@
 = Serial Implementation
 #include "sections/serial_implementation.typ"
 
-= Parallel Implementation with MPI
+= Parallel Implementation
 #include "sections/parallel_implementation.typ"
 
 = Optimizations

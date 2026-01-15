@@ -1,155 +1,130 @@
 #import "@preview/cetz:0.3.2"
 #import "@preview/lovelace:0.3.0": *
 
-== Parallelization Strategy
+The following extra terminilogy is introduced:
 
-    The parallel implementation in the `parallel/` directory uses MPI to distribute the raven population across multiple processes. The key parallelization approach is *domain decomposition* @parallel_metaheuristics, where each MPI process manages a subset of the total population.
+- *$"WR"$*: An MPI process responsible for managing a subset of the total population.
+- *$"WS"$*: Number of total MPI processes.
 
-=== MPI Context and Configuration
+== Parallelization Strategy with MPI
 
-    The implementation initializes an MPI context structure that tracks process rank and world size, communicator, and global configuration parameters broadcast to all processes. The context is initialized at program startup to establish the distributed computing environment.
+    Using parallelization we are able to achieve *domain decomposition* @parallel_metaheuristics, where the problem is broken down into smaller tasks called ranks. Each *rank* ($"WR"$) is an MPI process, who is in charge of managing a subset of the total population. Ranks are list a list of numbers $bold(x) in [0, infinity]$.
+    
+    Using this approach we are able to achieve faster convergence and exploration of the search space, since the program can run multiple calculations in parallel. In contrast the serial needs to iterate each calculation sequentially, which can be time-consuming for large populations. During the implementation of this algorithm, the same aspects where taken into as if the program was running sequentially. 
+    Each rank, recieves a set of global variables such as the *leader* ($L (t)$) that impact the algorithm in the same way as it was running sequentially.
 
 === Data Distribution
 
-    Each process handles a local subset of ravens:
+    As previously mentioned, each process handles a local subset of ravens:
         - Process 0 reads parameters and broadcasts to all processes
         - Population is divided among processes
         - Each process maintains local copies of: food sources, positions, fitness values
         - Global leader information is shared across all processes
 
+    Where each process is divided using:
+    #v(0.3cm)
+    $ F S_("WR")(t) = P / "WS" $ 
+    #v(0.3cm)
+    $ "extra" = P mod "WS" $
+    #v(0.3cm)
+    $ 
+      "number_of_rows" = cases(
+        F S_("WR")(t) + 1 quad "WR" < "extra",
+        F S_("WR")(t) quad "WR" >= "extra"
+      )
+    $
+
 === Parallel Algorithm Pseudocode
 
-    #figure(
-    pseudocode-list[
-      + *Algorithm:* Raven Roosting Optimization (Parallel MPI)
-      + *Input:* Same as serial + MPI context
-      + *Output:* Best solution found
-      +
-      + MPI_Init()
-      + rank ← MPI_Comm_rank()
-      + size ← MPI_Comm_size()
-      +
-      + *if* rank == 0 *then*
-        + Parse command-line arguments
-      + *end if*
-      + MPI_Bcast(parameters, root=0)
-      +
-      + local_rows ← pop_size / size
-      + Initialize local population segment
-      + Evaluate local fitness values
-      + Set roosting_site (shared across all processes)
-      +
-      + MPI_Barrier() // Synchronize before timing
-      +
-      + // Find global leader using MPI_Allreduce
-      + local_best ← argmin(local_fitness)
-      + global_best ← MPI_Allreduce(local_best, op=MINLOC)
-      + MPI_Bcast(leader_position, root=global_best.rank)
-      +
-      + // Determine followers (distributed)
-      + num_local_followers ← 0.2 × local_rows
-      + local_followers ← random_select(num_local_followers)
-      +
-      + *for* iter = 1 *to* iterations *do*
-        + *for* i = 1 *to* local_rows *do*
-          + // Same flight logic as serial version
-          + current_position[i] ← roosting_site
+    #[
+        #show emph: it => {
+          text(blue, it.body)
+        }
+        
+        The following algorithm in @parallel shows the approach used to run the algorithm in a parallel manner using MPI. In order to facilitate reading, statments in _this color_ symbolize that the process is shared across all $"WS"$.
+        
+        The lifecycle of MPI is defined in it's initialization and closing arguments. Inside the algorithm it can be assumed multiple calls to MPI are made to *Reduce*, *Scatter* and *Broadcast* the results of the global variables.   
+        #figure(pseudocode-list(stroke: none, title: smallcaps[Raven Roosting Optimization (Parallel MPI)])[
+          + MPI Initialization
+          + Initialize local population with clamping
+          + Evaluate local best food source with Objective Function
+          + _Set roosting site and current leader_
+          + _Define followers (excluding leader)_
           +
-          + *if* is_follower[i] *then*
-            + target ← random_point_near(leader, r_pcpt)
-          + *else*
-            + target ← food_source[i]
-          + *end if*
-          +
-          + *for* step = 1 *to* flight_steps *do*
-            + direction ← normalize(target - current_position[i])
-            + remaining ← distance(current_position[i], target)
-            + step_size ← uniform(0, remaining)
-            + current_position[i] ← current_position[i] + step_size × direction
-            + enforce_bounds(current_position[i])
-            +
-            + *for* lookout = 1 *to* lookout_steps *do*
-              + candidate ← random_point_near(current_position[i], r_pcpt)
-              + enforce_bounds(candidate)
+          + *for* iter = 1 *to* iterations *do*
+            + *for* i = 1 *to* local_rows *do*
+              + Set it's current position to the roosting site
+              + Determine it's destination based on if is he a follower   
               +
-              + *if* f(candidate) < fitness[i] *then*
-                + food_source[i] ← candidate
-                + fitness[i] ← f(candidate)
-              + *end if*
+              + *for* step = 1 *to* flight steps *do*
+                + Move to $bold(p)_(i,t+1)$ with clamping
+                +
+                + *for* lookout = 1 *to* lookout steps *do*
+                  + Pick a random spot with clamping <= radii
+                  +
+                  + *if* finds a better food source *then*
+                    + Set it as personal best
+                    +
+                    + *if* p < 0.1 *then*
+                      + Stop early and go back to the roosting site
+                    + *end if*
+                  + *end if*
+                + *end for*
+              + *end for*
             + *end for*
+            +
+            + _Set current global leader_
+            + _Define followers (excluding leader)_
           + *end for*
-        + *end for*
-        +
-        + // Update global leader
-        + local_best ← argmin(local_fitness)
-        + global_best ← MPI_Allreduce(local_best, op=MINLOC)
-        + MPI_Bcast(leader_position, root=global_best.rank)
-        +
-        + // Reshuffle followers locally
-        + local_followers ← random_select(num_local_followers)
-      + *end for*
-      +
-      + // Gather timing statistics
-      + local_time ← MPI_Wtime() - start_time
-      + max_time ← MPI_Reduce(local_time, op=MPI_MAX, root=0)
-      +
-      + MPI_Finalize()
-      + *return* food_source[global_best.local_index] on root
-    ],
-    caption: [Pseudocode for parallel MPI RRO implementation]
-    )
+          +
+          + *return* current leader
+          + Close MPI
+        ],
+        caption: [Pseudocode for parallel MPI RRO implementation]
+        ) <parallel>
+    ]
 
-=== Communication Patterns
+=== Key Implementation Details
 
-    ==== Leader Selection
+#v(0.3cm)
 
-        Finding the global leader requires collective communication. Each process first finds its local minimum:
-        
-        $ text("local_best")_p = op("arg min")_(i in text("local_ravens")_p) f(bold(x)_i) $
-        
-        Then a global reduction determines the overall minimum across all processes, followed by broadcasting the leader position from the owning process to all others. This requires $O(log space k)$ communication time for $k$ processes.
+==== Leader Selection
 
-==== Parameter Broadcasting
+    Finding the global leader requires collective communication. Each process first evaluates the quality of it's solutions locally and determines its local best candidate by computing the minimum fitness value (#link(<OB>)[Objective Function]):
+    
+    $ text("local_best")_p = op("min")("local_ravens") $
+    
+    Then a global reduction determines the overall minimum across all processes, followed by broadcasting the leader position from the owning process to all others. This requires $O(log space "WS")$ communication time for $"WS"$ processes.
 
-Configuration is broadcast from rank 0 to all processes. The global parameter structure is transmitted as a byte buffer, distributing algorithm configuration uniformly across the distributed system in $O(log space k)$ time.
+#v(0.3cm)
 
 ==== Timing Reduction
 
-Maximum execution time across all processes is gathered using a reduction operation:
+To accurately measure the total execution time of the parallel algorithm, the maximum execution time across all participating processes is computed using a global reduction operation. Each process records its own elapsed execution time $T_p$ and the overall wall-clock time is then obtained as:
 
-$ T_{text("max")} = max_(p in {0,...,k-1}) T_p $
+$ T_{text("max")} = max_(p in {0,...,"WS"-1}) T_p $
 
 This determines the wall-clock time as the slowest process duration.
 
-=== Synchronization Points
-
-The parallel implementation uses several synchronization barriers:
-- Before starting computation
-- After initialization
-- Before timing measurements
-
-=== Load Balancing
-
-Population distribution aims for balanced workload. Ravens are divided as evenly as possible with each process handling
-
-$ P_{text("local")} = floor(P / k) $
-
-ravens (where $P$ is total population and $k$ is number of processes). Each process handles the same number of iterations, and computational work scales linearly with local population size.
-
 === Scalability Considerations
 
-*Strong Scaling*: For fixed problem size, speedup is limited by:
-- Communication overhead (leader updates, broadcasts)
-- Load imbalance if population doesn't divide evenly
-- Synchronization barriers
+Strong scalability and weak scalability describe how well a parallel algorithm performs as you change the number of processors, both with static or dynamic population sizes. This speedup is denotaed by Amdahl’s Law @Amdahl1967 where:
 
-*Weak Scaling*: Increasing problem size proportionally with processes maintains efficiency better, as communication-to-computation ratio remains favorable.
+$S(p) = \frac{1}{\,s + \dfrac{1-s}{p}\,}$
 
-=== Random Number Generation
+Where $p$ denotes the number of parallel workers (processes, threads, or cores) that are employed to execute the program. The term $s$ represents the proportion of the total execution time that is strictly serial—that is, the part of the code that cannot be divided among multiple processors and must run on a single core.
 
-Each process uses an independent random number generator seeded with rank-dependent values. The seed for process $p$ is computed as
+*Strong Scaling*:
 
-$ s_p = s_{text("base")} + p $
+Assumuing a static problem size (i.e., population size and dimensionality) but the number of processes increases, the achievable speedup is constrained by several algorithm-specific factors:
 
-where $s_{text("base")}$ is the initial seed. This ensures reproducibility while maintaining statistical independence across processes.
+- Collective communication overhead becomes more pronounced, particularly during global leader selection and the subsequent broadcast of the leader’s position vector. 
+- Load imbalance may arise when the population cannot be evenly partitioned across processes, resulting in some ranks owning fewer individuals and spending proportionally more time waiting at synchronization points. 
+- Global synchronization operations, such as barriers and collective reductions, introduce idle time that grows with the number of processes, further limiting strong scaling efficiency.
+
+*Weak Scaling*:
+
+Assuming a linear increment betwee the problem size and the number of processes can the computational workload should remain balanced as relative impact of communication overhead stays stable.
+This allows the algorithm to preserve a high level of parallel efficiency, as most operations are performed locally and collective communications scale logarithmically with the number of processes.
+
 

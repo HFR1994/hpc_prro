@@ -25,14 +25,16 @@ Throughout this paper the following notation is used:
 
     PCG generators offer several advantages: they pass stringent statistical test suites (including TestU01's BigCrush), have small state sizes, are extremely fast, and provide strong statistical properties suitable for scientific simulations and optimization algorithms. In this implementation, PCG is used to generate the uniform random numbers $U(a, b)$ that drive the stochastic behavior of the Raven Roost Algorithm.
 
-== Objective Function
+== Objective Function <OB>
 
     The Griewank function is a multimodal optimization benchmark function widely used to test the performance of optimization algorithms. It is particularly challenging due to its many local minima that can trap optimization algorithms, while having a single global minimum. This function serves as the objective function in the Raven Roost Algorithm (RRA) implementation, providing a rigorous test case for evaluating the algorithm's exploration and exploitation capabilities @raven_optimization.
     
     The mathematical formulation of the Griewank function is:
+    #v(0.3cm)
     
     $ f(bold(x)) = 1 + 1/4000 sum_(i=1)^n x_i^2 - product_(i=1)^n cos(x_i / sqrt(i)) $
     
+    #v(0.3cm)
     where $bold(x) = (x_1, x_2, ..., x_n) in bb(R)^n$ represents a point in the n-dimensional search space.
 
 === Function Characteristics
@@ -45,42 +47,52 @@ Throughout this paper the following notation is used:
 
     The movement of ravens in the algorithm is defined by the position update equation $bold(p)_(i,t) = bold(p)_(i,t-1) + bold(d)_(i,t)$, where $bold(d)_(i,t)$ represents a random distance vector for raven $i$ at iteration $t$. The distance vector $bold(d)_(i,t)$ is constructed through two key steps in the implementation. A direction, and a random amplifier:
     
+    #v(0.3cm)
     $ bold(d)_(i,t) = bold(s)_(i,t) times D(t) $
-     
+    #v(0.3cm)
+    
     To mimic the real behavoir, $D(t)$ is the direction of each bird to find the best food source. At the start of each $t$, each raven decides if he is going to pursue his best food source point or follow the leader and scout the area.
     
+    #v(0.3cm)
     $
       arrow(d) = cases(
         L (t) - X(t) quad U(0, 1) <= 0.2,
         F S (t) - X(t) quad U(0, 1) > 0.2
       )
     $
-         
+    #v(0.3cm)
+       
     First we calculate $arrow(d)$ into a magnitud using norm:
 
+    #v(0.3cm)
     $ ||bold(v)|| = sqrt(sum_(i=1)^n (x_i)^2) $
-
+    #v(0.3cm)
+    
     where $v$ is any given vector ($arrow(d)$ in this case) that holds the $n$ number of parameters (dimensions) in the search space. This is later used the computation of a unit vector using:
 
+    #v(0.3cm)
     $ D(t) = hat(bold(v)) = bold(v) / (||bold(v)||) $
-
+    #v(0.3cm)
+    
     This vector represents the exploration direction for the current iteration, influenced by the previous movement patterns. 
 
     Second, we calculated a random modifier based on the remaining distance to the target location using *Euclidean distance* to get a scalar value between the final destination $F S (t)$ or $L (t)$ and the current position $X(t)$:
 
+    #v(0.3cm)
     $ d(bold(a), bold(b)) = sqrt(sum_(i=1)^n (a - b)^2) $
+    #v(0.3cm)
 
     $a$ and $b$ represent any vector of $n$ number of parameters (dimensions) in the search space. We multiply this distance to random step size $r_i$ to get fraction of this remaining distance using a uniform distribution value, giving the following formula:
-    
+
     $ bold(s)_(i,t) = r_i times R (T) $ 
-        
+            
     This creates a Lévy flight-like behavior, where ravens take larger steps when they are far from the target and smaller steps as they approach to the target. The actual displacement vector is therefore $bold(d)_(i,t) = s_t times D(t)$, resulting in an adaptive movement strategy that balances exploration through randomness with exploitation through proximity-based step sizing.
     
 == Lookout function
 
    As mentioned earlier, raven's move a fraction of the total remaining distance governed by $bold(d)_(i,t) = s_t times D(t)$. This so that each point they stop they can scout the area with a Hypersphere vision across $n$ dimensions. The looking radii ($r$) is governed by:  
    
-   $ r = R / (3.6 times P^(1/F)) $
+   $ r = R / (3.6 times root(F, P)) $
    
    When a raven finds a promising food source, he updates it and decides to continue or report it back to the rooster immediately.
    

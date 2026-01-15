@@ -28,7 +28,7 @@
       + *for* t= 1 *to* iterations *do*
         + *for* n = 1 *to* pop_size *do*
           + Set it's current position to the roosting site
-          + Determine it's destination based on is he a follower          
+          + Determine it's destination based on if is he a follower          
           +
           + *for* step = 1 *to* flight steps *do*
             + Move to $bold(p)_(i,t+1)$ with clamping
