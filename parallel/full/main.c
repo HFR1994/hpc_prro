@@ -3,7 +3,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <time.h>
 
 #include <utils/logger.h>
@@ -14,7 +13,6 @@
 
 #include "utils/global.h"
 #include "mpi/handlers.h"
-#include "mpi/registers.h"
 
 /**
  * \brief Force to print an environment variable
