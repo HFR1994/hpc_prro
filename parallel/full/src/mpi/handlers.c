@@ -37,9 +37,6 @@ void mpi_ctx_finalize(mpi_ctx_t *ctx, prro_state_t *local)
     free(local->final_location);
     free(local->convergence_results);
 
-    // Clean up per-thread RNG states
-    free(local);
-
     // Cleanup customs mpi operation types
     mpi_registers_cleanup();
 

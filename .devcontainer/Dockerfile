@@ -6,7 +6,7 @@ ENV TYPST_VERSION=${TYPST}
 
 # Install needed packages. Use a separate RUN statement to add your own dependencies.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends gcc build-essential openmpi-bin libopenmpi-dev ca-certificates curl xz-utils fontconfig fonts-texgyre
+  && apt-get -y install --no-install-recommends gcc build-essential openmpi-bin libopenmpi-dev libomp-dev ca-certificates curl xz-utils fontconfig fonts-texgyre
 
 # Enable contrib repo (for fonts only - shows at duplicated)
 RUN echo "deb http://deb.debian.org/debian trixie main contrib" > /etc/apt/sources.list.d/contrib.list \

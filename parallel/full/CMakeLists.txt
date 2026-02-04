@@ -22,4 +22,5 @@ add_executable(rrap_full
 
 target_include_directories(rrap_full PUBLIC include ${MPI_C_INCLUDE_DIRS})
 target_link_libraries(rrap_full PRIVATE m ${MPI_C_LIBRARIES} OpenMP::OpenMP_C)
+target_compile_options(rrap_full PRIVATE ${OpenMP_C_FLAGS})
 set_target_properties(rrap_full PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")

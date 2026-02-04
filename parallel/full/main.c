@@ -10,6 +10,7 @@
 
 #include "include/raven_roost_algorithm.h"
 #include "include/utils/dir_file_handler.h"
+#include "include/utils/pcg_basic.h"
 
 #include "utils/global.h"
 #include "mpi/handlers.h"
@@ -255,17 +256,26 @@ int main(int argc, char **argv) {
     //print_env("PRRO_EXECUTION");
     placement = print_env("PRRO_PLACEMENT");
 
-    // Seed with current time
-    // Best seeds 1768210034 52
-    // Create per-thread RNG states for thread safety
-    const int max_threads = omp_get_max_threads();
+    // Seed the random number generator - create one per potential thread
     const char *seed_env = getenv("PRRO_SEED");
+    // Get maximum number of OpenMP threads available
+    const int max_threads = omp_get_max_threads();
 
     uint64_t time_seed = seed_env ? strtoull(seed_env, NULL, 10) : (uint64_t)time(NULL) ^ (uint64_t)clock();
-    pcg32_random_t *rngs = malloc(max_threads * sizeof(pcg32_random_t));
 
-    for (int t = 0; t < max_threads; t++) {
-      pcg32_srandom_r(&rngs[t], time_seed + ctx.rank + t * 12345, 52u);
+    // Allocate array of RNG states for OpenMP threads
+    pcg32_random_t *rng_array = malloc(max_threads * sizeof(pcg32_random_t));
+    if (!rng_array) {
+        log_err("Failed to allocate RNG array");
+        ERR_CLEANUP();
+    }
+
+    // Initialize each thread's RNG with a unique seed
+    // Use rank + thread_id to ensure uniqueness across MPI ranks and threads
+    for (int tid = 0; tid < max_threads; tid++) {
+        const uint64_t seed = time_seed + ctx.rank * max_threads + tid;
+        log_main("Random number generator seeded with %lu %lu for thread %d", seed, 52u, tid);
+        pcg32_srandom_r(&rng_array[tid], seed, 52u);
     }
 
     // Define global params
@@ -290,10 +300,8 @@ int main(int argc, char **argv) {
             global.dataset_path, global.pop_size, global.features, global.iterations, global.flight_steps, global.lookout_steps,
             global.radius, global.lower_bound, global.upper_bound, global.output_dir);
 
-    log_main("Random number generator seeded with %lu %lu", time_seed, 52u);
-
     // // Call the GTO function and time the whole run
-    prro_state_t local = RRA(exec_timings, global, rngs, &ctx);
+    prro_state_t local = RRA(exec_timings, global, rng_array, &ctx);
 
     MPI_CHECK(MPI_Barrier(ctx.comm));
     exec_timings[2] = MPI_Wtime();
@@ -341,6 +349,7 @@ int main(int argc, char **argv) {
         }
     }
 
+    free(rng_array);
     mpi_ctx_finalize(&ctx, &local);
     MPI_Finalize();
     return EXIT_SUCCESS;

@@ -6,7 +6,7 @@
 
 #include "utils/pcg_basic.h"
 
-void define_followers(prro_state_t * local, prra_cfg_t global, leader_t current_leader, const mpi_ctx_t * ctx);
+void define_followers(prro_state_t * local, prra_cfg_t global, leader_t current_leader, pcg32_random_t *rng_array, const mpi_ctx_t * ctx);
 
 /**
  * \brief Calculate a new lookout position around the current position based on hypersphere (N dimensions) radii

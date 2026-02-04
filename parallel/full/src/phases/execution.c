@@ -17,8 +17,8 @@
  * \param global Global configuration
  */
 void gather_to_roosting(prro_state_t * local, const prra_cfg_t global) {
-    // Set each position to the roosting site with OpenMP parallelization
-    #pragma omp parallel for schedule(static)
+    // Set each position to the roosting site in parallel
+    #pragma omp parallel for
     for (int i = 0; i < local->local_rows; i++) {
         memcpy(&local->current_position[i * global.features], local->roosting_site, global.features * sizeof(double));
     }
@@ -29,9 +29,9 @@ void gather_to_roosting(prro_state_t * local, const prra_cfg_t global) {
  * \param local Local state for this rank
  * \param global Global configuration
  * \param current_leader Struct with the global leader
- * \param rng The random number generator
+ * \param rng_array Array of random number generators (one per thread)
  */
-void define_followers(prro_state_t * local, prra_cfg_t global, const leader_t current_leader, const mpi_ctx_t * ctx) {
+void define_followers(prro_state_t * local, prra_cfg_t global, const leader_t current_leader, pcg32_random_t *rng_array, const mpi_ctx_t * ctx) {
 
     int *counts = NULL;
     int *displs = NULL;
@@ -60,9 +60,10 @@ void define_followers(prro_state_t * local, prra_cfg_t global, const leader_t cu
                 }
             }
 
-            // Shuffle available indices using Fisher-Yates
+            // Shuffle available indices using Fisher-Yates - use first RNG for serial work
+            pcg32_random_t *rng = &rng_array[0];
             for (int i = count - 1; i > 0; i--) {
-                const int j = (int) (unif_0_1(local->rng) * (i + 1));
+                const int j = (int) (unif_0_1(rng) * (i + 1));
                 const int temp = available[i];
                 available[i] = available[j];
                 available[j] = temp;
@@ -101,7 +102,6 @@ void define_followers(prro_state_t * local, prra_cfg_t global, const leader_t cu
         ));
 
         int total_followers = 0;
-        #pragma omp parallel for reduction(+:total_followers)
         for (int i = 0; i < local->local_rows; i++) {
             if (local->is_follower[i] == 1) {
                 total_followers += 1;
