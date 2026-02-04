@@ -1,6 +1,7 @@
 #ifndef RRA_PARALLEL_WRAPPER_H
 #define RRA_PARALLEL_WRAPPER_H
 #include <mpi.h>
+#include "utils/pcg_basic.h"
 
 /* Small wrapper for MPI state */
 typedef struct {
@@ -61,6 +62,7 @@ typedef struct {
 
     /* Optional bookkeeping */
     convergence_point_t* convergence_results; // [iterations]
+    pcg32_random_t* rng;
     int num_followers;
     int best_idx;
     double best_fitness;

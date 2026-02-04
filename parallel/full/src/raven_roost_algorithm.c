@@ -2,9 +2,10 @@
 
 #include <mpi.h>
 #include <math.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <omp.h>
+#include "utils/pcg_basic.h"
 
 #include "mpi/handlers.h"
 #include "mpi/registers.h"
@@ -29,16 +30,16 @@ double calculate_distance(const double *initial, const double *finish, const int
     return sqrt(dist2);
 }
 
-prro_state_t RRA(double *exec_timings, const prra_cfg_t global, pcg32_random_t *rng, const mpi_ctx_t *ctx) {
+prro_state_t RRA(double *exec_timings, const prra_cfg_t global, pcg32_random_t *rngs, const mpi_ctx_t *ctx) {
 
     prro_state_t local;
 
-    // Set the struct for MPI
-    local_state_init(&local, global, ctx);
+    // Set the struct for MPI and OpenMP
+    local_state_init(&local, global, rngs, ctx);
 
     // Initialize all initial calculations return the looking radii
     // Reusable value for Rleader or rPcpt
-    const double rPcpt = initialize_params(global, &local, ctx, rng);
+    const double rPcpt = initialize_params(global, &local, ctx);
 
     MPI_CHECK(MPI_Barrier(ctx->comm));
     exec_timings[1] = MPI_Wtime();
@@ -56,85 +57,113 @@ prro_state_t RRA(double *exec_timings, const prra_cfg_t global, pcg32_random_t *
     double prev_best_fitness = prev_best_fitness = current_global_leader.fitness;
 
     // // Set followers to '1' otherwise '0'
-    define_followers(&local, global, current_global_leader, rng, ctx);
+    define_followers(&local, global, current_global_leader, ctx);
     log_info("Using %d followers out of %d", local.num_followers, local.local_rows);
 
     for (int iter = 0; iter < global.iterations; iter++) {
-        for (int i = 0; i < local.local_rows; i++) {
-            // We only want to follower to alternate the "flight path"
-            if (local.is_follower[i] == 1) {
-                // Set a nearby location to the leader center position based on hypersphere (N dimensions) radii
-                set_lookout(&local, global, local.leader, rPcpt, rng);
-            } else {
-                // Just copy the food source position
-                memcpy(local.final_location, local.food_source + i * global.features, global.features * sizeof(double));
-            }
+        #pragma omp parallel
+        {
+            // Thread-private temporary arrays
+            double *thread_prev_location = malloc(global.features * sizeof(double));
+            double *thread_final_location = malloc(global.features * sizeof(double));
+            double *thread_direction = malloc(global.features * sizeof(double));
+            double *thread_n_candidate = malloc(global.features * sizeof(double));
 
-            const double initial_to_target = calculate_distance(local.current_position + i * global.features,
-                                                          local.final_location, global.features);
-            double path_distance = 0.0;
-
-            for (int step = 0; step < global.flight_steps; ++step) {
-                memcpy(local.prev_location, local.current_position + i * global.features, global.features * sizeof(double));
-
-                for (int j = 0; j < global.features; ++j) {
-                    local.direction[j] = local.final_location[j] - local.current_position[i * global.features + j];
+            #pragma omp for schedule(dynamic)
+            for (int i = 0; i < local.local_rows; i++) {
+                // We only want to follower to alternate the "flight path"
+                if (local.is_follower[i] == 1) {
+                    // Set a nearby location to the leader center position based on hypersphere (N dimensions) radii
+                    // Use thread-local temporary storage
+                    const double distance = vector_to_distance(thread_n_candidate, global.features, local.rng, true);
+                    gen_unit_vector(thread_n_candidate, distance, global.features);
+                    const double U = unif_0_1(local.rng);
+                    const double r = rPcpt * pow(U, 1.0 / global.features);
+                    for (int j = 0; j < global.features; j++) {
+                        thread_final_location[j] = local.leader[j] + r * thread_n_candidate[j];
+                    }
+                } else {
+                    // Just copy the food source position
+                    memcpy(thread_final_location, local.food_source + i * global.features, global.features * sizeof(double));
                 }
 
-                const double dis_max = vector_to_distance(local.direction, global.features, rng, false);
-                gen_unit_vector(local.direction, dis_max, global.features);
+                const double initial_to_target = calculate_distance(local.current_position + i * global.features,
+                                                              thread_final_location, global.features);
+                double path_distance = 0.0;
 
-                // Calculate a random jump between the remaining distance
-                const double remaining_distance = calculate_distance(local.current_position + i * global.features,
-                                                                     local.final_location, global.features);
+                for (int step = 0; step < global.flight_steps; ++step) {
+                    memcpy(thread_prev_location, local.current_position + i * global.features, global.features * sizeof(double));
 
-                // Random percentage of remaining distance
-                const double s_t = remaining_distance * unif_0_1(rng);
+                    for (int j = 0; j < global.features; ++j) {
+                        thread_direction[j] = thread_final_location[j] - local.current_position[i * global.features + j];
+                    }
 
-                // Update the new position of the raven
-                // The author only specifies a random step size.
-                // r-i_t = r-i-1_t + d-i_t
-                for (int j = 0; j < global.features; ++j) {
-                    local.current_position[i * global.features + j] += s_t * local.direction[j];
-                }
+                    const double dis_max = vector_to_distance(thread_direction, global.features, local.rng, false);
+                    gen_unit_vector(thread_direction, dis_max, global.features);
 
-                // Check if the new location doesn't fall out of bounds
-                check_bounds(local.current_position + i * global.features, 1, global);
+                    // Calculate a random jump between the remaining distance
+                    const double remaining_distance = calculate_distance(local.current_position + i * global.features,
+                                                                         thread_final_location, global.features);
 
-                // Add the paths
-                path_distance += calculate_distance(local.prev_location, local.current_position + i * global.features, global.features);
+                    // Random percentage of remaining distance
+                    const double s_t = remaining_distance * unif_0_1(local.rng);
 
-                for (int lookout = 0; lookout < global.lookout_steps; ++lookout) {
-                    // Pass only from the current_position we care about
-                    set_lookout(&local, global, local.current_position + i * global.features, rPcpt, rng);
+                    // Update the new position of the raven
+                    // The author only specifies a random step size.
+                    // r-i_t = r-i-1_t + d-i_t
+                    for (int j = 0; j < global.features; ++j) {
+                        local.current_position[i * global.features + j] += s_t * thread_direction[j];
+                    }
 
-                    // Again check location
-                    check_bounds(local.n_candidate_position, 1, global);
+                    // Check if the new location doesn't fall out of bounds
+                    check_bounds(local.current_position + i * global.features, 1, global);
 
-                    const double n_fitness = objective_function(local.n_candidate_position, global);
-                    if (n_fitness < local.fitness[i]) {
-                        //log_debug("New best fitness found for individual %d at iteration %d", i, iter);
-                        memcpy(local.food_source + i * global.features, local.n_candidate_position, global.features * sizeof(double));
-                        local.fitness[i] = n_fitness;
+                    // Add the paths
+                    path_distance += calculate_distance(thread_prev_location, local.current_position + i * global.features, global.features);
 
-                        // Early stop, no need to continue looking
-                        // We disabled it for speedup measurements to ensure deterministic outputs
-                        if (!global.is_measure_speedup && unif_0_1(rng) < 0.1) {
-                            log_debug("Early stop for individual %d at step %d", i, step);
-                            // Outer for
-                            step = global.flight_steps;
-                            // Inner for
-                            break;
+                    for (int lookout = 0; lookout < global.lookout_steps; ++lookout) {
+                        // Pass only from the current_position we care about
+                        const double distance = vector_to_distance(thread_n_candidate, global.features, local.rng, true);
+                        gen_unit_vector(thread_n_candidate, distance, global.features);
+                        const double U = unif_0_1(local.rng);
+                        const double r = rPcpt * pow(U, 1.0 / global.features);
+                        for (int j = 0; j < global.features; j++) {
+                            thread_n_candidate[j] = local.current_position[i * global.features + j] + r * thread_n_candidate[j];
+                        }
+
+                        // Again check location
+                        check_bounds(thread_n_candidate, 1, global);
+
+                        const double n_fitness = objective_function(thread_n_candidate, global);
+                        if (n_fitness < local.fitness[i]) {
+                            //log_debug("New best fitness found for individual %d at iteration %d", i, iter);
+                            memcpy(local.food_source + i * global.features, thread_n_candidate, global.features * sizeof(double));
+                            local.fitness[i] = n_fitness;
+
+                            // Early stop, no need to continue looking
+                            // We disabled it for speedup measurements to ensure deterministic outputs
+                            if (!global.is_measure_speedup && unif_0_1(local.rng) < 0.1) {
+                                log_debug("Early stop for individual %d at step %d", i, step);
+                                // Outer for
+                                step = global.flight_steps;
+                                // Inner for
+                                break;
+                            }
                         }
                     }
                 }
+
+                double dest_to_target = calculate_distance(local.current_position + i * global.features, thread_final_location,
+                                                           global.features);
+                double relative_progress = (initial_to_target - dest_to_target) / initial_to_target;
+
+                log_debug("Raven %d relative progress : %.6f", i, relative_progress);
             }
 
-            double dest_to_target = calculate_distance(local.current_position + i * global.features, local.final_location,
-                                                       global.features);
-            double relative_progress = (initial_to_target - dest_to_target) / initial_to_target;
-
-            log_debug("Raven %d relative progress : %.6f", i, relative_progress);
+            free(thread_prev_location);
+            free(thread_final_location);
+            free(thread_direction);
+            free(thread_n_candidate);
         }
 
         // Evaluate all functions again and designate the leader
@@ -153,7 +182,7 @@ prro_state_t RRA(double *exec_timings, const prra_cfg_t global, pcg32_random_t *
         }
 
         // Reshuffle the followers
-        define_followers(&local, global, current_global_leader, rng, ctx);
+        define_followers(&local, global, current_global_leader, ctx);
 
         // Restart from Roosting position
         gather_to_roosting(&local, global);

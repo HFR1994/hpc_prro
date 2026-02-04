@@ -4,6 +4,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 find_package(MPI REQUIRED)
+find_package(OpenMP REQUIRED)
 
 file(GLOB_RECURSE MAIN_SRC CONFIGURE_DEPENDS
         "main.c"
@@ -20,5 +21,5 @@ add_executable(rrap_full
 )
 
 target_include_directories(rrap_full PUBLIC include ${MPI_C_INCLUDE_DIRS})
-target_link_libraries(rrap_full PRIVATE m ${MPI_C_LIBRARIES})
+target_link_libraries(rrap_full PRIVATE m ${MPI_C_LIBRARIES} OpenMP::OpenMP_C)
 set_target_properties(rrap_full PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")

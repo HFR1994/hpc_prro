@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <omp.h>
 
 #include "utils/dir_file_handler.h"
 #include "utils/global.h"
@@ -11,8 +12,9 @@
 #include "utils/objective_function.h"
 
 
-void local_state_init(prro_state_t * local, const prra_cfg_t global, const mpi_ctx_t * ctx) {
+void local_state_init(prro_state_t * local, const prra_cfg_t global, pcg32_random_t * rngs, const mpi_ctx_t * ctx) {
 
+    const int tid = omp_get_thread_num();
     memset(local, 0, sizeof *local);
     const metadata_state_t metadata = get_bounds(global, ctx->size, ctx->rank);
 
@@ -38,6 +40,7 @@ void local_state_init(prro_state_t * local, const prra_cfg_t global, const mpi_c
     // Initialize the count to zero because we don't still know how many followers each rank will recieve
     local->num_followers = 0;
     local->is_follower = malloc(local->local_rows * sizeof(int));
+    local->rng = &rngs[tid];
 
     bool allocation_convergence = false;
     if (global.convergence_results) {
@@ -66,6 +69,7 @@ void local_state_init(prro_state_t * local, const prra_cfg_t global, const mpi_c
         free(local->prev_location);
         free(local->final_location);
         free(local->convergence_results);
+        free(local->rng);
         ERR_CLEANUP();
     }
 }
@@ -78,7 +82,7 @@ void local_state_init(prro_state_t * local, const prra_cfg_t global, const mpi_c
  * \param rng The random number generator seed
  * \return The radii for the initialization
  */
-double initialize_params(const prra_cfg_t global, prro_state_t * local, const mpi_ctx_t * ctx, pcg32_random_t * rng){
+double initialize_params(const prra_cfg_t global, prro_state_t * local, const mpi_ctx_t * ctx){
 
     MPI_Request req;
 
@@ -87,7 +91,7 @@ double initialize_params(const prra_cfg_t global, prro_state_t * local, const mp
         // Set roosting site
         for (int i = 0; i < global.features; i++) {
             // Pick a random number between upper and lower bound
-            local->roosting_site[i] = unif_interval(rng, global.lower_bound, global.upper_bound);
+            local->roosting_site[i] = unif_interval(local->rng, global.lower_bound, global.upper_bound);
         }
     }
 
@@ -100,7 +104,8 @@ double initialize_params(const prra_cfg_t global, prro_state_t * local, const mp
     // Make sure all vector positions are inside the bounds otherwise set the min/max
     check_bounds(local->food_source, local->local_rows, global);
 
-    // Evaluate Griewank function
+    // Evaluate Griewank function with OpenMP parallelization
+    #pragma omp parallel for schedule(static)
     for (int i = 0; i < local->local_rows; i++) {
         local->fitness[i] = objective_function(local->food_source + i * global.features, global);
     }

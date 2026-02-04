@@ -4,12 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <omp.h>
 
 #include <utils/logger.h>
 
 #include "include/raven_roost_algorithm.h"
 #include "include/utils/dir_file_handler.h"
-#include "include/utils/pcg_basic.h"
 
 #include "utils/global.h"
 #include "mpi/handlers.h"
@@ -254,15 +254,19 @@ int main(int argc, char **argv) {
     //print_env("PRRO_TRIAL");
     //print_env("PRRO_EXECUTION");
     placement = print_env("PRRO_PLACEMENT");
-    
-    // Seed the random number generator
-    pcg32_random_t rng;
 
     // Seed with current time
     // Best seeds 1768210034 52
+    // Create per-thread RNG states for thread safety
+    const int max_threads = omp_get_max_threads();
     const char *seed_env = getenv("PRRO_SEED");
+
     uint64_t time_seed = seed_env ? strtoull(seed_env, NULL, 10) : (uint64_t)time(NULL) ^ (uint64_t)clock();
-    pcg32_srandom_r(&rng, time_seed + ctx.rank, 52u);
+    pcg32_random_t *rngs = malloc(max_threads * sizeof(pcg32_random_t));
+
+    for (int t = 0; t < max_threads; t++) {
+      pcg32_srandom_r(&rngs[t], time_seed + ctx.rank + t * 12345, 52u);
+    }
 
     // Define global params
     prra_cfg_t global = {0};
@@ -289,7 +293,7 @@ int main(int argc, char **argv) {
     log_main("Random number generator seeded with %lu %lu", time_seed, 52u);
 
     // // Call the GTO function and time the whole run
-    prro_state_t local = RRA(exec_timings, global, &rng, &ctx);
+    prro_state_t local = RRA(exec_timings, global, rngs, &ctx);
 
     MPI_CHECK(MPI_Barrier(ctx.comm));
     exec_timings[2] = MPI_Wtime();

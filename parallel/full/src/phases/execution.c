@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <omp.h>
 
 #include "mpi/registers.h"
 
@@ -16,7 +17,8 @@
  * \param global Global configuration
  */
 void gather_to_roosting(prro_state_t * local, const prra_cfg_t global) {
-    // Set each position to the roosting site
+    // Set each position to the roosting site with OpenMP parallelization
+    #pragma omp parallel for schedule(static)
     for (int i = 0; i < local->local_rows; i++) {
         memcpy(&local->current_position[i * global.features], local->roosting_site, global.features * sizeof(double));
     }
@@ -29,7 +31,7 @@ void gather_to_roosting(prro_state_t * local, const prra_cfg_t global) {
  * \param current_leader Struct with the global leader
  * \param rng The random number generator
  */
-void define_followers(prro_state_t * local, prra_cfg_t global, const leader_t current_leader, pcg32_random_t *rng, const mpi_ctx_t * ctx) {
+void define_followers(prro_state_t * local, prra_cfg_t global, const leader_t current_leader, const mpi_ctx_t * ctx) {
 
     int *counts = NULL;
     int *displs = NULL;
@@ -60,7 +62,7 @@ void define_followers(prro_state_t * local, prra_cfg_t global, const leader_t cu
 
             // Shuffle available indices using Fisher-Yates
             for (int i = count - 1; i > 0; i--) {
-                const int j = (int) (unif_0_1(rng) * (i + 1));
+                const int j = (int) (unif_0_1(local->rng) * (i + 1));
                 const int temp = available[i];
                 available[i] = available[j];
                 available[j] = temp;
@@ -99,6 +101,7 @@ void define_followers(prro_state_t * local, prra_cfg_t global, const leader_t cu
         ));
 
         int total_followers = 0;
+        #pragma omp parallel for reduction(+:total_followers)
         for (int i = 0; i < local->local_rows; i++) {
             if (local->is_follower[i] == 1) {
                 total_followers += 1;
