@@ -2,7 +2,6 @@
 
 #include <mpi.h>
 #include <math.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <omp.h>
@@ -55,15 +54,17 @@ prro_state_t RRA(double *exec_timings, const prra_cfg_t global, pcg32_random_t *
     log_main("Current global leader is %d with %f", current_global_leader.index, current_global_leader.fitness);
 
     // Used for convergence results
-    double prev_best_fitness = prev_best_fitness = current_global_leader.fitness;
+    double prev_best_fitness = current_global_leader.fitness;
 
     // // Set followers to '1' otherwise '0'
     define_followers(&local, global, current_global_leader, rng_array, ctx);
     log_info("Using %d followers out of %d", local.num_followers, local.local_rows);
 
+    const int chunk_size = local.local_rows / global.max_threads;
+
     for (int iter = 0; iter < global.iterations; iter++) {
-        // Parallelize the main raven loop with OpenMP
-        #pragma omp parallel for schedule(dynamic)
+        // Parallelize the main raven loop with OpenMP, since chunks can be unequally splited I can't assigned chunk_size
+        #pragma omp parallel for num_threads(global.max_threads) schedule(dynamic, chunk_size) shared(local)
         for (int i = 0; i < local.local_rows; i++) {
             // Get thread-specific RNG
             const int tid = omp_get_thread_num();
@@ -87,15 +88,7 @@ prro_state_t RRA(double *exec_timings, const prra_cfg_t global, pcg32_random_t *
             // We only want to follower to alternate the "flight path"
             if (local.is_follower[i] == 1) {
                 // Set a nearby location to the leader center position based on hypersphere (N dimensions) radii
-                // Generate lookout position using thread-local RNG
-                const double distance = vector_to_distance(thread_n_candidate_position, global.features, rng, true);
-                gen_unit_vector(thread_n_candidate_position, distance, global.features);
-                const double U = unif_0_1(rng);
-                const double r = rPcpt * pow(U, 1.0 / global.features);
-
-                for (int j = 0; j < global.features; j++) {
-                    thread_final_location[j] = local.leader[j] + r * thread_n_candidate_position[j];
-                }
+                set_lookout(local.leader, thread_n_candidate_position, global, rPcpt, rng);
             } else {
                 // Just copy the food source position
                 memcpy(thread_final_location, local.food_source + i * global.features, global.features * sizeof(double));
@@ -137,15 +130,7 @@ prro_state_t RRA(double *exec_timings, const prra_cfg_t global, pcg32_random_t *
 
                 for (int lookout = 0; lookout < global.lookout_steps; ++lookout) {
                     // Pass only from the current_position we care about
-                    // Generate lookout position using thread-local arrays and RNG
-                    const double distance_look = vector_to_distance(thread_n_candidate_position, global.features, rng, true);
-                    gen_unit_vector(thread_n_candidate_position, distance_look, global.features);
-                    const double U_look = unif_0_1(rng);
-                    const double r_look = rPcpt * pow(U_look, 1.0 / global.features);
-
-                    for (int j = 0; j < global.features; j++) {
-                        thread_n_candidate_position[j] = local.current_position[i * global.features + j] + r_look * thread_n_candidate_position[j];
-                    }
+                    set_lookout(local.current_position, thread_n_candidate_position, global, rPcpt, rng);
 
                     // Again check location
                     check_bounds(thread_n_candidate_position, 1, global);
@@ -169,9 +154,9 @@ prro_state_t RRA(double *exec_timings, const prra_cfg_t global, pcg32_random_t *
                 }
             }
 
-            double dest_to_target = calculate_distance(local.current_position + i * global.features, thread_final_location,
+            const double dest_to_target = calculate_distance(local.current_position + i * global.features, thread_final_location,
                                                        global.features);
-            double relative_progress = (initial_to_target - dest_to_target) / initial_to_target;
+            const double relative_progress = (initial_to_target - dest_to_target) / initial_to_target;
 
             log_debug("Raven %d relative progress : %.6f", i, relative_progress);
 

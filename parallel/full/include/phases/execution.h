@@ -10,13 +10,13 @@ void define_followers(prro_state_t * local, prra_cfg_t global, leader_t current_
 
 /**
  * \brief Calculate a new lookout position around the current position based on hypersphere (N dimensions) radii
- * \param local Local state for this rank
- * \param global Global configuration
  * \param current_position The N-Dimension current position array for each raven
+ * \param next_position Next position looking to move to
+ * \param global Global configuration
  * \param rPcpt The radii of look
  * \param rng The random state generator
  */
-void set_lookout(prro_state_t * local, prra_cfg_t global, const double* current_position, double rPcpt, pcg32_random_t *rng);
+void set_lookout(const double* current_position, double* next_position, prra_cfg_t global, double rPcpt, pcg32_random_t *rng);
 
 /**
  * \brief Send the raven back to the meeting point to start a new journey

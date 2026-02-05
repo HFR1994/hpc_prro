@@ -3,7 +3,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-#include <omp.h>
 
 #include "utils/dir_file_handler.h"
 #include "utils/global.h"
@@ -27,14 +26,15 @@ void local_state_init(prro_state_t * local, const prra_cfg_t global, const mpi_c
     local->roosting_site = malloc(global.features * sizeof(double));
     local->leader = malloc(global.features * sizeof(double));
 
-    local->prev_location = malloc(global.features * sizeof(double));
+    /*
+     * OpenMP requires thread safe variables (shared be
+     *local->prev_location = malloc(global.features * sizeof(double));
     local->final_location = malloc(global.features * sizeof(double));
-
     // Store the values of each search for a better food source
     local->n_candidate_position = malloc(global.features * sizeof(double));
-
     // Use to calculate in which direction is the next step
     local->direction = malloc(global.features * sizeof(double));
+    */
 
     // Initialize the count to zero because we don't still know how many followers each rank will recieve
     local->num_followers = 0;
@@ -50,8 +50,7 @@ void local_state_init(prro_state_t * local, const prra_cfg_t global, const mpi_c
 
     if (!local->food_source || !local->current_position || !local->fitness
         || !local->roosting_site || !local->leader || !local->is_follower
-        || !local->n_candidate_position || !local->direction || !local->prev_location
-        || !local->final_location || allocation_convergence) {
+        || allocation_convergence) {
 
         log_err("Memory allocation failed");
 
@@ -103,7 +102,7 @@ double initialize_params(const prra_cfg_t global, prro_state_t * local, const mp
     check_bounds(local->food_source, local->local_rows, global);
 
     // Evaluate Griewank function in parallel
-    #pragma omp parallel for
+    #pragma omp parallel for num_threads(global.max_threads)
     for (int i = 0; i < local->local_rows; i++) {
         local->fitness[i] = objective_function(local->food_source + i * global.features, global);
     }

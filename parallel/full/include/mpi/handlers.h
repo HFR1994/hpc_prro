@@ -25,6 +25,7 @@ typedef struct {
     int iterations;
     int flight_steps;
     int lookout_steps;
+    int max_threads;
     double lower_bound;
     double upper_bound;
     double radius;

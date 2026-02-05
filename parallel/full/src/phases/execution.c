@@ -18,7 +18,7 @@
  */
 void gather_to_roosting(prro_state_t * local, const prra_cfg_t global) {
     // Set each position to the roosting site in parallel
-    #pragma omp parallel for
+    #pragma omp parallel for num_threads(global.max_threads)
     for (int i = 0; i < local->local_rows; i++) {
         memcpy(&local->current_position[i * global.features], local->roosting_site, global.features * sizeof(double));
     }
@@ -118,24 +118,24 @@ void define_followers(prro_state_t * local, prra_cfg_t global, const leader_t cu
 
 /**
  * \brief Calculate a new lookout position around the current position based on hypersphere (N dimensions) radii
- * \param local Local state for this rank
- * \param global Global configuration
  * \param current_position The N-Dimension current position array for each raven
+ * \param next_position Next position looking to move to
+ * \param global Global configuration
  * \param rPcpt The radii of look
  * \param rng The random state generator
  */
-void set_lookout(prro_state_t * local, const prra_cfg_t global, const double* current_position, const double rPcpt, pcg32_random_t *rng) {
+void set_lookout(const double* current_position, double* next_position, const prra_cfg_t global, const double rPcpt, pcg32_random_t *rng) {
 
     // Vector needs to be biased to the center (Normal distribution) to
     // have a uniform direction on the hypersphere
-    const double distance = vector_to_distance(local->n_candidate_position, global.features, rng, true);
-    gen_unit_vector(local->n_candidate_position, distance, global.features);
+    const double distance = vector_to_distance(next_position, global.features, rng, true);
+    gen_unit_vector(next_position, distance, global.features);
 
     const double U = unif_0_1(rng);
     const double r = rPcpt * pow(U, 1.0 / global.features);
 
     // "Makes random perceptions within this hypersphere" (Use Euclidean distance)
     for (int j = 0; j < global.features; j++) {
-        local->n_candidate_position[j] = current_position[j] + r * local->n_candidate_position[j];
+        next_position[j] = current_position[j] + r * next_position[j];
     }
 }

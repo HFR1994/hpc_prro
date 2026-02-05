@@ -69,9 +69,13 @@ static void log_message(LogLevel level, const char *format, va_list args) {
             fprintf(stream, "[%s] ", time_buffer);
         }
 
-        // Print log level with color
-        const int thread_num = omp_in_parallel() ? omp_get_thread_num() : INT_MIN;
+        #ifdef _OPENMP
+          const int thread_num = omp_in_parallel() ? omp_get_thread_num() : INT_MIN;
+        #else
+          const int n_threads = INT_MIN;
+        #endif
 
+        // Print log level with color
         if (thread_num == INT_MIN) {
           fprintf(stream, "%s[%s:%d]%s ", level_colors[level], level_strings[level], current_world_rank, color_reset);
         } else {

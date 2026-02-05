@@ -239,6 +239,8 @@ int main(int argc, char **argv) {
     log_enable_timestamps(1);
 
     char *placement = NULL;
+    // Define global params
+    prra_cfg_t global = {0};
     
     // Set once at program start, identify which is the main process
     // Set once at program start
@@ -250,7 +252,7 @@ int main(int argc, char **argv) {
 
     log_world_rank(ctx.rank);
     log_main("MPI world size: %d", ctx.size);
-  
+
     //print_env("PRRO_TRIAL");
     //print_env("PRRO_EXECUTION");
     placement = print_env("PRRO_PLACEMENT");
@@ -258,12 +260,12 @@ int main(int argc, char **argv) {
     // Seed the random number generator - create one per potential thread
     const char *seed_env = getenv("PRRO_SEED");
     // Get maximum number of OpenMP threads available
-    const int max_threads = omp_get_max_threads();
+    global.max_threads = omp_get_max_threads();
 
     uint64_t time_seed = seed_env ? strtoull(seed_env, NULL, 10) : (uint64_t)time(NULL) ^ (uint64_t)clock();
 
     // Allocate array of RNG states for OpenMP threads
-    pcg32_random_t *rng_array = malloc(max_threads * sizeof(pcg32_random_t));
+    pcg32_random_t *rng_array = malloc(global.max_threads * sizeof(pcg32_random_t));
     if (!rng_array) {
         log_err("Failed to allocate RNG array");
         ERR_CLEANUP();
@@ -271,14 +273,11 @@ int main(int argc, char **argv) {
 
     // Initialize each thread's RNG with a unique seed
     // Use rank + thread_id to ensure uniqueness across MPI ranks and threads
-    for (int tid = 0; tid < max_threads; tid++) {
-        const uint64_t seed = time_seed + ctx.rank * max_threads + tid;
+    for (int tid = 0; tid < global.max_threads; tid++) {
+        const uint64_t seed = time_seed + ctx.rank * global.max_threads + tid;
         log_main("Random number generator seeded with %lu %lu for thread %d", seed, 52u, tid);
         pcg32_srandom_r(&rng_array[tid], seed, 52u);
     }
-
-    // Define global params
-    prra_cfg_t global = {0};
 
     int ok = false;
 

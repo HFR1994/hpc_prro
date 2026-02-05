@@ -35,7 +35,7 @@ void local_state_init(prro_state_t * local, const prra_cfg_t global, const mpi_c
     // Use to calculate in which direction is the next step
     local->direction = malloc(global.features * sizeof(double));
 
-    // Initialize the count to zero because we don't still know how many followers each rank will recieve
+    // Initialize the count to zero because we don't still know how many followers each rank will receive
     local->num_followers = 0;
     local->is_follower = malloc(local->local_rows * sizeof(int));
 

@@ -53,7 +53,7 @@ prro_state_t RRA(double *exec_timings, const prra_cfg_t global, pcg32_random_t *
     log_main("Current global leader is %d with %f", current_global_leader.index, current_global_leader.fitness);
 
     // Used for convergence results
-    double prev_best_fitness = prev_best_fitness = current_global_leader.fitness;
+    double prev_best_fitness = current_global_leader.fitness;
 
     // // Set followers to '1' otherwise '0'
     define_followers(&local, global, current_global_leader, rng, ctx);
