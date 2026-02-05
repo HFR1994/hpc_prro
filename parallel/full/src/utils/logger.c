@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
+#include <omp.h>
 
 static LogLevel current_log_level = LOG_LEVEL_DEBUG;
 static int current_world_rank = INT_MIN;
@@ -35,11 +36,11 @@ LogLevel log_get_level(void) {
     return current_log_level;
 }
 
-void log_enable_timestamps(int enable) {
+void log_enable_timestamps(const int enable) {
     timestamps_enabled = enable;
 }
 
-void log_world_rank(int world_rank) {
+void log_world_rank(const int world_rank) {
     current_world_rank = world_rank;
 }
 
@@ -69,7 +70,13 @@ static void log_message(LogLevel level, const char *format, va_list args) {
         }
 
         // Print log level with color
-        fprintf(stream, "%s[%s:%d]%s ", level_colors[level], level_strings[level], current_world_rank, color_reset);
+        const int thread_num = omp_in_parallel() ? omp_get_thread_num() : INT_MIN;
+
+        if (thread_num == INT_MIN) {
+          fprintf(stream, "%s[%s:%d]%s ", level_colors[level], level_strings[level], current_world_rank, color_reset);
+        } else {
+          fprintf(stream, "%s[%s:%d.%d]%s ", level_colors[level], level_strings[level], current_world_rank, thread_num, color_reset);
+        }
 
         // Print the actual message
         vfprintf(stream, format, args);

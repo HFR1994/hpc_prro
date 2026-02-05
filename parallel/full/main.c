@@ -249,9 +249,8 @@ int main(int argc, char **argv) {
     }
 
     log_world_rank(ctx.rank);
-
     log_main("MPI world size: %d", ctx.size);
-
+  
     //print_env("PRRO_TRIAL");
     //print_env("PRRO_EXECUTION");
     placement = print_env("PRRO_PLACEMENT");

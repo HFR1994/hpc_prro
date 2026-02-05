@@ -14,6 +14,7 @@ typedef enum {
 // Set the minimum log level (messages below this level won't be printed)
 void log_set_level(LogLevel level);
 void log_world_rank(int world_rank);
+void log_thread_number(int thread_number);
 
 // Get the current log level
 LogLevel log_get_level(void);
