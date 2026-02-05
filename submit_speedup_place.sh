@@ -46,7 +46,7 @@ TRIAL_NUM="$1"
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 echo "Running trial: $TRIAL_NUM"
 
-BUILD_DIR="parallel"
+BUILD_DIR="parallel/full"
 TRIAL="${SCRIPT_DIR}/logs/trial${TRIAL_NUM}"
 
 # Determine if serial or parallel mode
