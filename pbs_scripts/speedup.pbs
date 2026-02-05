@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -q short_HPC4DS
+#PBS -q shortHPC4DS
 #PBS -l walltime=00:20:00
 
 # ---------- Safety ----------
@@ -7,6 +7,7 @@ set -euo pipefail
 
 # ---------- Required variables ----------
 : "${NP:?Missing NP}"
+: "${THREADS:?Missing THREADS}"
 : "${NODES:?Missing NODES}"
 : "${PLACE:?Missing PLACE}"
 : "${TRIAL:?Missing TRIAL}"
@@ -18,7 +19,7 @@ set -euo pipefail
 # ---------- MAIN ----------
 
 module purge
-module load mpich-3.2
+module load OpenMPI/4.1.1-GCC-10.3.0
 
 export MEASURE_SPEEDUP=1
 export PRRO_TRIAL=${TRIAL}
@@ -26,7 +27,8 @@ export PRRO_EXECUTION=${EXEC}
 export PRRO_PLACEMENT=${PLACE}
 export NP=${NP}
 export PRRO_SEED=42
+export OMP_NUM_THREADS=${THREADS}
 
-echo "Running NP=${NP} on ${NODES} nodes (${PLACE}:excl)"
+echo "Running NP=${NP} with THREADS=${THREAD} on ${NODES} nodes (${PLACE}:excl)"
 
 mpirun.actual -n ${NP} ${APP} ${DATASET} -600 600 1000 10 10 600 ${OUTDIR}

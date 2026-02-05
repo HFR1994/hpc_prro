@@ -65,6 +65,7 @@ fi
 # Experiment parameters
 # -------------------------------
 PROCS=(1 2 4 16 32 64)
+THREADS=(1 2 4)
 RANKS_PER_NODE=16
 EXECUTIONS=(1 2 3)
 PLACES=("pack" "scatter")
@@ -101,28 +102,29 @@ for EXEC in "${EXECUTIONS[@]}"; do
 
   for PLACE in "${PLACES[@]}"; do
       for NP in "${PROCS[@]}"; do
+        for THREAD in "${THREADS[@]}"; do
+          # Derive nodes
+          if (( NP <= RANKS_PER_NODE )); then
+            NODES=1
+          else
+            NODES=$(( (NP + RANKS_PER_NODE - 1) / RANKS_PER_NODE ))
+          fi
 
-        # Derive nodes
-        if (( NP <= RANKS_PER_NODE )); then
-          NODES=1
-        else
-          NODES=$(( (NP + RANKS_PER_NODE - 1) / RANKS_PER_NODE ))
-        fi
+          NCPUS=$(( (NP + NODES - 1) / NODES ))
 
-        NCPUS=$(( (NP + NODES - 1) / NODES ))
+          JOBNAME="rra_t${TRIAL_NUM}_e${EXEC}_${PLACE}_np${NP}"
 
-        JOBNAME="rra_t${TRIAL_NUM}_e${EXEC}_${PLACE}_np${NP}"
+          qsub \
+            -N "${JOBNAME}" \
+            -o "${PBS_OUTPUT}/${JOBNAME}.o" \
+            -e "${PBS_ERR}/${JOBNAME}.e" \
+            -l "select=${NODES}:ncpus=${NCPUS}:mem=${MEM_PER_JOB}:mpiprocs=${NCPUS}" \
+            -l "place=${PLACE}:excl" \
+            -v NP=${NP},THREADS=${THREAD},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL_NUM},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
+            "${PBS_SCRIPT}"
 
-        qsub \
-          -N "${JOBNAME}" \
-          -o "${PBS_OUTPUT}/${JOBNAME}.o" \
-          -e "${PBS_ERR}/${JOBNAME}.e" \
-          -l "select=${NODES}:ncpus=${NCPUS}:mem=${MEM_PER_JOB}:mpiprocs=${NCPUS}" \
-          -l "place=${PLACE}:excl" \
-          -v NP=${NP},NODES=${NODES},PLACE=${PLACE},TRIAL=${TRIAL_NUM},EXEC=${EXEC},APP=${APP},DATASET=${DATASET},OUTDIR=${OUTDIR} \
-          "${PBS_SCRIPT}"
-
-        echo "Submitted ${JOBNAME} (nodes=${NODES})"
+          echo "Submitted ${JOBNAME} (nodes=${NODES})"
+        done
       done
   done
 
