@@ -1,0 +1,18 @@
+Running NP=4 with THREADS=1 on 1 nodes (scatter:excl)
+[2026-02-05 22:53:02] [34m[MAIN:0][0m MPI world size: 4
+[2026-02-05 22:53:02] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-02-05 22:53:02] [34m[MAIN:0][0m Random number generator seeded with 42 52 for thread 0
+[2026-02-05 22:53:02] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro-main/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro-main/logs/trial4/execution2/output
+
+[2026-02-05 22:53:02] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-02-05 22:53:02] [34m[MAIN:0][0m Current global leader is 20 with 2393.962084
+[2026-02-05 22:53:02] [37m[INFO:0][0m Using 9 followers out of 32
+[2026-02-05 22:53:02] [37m[INFO:1][0m Using 5 followers out of 32
+[2026-02-05 22:53:02] [2026-02-05 22:53:02] [37m[INFO:3][0m Using 6 followers out of 32
+[37m[INFO:2][0m Using 5 followers out of 32
+[2026-02-05 22:54:02] [37m[INFO:0][0m Finished execution, the best is 68 with 9.601368
+[2026-02-05 22:54:02] [37m[INFO:1][0m Finished execution, the best is 68 with 9.601368
+[2026-02-05 22:54:02] [37m[INFO:2][0m Finished execution, the best is 68 with 9.601368
+[2026-02-05 22:54:02] [37m[INFO:3][0m Finished execution, the best is 68 with 9.601368
+[2026-02-05 22:54:02] [34m[MAIN:0][0m total_time: 60.8025457859
+[2026-02-05 22:54:02] [34m[MAIN:0][0m computation_time: 60.7951688766

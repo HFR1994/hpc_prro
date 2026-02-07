@@ -1,0 +1,275 @@
+Running NP=128 with THREADS=6 on 4 nodes (scatter)
+[2026-02-06 11:49:14] [34m[MAIN:0][0m MPI world size: 128
+[2026-02-06 11:49:14] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-02-06 11:49:14] [34m[MAIN:0][0m Random number generator seeded with 1770275210 52 for thread 0
+[2026-02-06 11:49:14] [34m[MAIN:0][0m Random number generator seeded with 1770275211 52 for thread 1
+[2026-02-06 11:49:14] [34m[MAIN:0][0m Random number generator seeded with 1770275212 52 for thread 2
+[2026-02-06 11:49:14] [34m[MAIN:0][0m Random number generator seeded with 1770275213 52 for thread 3
+[2026-02-06 11:49:14] [34m[MAIN:0][0m Random number generator seeded with 1770275214 52 for thread 4
+[2026-02-06 11:49:14] [34m[MAIN:0][0m Random number generator seeded with 1770275215 52 for thread 5
+[2026-02-06 11:49:14] [34m[MAIN:0][0m Convergence tracking enabled
+
+[2026-02-06 11:49:14] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro-main/dataset/random-2048-200.csv, pop_size=2048, features=200, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro-main/logs/openmp/output
+
+[2026-02-06 11:49:14] [34m[MAIN:0][0m Looking radii is 160.432407
+[2026-02-06 11:49:15] [34m[MAIN:0][0m Current global leader is 1523 with 4697.771855
+[2026-02-06 11:49:15] [37m[INFO:1][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:32][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:3][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:34][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:4][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:35][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:5][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:36][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:7][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:37][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:9][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:38][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [2026-02-06 11:49:15] [37m[INFO:33][0m Using 5 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:11][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:39][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:6][0m Using 1 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:40][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:64][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:16][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:97][0m Using 1 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:41][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:65][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:17][0m Using 6 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:99][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:42][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:68][0m Using 5 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:19][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:100][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:43][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:71][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:21][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:96][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:44][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:66][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:24][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:98][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:45][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:67][0m Using 0 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:28][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:101][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:46][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:69][0m Using 1 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:29][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:102][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:47][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:70][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:30][0m Using 5 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:104][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:48][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:72][0m Using 7 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:31][0m Using 1 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:105][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:49][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:73][0m Using 1 followers out of 16
+[37m[INFO:10][0m [2026-02-06 11:49:15] [37m[INFO:106][0m Using 6 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:50][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:74][0m Using 2 followers out of 16
+Using 6 followers out of 16[2026-02-06 11:49:15] [37m[INFO:107][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:51][0m Using 1 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:75][0m Using 2 followers out of 16
+
+[2026-02-06 11:49:15] [37m[INFO:103][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:53][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:76][0m Using 1 followers out of 16
+[2026-02-06 11:49:15] [2026-02-06 11:49:15] [37m[INFO:108][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:54][0m Using 1 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:77][0m Using 2 followers out of 16
+[37m[INFO:0][0m [2026-02-06 11:49:15] [37m[INFO:109][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:55][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:78][0m Using 3 followers out of 16
+Using 4 followers out of 16[2026-02-06 11:49:15] [37m[INFO:110][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:56][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:79][0m Using 4 followers out of 16
+
+[2026-02-06 11:49:15] [37m[INFO:111][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:57][0m Using 5 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:81][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [2026-02-06 11:49:15] [37m[INFO:112][0m Using 0 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:58][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:82][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:22][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:114][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:60][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:83][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:23][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:117][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:61][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:80][0m Using 3 followers out of 16
+[37m[INFO:13][0m [2026-02-06 11:49:15] [37m[INFO:118][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:62][0m Using 1 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:84][0m Using 5 followers out of 16
+Using 0 followers out of 16[2026-02-06 11:49:15] [37m[INFO:121][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:63][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:85][0m Using 3 followers out of 16
+
+[2026-02-06 11:49:15] [37m[INFO:115][0m Using 5 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:86][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:116][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:87][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:119][0m Using 0 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:88][0m Using 5 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:120][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:89][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:122][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:91][0m Using 5 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:123][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:92][0m Using 5 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:124][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:94][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:125][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:95][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:127][0m Using 1 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:25][0m Using 6 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:126][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:113][0m Using 6 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:8][0m Using 1 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:14][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:15][0m Using 4 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:18][0m Using 5 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:26][0m Using 5 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:27][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:12][0m Using 3 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:2][0m Using 5 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:20][0m Using 7 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:93][0m Using 5 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:59][0m Using 2 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:52][0m Using 1 followers out of 16
+[2026-02-06 11:49:15] [37m[INFO:90][0m Using 2 followers out of 16
+[2026-02-06 11:55:19] [2026-02-06 11:55:19] [37m[INFO:96][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:97][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:102][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:105][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:112][0m Finished execution, the best is 7 with 6.737843
+[37m[INFO:101][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:19][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:98][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:104][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:110][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:125][0m [2026-02-06 11:55:19] [37m[INFO:117][0m Finished execution, the best is 7 with 6.737843
+Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:118][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:32][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:111][0m [2026-02-06 11:55:19] [37m[INFO:100][0m Finished execution, the best is 7 with 6.737843
+Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [2026-02-06 11:55:19] [37m[INFO:22][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:25][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:14][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:23][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:15][0m Finished execution, the best is 7 with 6.737843
+[37m[INFO:3][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:106][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:114][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:116][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:107][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:8][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [2026-02-06 11:55:19] [37m[INFO:108][0m Finished execution, the best is 7 with 6.737843
+[37m[INFO:11][0m [2026-02-06 11:55:19] [37m[INFO:123][0m Finished execution, the best is 7 with 6.737843
+Finished execution, the best is 7 with 6.737843[2026-02-06 11:55:19] [37m[INFO:103][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:121][0m Finished execution, the best is 7 with 6.737843
+
+[2026-02-06 11:55:19] [37m[INFO:126][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:120][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:34][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:17][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:0][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:18][0m [2026-02-06 11:55:19] [37m[INFO:21][0m Finished execution, the best is 7 with 6.737843
+Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:29][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:7][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:13][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:20][0m [2026-02-06 11:55:19] [37m[INFO:10][0m Finished execution, the best is 7 with 6.737843
+Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:109][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:113][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:122][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:115][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:127][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:124][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:119][0m [2026-02-06 11:55:19] [37m[INFO:1][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:99][0m Finished execution, the best is 7 with 6.737843
+Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:5][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:12][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:24][0m [2026-02-06 11:55:19] [37m[INFO:16][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:31][0m Finished execution, the best is 7 with 6.737843
+Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:4][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:6][0m [2026-02-06 11:55:19] [37m[INFO:2][0m [2026-02-06 11:55:19] [37m[INFO:9][0m Finished execution, the best is 7 with 6.737843[2026-02-06 11:55:19] [37m[INFO:27][0m Finished execution, the best is 7 with 6.737843
+Finished execution, the best is 7 with 6.737843
+
+[2026-02-06 11:55:19] [37m[INFO:30][0m Finished execution, the best is 7 with 6.737843
+Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:28][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:26][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:36][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:64][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:90][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:71][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:40][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:75][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:76][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:77][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:79][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:80][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:81][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:35][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:38][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:53][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:83][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:69][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:78][0m [2026-02-06 11:55:19] [37m[INFO:73][0m Finished execution, the best is 7 with 6.737843
+Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:39][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:47][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:51][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:61][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:44][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:66][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:68][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:88][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:89][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:91][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:92][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:93][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:33][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:37][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:42][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:43][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:45][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:46][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:48][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:50][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:52][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:55][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:62][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:65][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:82][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:84][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:86][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:41][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:56][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:59][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:60][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:63][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:57][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:67][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:72][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:74][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:85][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:87][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:94][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:95][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:49][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:54][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:58][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [37m[INFO:70][0m Finished execution, the best is 7 with 6.737843
+[2026-02-06 11:55:19] [34m[MAIN:0][0m Convergence results written to /home/hector.floresreynoso/hpc_prro-main/logs/openmp/output/convergence_results_scatter_np128_threads6_iter1000_pop2048_feat200.csv
+
+[2026-02-06 11:55:19] [34m[MAIN:0][0m total_time: 364.8230669498
+[2026-02-06 11:55:19] [34m[MAIN:0][0m computation_time: 364.4910635948

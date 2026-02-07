@@ -1,9 +1,5 @@
 #!/bin/bash
 
-git pull
-rm -rf parallel/bin
-rm -rf parallel/build
-
 wait_for_execution() {
   local USERNAME="hector.floresrey"
 
@@ -64,13 +60,13 @@ fi
 # -------------------------------
 # Experiment parameters
 # -------------------------------
-PROCS=(1 2 4 16 32 64)
+PROCS=(128)
 THREADS=(1 2 4)
 RANKS_PER_NODE=16
 EXECUTIONS=(1 2 3)
 PLACES=("pack" "scatter")
 
-WALLTIME="00:20:00"
+WALLTIME="01:00:00"
 MEM_PER_JOB="4gb"
 
 echo "Building project on compute node..."
@@ -81,7 +77,7 @@ cd "${SCRIPT_DIR}" || exit 1
 # -------------------------------
 # Paths (relative to project root)
 # -------------------------------
-APP="${SCRIPT_DIR}/${BUILD_DIR}/bin/rra_${BUILD_DIR}"
+APP="${SCRIPT_DIR}/${BUILD_DIR}/bin/rrap_full"
 DATASET="${SCRIPT_DIR}/dataset/random-128-100.csv"
 PBS_SCRIPT="${SCRIPT_DIR}/pbs_scripts/speedup.pbs"
 
@@ -112,8 +108,19 @@ for EXEC in "${EXECUTIONS[@]}"; do
 
           NCPUS=$(( (NP + NODES - 1) / NODES ))
 
-          JOBNAME="rra_t${TRIAL_NUM}_e${EXEC}_${PLACE}_np${NP}"
+          JOBNAME="rra_t${TRIAL_NUM}_e${EXEC}_${PLACE}_np${NP}_t_${THREAD}"
 
+	  OUTFILE="${OUTDIR}/exec_timings_${PLACE}_np${NP}_threads_${THREAD}_iter1000_pop128_feat100.log"
+
+	  # Skip if file exists and is not empty
+          if [ -s "${OUTFILE}" ]; then
+             echo "Skipping ${OUTFILE} (already exists and not empty)"
+             continue
+          fi
+          
+          rm -rf "${PBS_OUTPUT}/${JOBNAME}.o"
+          rm -rf "${PBS_ERR}/${JOBNAME}.e"
+           
           qsub \
             -N "${JOBNAME}" \
             -o "${PBS_OUTPUT}/${JOBNAME}.o" \
@@ -125,9 +132,6 @@ for EXEC in "${EXECUTIONS[@]}"; do
 
           echo "Submitted ${JOBNAME} (nodes=${NODES})"
         done
-      done
+     done
   done
-
-  # Sleep 10 seconds
-  wait_for_execution "$EXEC"
 done

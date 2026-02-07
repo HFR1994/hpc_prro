@@ -1,0 +1,45 @@
+Running NP=32 with THREADS=4 on 1 nodes (scatter)
+[2026-02-06 13:06:52] [34m[MAIN:0][0m MPI world size: 32
+[2026-02-06 13:06:52] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-02-06 13:06:52] [34m[MAIN:0][0m Random number generator seeded with 1770379612 52 for thread 0
+[2026-02-06 13:06:52] [34m[MAIN:0][0m Random number generator seeded with 1770379613 52 for thread 1
+[2026-02-06 13:06:52] [34m[MAIN:0][0m Random number generator seeded with 1770379614 52 for thread 2
+[2026-02-06 13:06:52] [34m[MAIN:0][0m Random number generator seeded with 1770379615 52 for thread 3
+[2026-02-06 13:06:52] [34m[MAIN:0][0m Convergence tracking enabled
+
+[2026-02-06 13:06:52] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro-main/dataset/random-256-200.csv, pop_size=256, features=200, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro-main/logs/openmp/output
+
+[2026-02-06 13:06:52] [34m[MAIN:0][0m Looking radii is 162.109158
+[2026-02-06 13:06:52] [34m[MAIN:0][0m Current global leader is 232 with 5004.498608
+[2026-02-06 13:06:52] [37m[INFO:0][0m Using 1 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:4][0m Using 3 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:23][0m Using 1 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:28][0m Using 0 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:1][0m Using 1 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:6][0m Using 3 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:8][0m Using 1 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:10][0m Using 5 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:15][0m Using 1 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:24][0m Using 1 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:25][0m Using 2 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:26][0m Using 1 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:27][0m Using 2 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:2][0m Using 2 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:3][0m Using 1 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:5][0m Using 3 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:7][0m Using 3 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:9][0m Using 1 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:11][0m Using 1 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:12][0m Using 0 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:13][0m Using 3 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:14][0m Using 1 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:17][0m Using 1 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:18][0m Using 2 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:19][0m Using 1 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:21][0m Using 2 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:22][0m Using 1 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:29][0m Using 0 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:30][0m Using 2 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:20][0m Using 3 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:16][0m Using 0 followers out of 8
+[2026-02-06 13:06:52] [37m[INFO:31][0m Using 2 followers out of 8

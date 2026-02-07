@@ -60,8 +60,9 @@ prro_state_t RRA(double *exec_timings, const prra_cfg_t global, pcg32_random_t *
     define_followers(&local, global, current_global_leader, rng_array, ctx);
     log_info("Using %d followers out of %d", local.num_followers, local.local_rows);
 
-    const int chunk_size = local.local_rows / global.max_threads;
-
+    int chunk_size = local.local_rows / global.max_threads;
+    if (chunk_size < 1) chunk_size = 1;
+    
     for (int iter = 0; iter < global.iterations; iter++) {
         // Parallelize the main raven loop with OpenMP, since chunks can be unequally splited I can't assigned chunk_size
         #pragma omp parallel for num_threads(global.max_threads) schedule(dynamic, chunk_size) shared(local)

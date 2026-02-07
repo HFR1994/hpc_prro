@@ -1,12 +1,13 @@
 #!/bin/bash
 #PBS -q short_HPC4DS
-#PBS -l walltime=00:40:00
+#PBS -l walltime=02:00:00
 
 # ---------- Safety ----------
 set -euo pipefail
 
 # ---------- Required variables ----------
 : "${NP:?Missing NP}"
+: "${THREADS:?Missing THREADS}"
 : "${NODES:?Missing NODES}"
 : "${PLACE:?Missing PLACE}"
 : "${APP:?Missing APP}"
@@ -21,7 +22,8 @@ module load mpich-3.2
 export MEASURE_SPEEDUP=0
 export TRACK_CONVERGENCE=1
 export PRRO_PLACEMENT=${PLACE}
+export OMP_NUM_THREADS=${THREADS}
 
-echo "Running NP=${NP} on ${NODES} nodes (${PLACE})"
+echo "Running NP=${NP} with THREADS=${THREADS} on ${NODES} nodes (${PLACE})"
 
 mpirun.actual -n ${NP} ${APP} ${DATASET} -600 600 1000 10 10 600 ${OUTDIR}

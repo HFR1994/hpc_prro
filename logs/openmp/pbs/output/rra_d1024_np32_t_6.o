@@ -1,0 +1,83 @@
+Running NP=32 with THREADS=6 on 1 nodes (scatter)
+[2026-02-06 11:44:23] [34m[MAIN:0][0m MPI world size: 32
+[2026-02-06 11:44:23] [34m[MAIN:0][0m PRRO_PLACEMENT: scatter
+[2026-02-06 11:44:23] [34m[MAIN:0][0m Random number generator seeded with 1770358823 52 for thread 0
+[2026-02-06 11:44:23] [34m[MAIN:0][0m Random number generator seeded with 1770358824 52 for thread 1
+[2026-02-06 11:44:23] [34m[MAIN:0][0m Random number generator seeded with 1770358825 52 for thread 2
+[2026-02-06 11:44:23] [34m[MAIN:0][0m Random number generator seeded with 1770358826 52 for thread 3
+[2026-02-06 11:44:23] [34m[MAIN:0][0m Random number generator seeded with 1770358827 52 for thread 4
+[2026-02-06 11:44:23] [34m[MAIN:0][0m Random number generator seeded with 1770358828 52 for thread 5
+[2026-02-06 11:44:23] [34m[MAIN:0][0m Convergence tracking enabled
+
+[2026-02-06 11:44:23] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro-main/dataset/random-1024-200.csv, pop_size=1024, features=200, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro-main/logs/openmp/output
+
+[2026-02-06 11:44:23] [34m[MAIN:0][0m Looking radii is 160.989388
+[2026-02-06 11:44:23] [34m[MAIN:0][0m Current global leader is 606 with 4888.795922
+[2026-02-06 11:44:23] [37m[INFO:0][0m Using 6 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:2][0m Using 5 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:8][0m Using 8 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:9][0m Using 6 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:12][0m Using 7 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:15][0m Using 4 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:20][0m Using 8 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:22][0m Using 6 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:18][0m Using 5 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:19][0m Using 7 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:29][0m Using 6 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:5][0m Using 7 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:23][0m Using 6 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:1][0m Using 8 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:6][0m Using 7 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:11][0m Using 4 followers out of 32
+[2026-02-06 11:44:23] [2026-02-06 11:44:23] [37m[INFO:10][0m Using 8 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:16][0m Using 2 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:17][0m Using 11 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:21][0m Using 8 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:24][0m Using 4 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:26][0m Using 4 followers out of 32
+[37m[INFO:3][0m Using 6 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:14][0m Using 5 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:7][0m Using 8 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:13][0m Using 6 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:27][0m Using 9 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:28][0m Using 6 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:30][0m Using 9 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:31][0m Using 5 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:4][0m Using 6 followers out of 32
+[2026-02-06 11:44:23] [37m[INFO:25][0m Using 7 followers out of 32
+[2026-02-06 11:46:02] [37m[INFO:7][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:20][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:29][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:13][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:5][0m [2026-02-06 11:46:02] [37m[INFO:9][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:10][0m Finished execution, the best is 9 with 6.670623
+Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:15][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:31][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:22][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:17][0m [2026-02-06 11:46:02] [37m[INFO:14][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:2][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:21][0m [2026-02-06 11:46:02] [37m[INFO:27][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:30][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:0][0m Finished execution, the best is 9 with 6.670623
+Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:3][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:6][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:16][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:18][0m Finished execution, the best is 9 with 6.670623
+Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:23][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:24][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:25][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:4][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:8][0m [2026-02-06 11:46:02] [37m[INFO:28][0m Finished execution, the best is 9 with 6.670623
+Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:1][0m [2026-02-06 11:46:02] [37m[INFO:11][0m Finished execution, the best is 9 with 6.670623
+Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:12][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:19][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [37m[INFO:26][0m Finished execution, the best is 9 with 6.670623
+[2026-02-06 11:46:02] [34m[MAIN:0][0m Convergence results written to /home/hector.floresreynoso/hpc_prro-main/logs/openmp/output/convergence_results_scatter_np32_threads6_iter1000_pop1024_feat200.csv
+
+[2026-02-06 11:46:02] [34m[MAIN:0][0m total_time: 99.7119624615
+[2026-02-06 11:46:02] [34m[MAIN:0][0m computation_time: 99.6168258190

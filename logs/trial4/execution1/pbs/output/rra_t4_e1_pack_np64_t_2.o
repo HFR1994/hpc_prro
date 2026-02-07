@@ -1,0 +1,73 @@
+Running NP=64 with THREADS=2 on 4 nodes (pack:excl)
+[2026-02-06 13:28:11] [34m[MAIN:0][0m MPI world size: 64
+[2026-02-06 13:28:11] [34m[MAIN:0][0m PRRO_PLACEMENT: pack
+[2026-02-06 13:28:11] [34m[MAIN:0][0m Random number generator seeded with 42 52 for thread 0
+[2026-02-06 13:28:11] [34m[MAIN:0][0m Random number generator seeded with 43 52 for thread 1
+[2026-02-06 13:28:11] [34m[MAIN:0][0m Running parallel RRA: dataset=/home/hector.floresreynoso/hpc_prro-main/dataset/random-128-100.csv, pop_size=128, features=100, iter=1000, flight_steps=10, look_steps=10, radius=600.000000, bounds=[-600.000000,600.000000], output_dir=/home/hector.floresreynoso/hpc_prro-main/logs/trial4/execution1/output
+
+[2026-02-06 13:28:11] [34m[MAIN:0][0m Looking radii is 158.773000
+[2026-02-06 13:28:11] [34m[MAIN:0][0m Current global leader is 20 with 2393.962084
+[2026-02-06 13:28:11] [37m[INFO:0][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:2][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:4][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:1][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:24][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:21][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:26][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:41][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:60][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:9][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:10][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:15][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:17][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:19][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:22][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:23][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:29][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:33][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:38][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:44][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:46][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:61][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:63][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:3][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:5][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:6][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:8][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:11][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:16][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:32][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:35][0m Using 2 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:39][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:50][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:51][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:53][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:55][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:56][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:59][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:62][0m Using 2 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:13][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:14][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:25][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:36][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:37][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:40][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:45][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:49][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:58][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [2026-02-06 13:28:11] [37m[INFO:48][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:27][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:30][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:31][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:43][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:47][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:57][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:28][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:7][0m Using 2 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:12][0m Using 1 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:20][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:18][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [2026-02-06 13:28:11] [37m[INFO:52][0m Using 0 followers out of 2
+[2026-02-06 13:28:11] [37m[INFO:42][0m Using 0 followers out of 2
+[37m[INFO:54][0m Using 1 followers out of 2
+[37m[INFO:34][0m Using 0 followers out of 2

@@ -157,8 +157,8 @@ void write_convergence_csv(const mpi_ctx_t * ctx, const prro_state_t * local, pr
 
     // Build filename
     char filename[1024];
-    snprintf(filename, sizeof(filename), "%s/convergence_results_%s_np%d_iter%d_pop%d_feat%d.csv",
-             global->output_dir, global->placement, ctx->size,
+    snprintf(filename, sizeof(filename), "%s/convergence_results_%s_np%d_threads%d_iter%d_pop%d_feat%d.csv",
+             global->output_dir, global->placement, ctx->size, global->max_threads,
              global->iterations, global->pop_size, global->features);
 
     // Rank 0 writes the header
@@ -329,7 +329,7 @@ int main(int argc, char **argv) {
 
         if (ctx.rank == 0) {
             char filename[1024];
-            snprintf(filename, sizeof(filename), "%s/exec_timings_%s_np%d_iter%d_pop%d_feat%d.log", global.output_dir, placement, ctx.size, global.iterations, global.pop_size, global.features);
+            snprintf(filename, sizeof(filename), "%s/exec_timings_%s_np%d_threads_%d_iter%d_pop%d_feat%d.log", global.output_dir, placement, ctx.size, global.max_threads, global.iterations, global.pop_size, global.features);
 
             FILE *fp = fopen(filename, "w");
             if (fp) {
