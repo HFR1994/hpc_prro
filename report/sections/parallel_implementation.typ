@@ -1,19 +1,19 @@
 #import "@preview/cetz:0.3.2"
 #import "@preview/lovelace:0.3.0": *
 
-The following extra terminilogy is introduced:
+= Parallelization Strategy with MPI
 
-- *$"WR"$*: An MPI process responsible for managing a subset of the total population.
-- *$"WS"$*: Number of total MPI processes.
-
-== Parallelization Strategy with MPI
+    The following extra terminilogy is introduced:
+    
+    - *$"WR"$*: An MPI process responsible for managing a subset of the total population.
+    - *$"WS"$*: Number of total MPI processes.
 
     Using parallelization we are able to achieve *domain decomposition* @parallel_metaheuristics, where the problem is broken down into smaller tasks called ranks. Each *rank* ($"WR"$) is an MPI process, who is in charge of managing a subset of the total population. Ranks are list a list of numbers $bold(x) in [0, infinity]$.
     
     Using this approach we are able to achieve faster convergence and exploration of the search space, since the program can run multiple calculations in parallel. In contrast the serial needs to iterate each calculation sequentially, which can be time-consuming for large populations. During the implementation of this algorithm, the same aspects where taken into as if the program was running sequentially. 
     Each rank, recieves a set of global variables such as the *leader* ($L (t)$) that impact the algorithm in the same way as it was running sequentially.
 
-=== Data Distribution
+=== MPI Data Distribution <mpi_data>
 
     As previously mentioned, each process handles a local subset of ravens:
         - Process 0 reads parameters and broadcasts to all processes
@@ -110,10 +110,11 @@ This determines the wall-clock time as the slowest process duration.
 
 Strong scalability and weak scalability describe how well a parallel algorithm performs as you change the number of processors, both with static or dynamic population sizes. This speedup is denotaed by Amdahl’s Law @Amdahl1967 where:
 
-$S(p) = \frac{1}{\,s + \dfrac{1-s}{p}\,}$
+$ S(p) = frac{1}{\,s + \dfrac{1-s}{p}\,} $
 
 Where $p$ denotes the number of parallel workers (processes, threads, or cores) that are employed to execute the program. The term $s$ represents the proportion of the total execution time that is strictly serial—that is, the part of the code that cannot be divided among multiple processors and must run on a single core.
 
+#v(0.3cm)
 *Strong Scaling*:
 
 Assumuing a static problem size (i.e., population size and dimensionality) but the number of processes increases, the achievable speedup is constrained by several algorithm-specific factors:
@@ -127,7 +128,13 @@ Assumuing a static problem size (i.e., population size and dimensionality) but t
 Assuming a linear increment betwee the problem size and the number of processes can the computational workload should remain balanced as relative impact of communication overhead stays stable.
 This allows the algorithm to preserve a high level of parallel efficiency, as most operations are performed locally and collective communications scale logarithmically with the number of processes.
 
-==== Analysis Result 
+= Parallelization Strategy with OpenMP
 
+    MPI allows distribute memory into different process (ranks) allowing it to execute lower volumes of data so then a master process can join it back to together. However, further breakdown can be achieved using OpenMP.
+    When an OpenMP instruction is specified using the $"#pragma omp parallel"$ partitions the iterations or sections among the team members according to the chosen schedule (static, dynamic, guided, auto). Each thread executes only the part of the loop that its ID maps to, so a single loop is automatically “broken down” into as many independent chunks as there are threads (or fewer, if the schedule dictates).
+    
+=== OpenMP Data Distribution
+
+    OpenMP doesn't segment information as MPI. Instead of physically diving data as shown in #link(<mpi_data>)[MPI Data distribution]
 
 
