@@ -109,9 +109,9 @@ This determines the wall-clock time as the slowest process duration.
 === Scalability Considerations
 
 Strong scalability and weak scalability describe how well a parallel algorithm performs as you change the number of processors, both with static or dynamic population sizes. This speedup is denotaed by Amdahl’s Law @Amdahl1967 where:
-
+#v(0.3cm)
 $ S(p) = frac{1}{\,s + \dfrac{1-s}{p}\,} $
-
+#v(0.3cm)
 Where $p$ denotes the number of parallel workers (processes, threads, or cores) that are employed to execute the program. The term $s$ represents the proportion of the total execution time that is strictly serial—that is, the part of the code that cannot be divided among multiple processors and must run on a single core.
 
 #v(0.3cm)
@@ -131,10 +131,32 @@ This allows the algorithm to preserve a high level of parallel efficiency, as mo
 = Parallelization Strategy with OpenMP
 
     MPI allows distribute memory into different process (ranks) allowing it to execute lower volumes of data so then a master process can join it back to together. However, further breakdown can be achieved using OpenMP.
-    When an OpenMP instruction is specified using the $"#pragma omp parallel"$ partitions the iterations or sections among the team members according to the chosen schedule (static, dynamic, guided, auto). Each thread executes only the part of the loop that its ID maps to, so a single loop is automatically “broken down” into as many independent chunks as there are threads (or fewer, if the schedule dictates).
+    
+    When an OpenMP instruction is specified using the *$"#pragma omp parallel"$* instruction. Iterations blocks or sections are broken down among team members according to a specified schedule. Each thread executes only the part of the loop that was mapped to it, so a single loop is “broken down” into as many independent chunks, this is partically usefull among independent members such as @thibault2007efficient:
+    
+    #[
+        #figure(pseudocode-list(stroke: none, title: smallcaps[Parallel OpenMP Implementation])[
+          + int seeds = malloc(nthreads \* sizeof(unsigned int));
+          + \#pragma omp for
+          + *for* iter = 1 *to* iterations *do*
+            + int tid = omp_get_thread_num();
+            + seeds[tid] = time(NULL) ^ (tid \* 0x9e3779b9); 
+          + *}*
+        ],
+        caption: [OpenMP example to initialize seeds]
+        )
+    ]
+
     
 === OpenMP Data Distribution
 
-    OpenMP doesn't segment information as MPI. Instead of physically diving data as shown in #link(<mpi_data>)[MPI Data distribution]
+    OpenMP doesn't segment information as MPI. Instead of physically diving data as shown in #link(<mpi_data>)[MPI Data distribution] it creates threas inside the same ejecution, by taking advantage of the of the number of threads inside each core. So for each instruction you parallelize under OpenMP, each thread is goign to executed as many "threads" define during the exeuction.
+    
+    Each chunk is can be divided equally using:
+    #v(0.3cm)
+    $ "chunk_size" = min("rows" / "threads", 1) $ 
+    #v(0.3cm)
+    
+    However, we can do more complex scenarios can arrise. Using the *dynamic* scheduling we can provided smaller chunk sizes (ej: 5) and have the process call multiple times the queue to get continous segements of 5 chunks. This is partically useful when dealing with memory contrains as you can process less information in a given point in time. 
 
 
