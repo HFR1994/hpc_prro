@@ -43,12 +43,13 @@
 
 = Serial Implementation
 #include "sections/serial_implementation.typ"
-
-
 #include "sections/parallel_implementation.typ"
 
-= Optimizations
-#include "sections/optimizations.typ"
+= Considerations
+#include "sections/considerations.typ"
+
+= Performance Analysis
+#include "sections/performance.typ"
 
 = Conclusion
 #include "sections/conclusion.typ"
