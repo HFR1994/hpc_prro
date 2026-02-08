@@ -3,15 +3,15 @@
 
 = Parallelization Strategy with MPI
 
-    The following extra terminilogy is introduced:
+    The following extra terminology is introduced:
     
     - *$"WR"$*: An MPI process responsible for managing a subset of the total population.
     - *$"WS"$*: Number of total MPI processes.
 
-    Using parallelization we are able to achieve *domain decomposition* @parallel_metaheuristics, where the problem is broken down into smaller tasks called ranks. Each *rank* ($"WR"$) is an MPI process, who is in charge of managing a subset of the total population. Ranks are list a list of numbers $bold(x) in [0, infinity]$.
-    
-    Using this approach we are able to achieve faster convergence and exploration of the search space, since the program can run multiple calculations in parallel. In contrast the serial needs to iterate each calculation sequentially, which can be time-consuming for large populations. During the implementation of this algorithm, the same aspects where taken into as if the program was running sequentially. 
-    Each rank, recieves a set of global variables such as the *leader* ($L (t)$) that impact the algorithm in the same way as it was running sequentially.
+    Using parallelization we are able to achieve *domain decomposition* @parallel_metaheuristics, where the problem is broken down into smaller tasks called ranks. Each *rank* ($"WR"$) is an MPI process, which is in charge of managing a subset of the total population. Ranks are a list of numbers $bold(x) in [0, infinity]$.
+
+    Using this approach we are able to achieve faster convergence and exploration of the search space, since the program can run multiple calculations in parallel. In contrast, the serial version needs to iterate each calculation sequentially, which can be time-consuming for large populations. During the implementation of this algorithm, the same aspects were taken into account as if the program was running sequentially.
+    Each rank receives a set of global variables such as the *leader* ($L (t)$) that impact the algorithm in the same way as it was running sequentially.
 
 === MPI Data Distribution <mpi_data>
 
@@ -41,9 +41,9 @@
           text(blue, it.body)
         }
         
-        The following algorithm in @parallel shows the approach used to run the algorithm in a parallel manner using MPI. In order to facilitate reading, statments in _this color_ symbolize that the process is shared across all $"WS"$.
-        
-        The lifecycle of MPI is defined in it's initialization and closing arguments. Inside the algorithm it can be assumed multiple calls to MPI are made to *Reduce*, *Scatter* and *Broadcast* the results of the global variables.   
+        The following algorithm in @parallel shows the approach used to run the algorithm in a parallel manner using MPI. In order to facilitate reading, statements in _this color_ symbolize that the process is shared across all $"WS"$.
+
+        The lifecycle of MPI is defined in its initialization and closing arguments. Inside the algorithm it can be assumed multiple calls to MPI are made to *Reduce*, *Scatter* and *Broadcast* the results of the global variables.   
         #figure(pseudocode-list(stroke: none, title: smallcaps[Raven Roosting Optimization (Parallel MPI)])[
           + MPI Initialization
           + Compute local indices
@@ -54,8 +54,8 @@
           +
           + *for* iter = 1 *to* iterations *do*
             + *for* i = 1 *to* local_rows *do*
-              + Set it's current position to the roosting site
-              + Determine it's destination based on if is he a follower   
+              + Set its current position to the roosting site
+              + Determine its destination based on if it is a follower
               +
               + *for* step = 1 *to* flight steps *do*
                 + Move to $bold(p)_(i,t+1)$ with clamping
@@ -91,7 +91,7 @@
 
 ==== Leader Selection
 
-    Finding the global leader requires collective communication. Each process first evaluates the quality of it's solutions locally and determines its local best candidate by computing the minimum fitness value (#link(<OB>)[Objective Function]):
+    Finding the global leader requires collective communication. Each process first evaluates the quality of its solutions locally and determines its local best candidate by computing the minimum fitness value (#link(<OB>)[Objective Function]):
     
     $ text("local_best")_p = op("min")("local_ravens") $
     
@@ -109,7 +109,7 @@
 
 === Scalability Considerations
 
-    Strong scalability and weak scalability describe how well a parallel algorithm performs as you change the number of processors, both with static or dynamic population sizes. This speedup is denotaed by Amdahl’s Law @Amdahl1967 where:
+    Strong scalability and weak scalability describe how well a parallel algorithm performs as you change the number of processors, both with static or dynamic population sizes. This speedup is denoted by Amdahl's Law @Amdahl1967 where:
     #v(0.3cm)
     $ S(p) = 1 / ((1 - p) + p / N) $
     #v(0.3cm)
@@ -118,7 +118,7 @@
     #v(0.3cm)
     *Strong Scaling*:
     #v(0.3cm)
-    Assumuing a static problem size (i.e., population size and dimensionality) but the number of processes increases, the achievable speedup is constrained by several algorithm-specific factors:
+    Assuming a static problem size (i.e., population size and dimensionality) but the number of processes increases, the achievable speedup is constrained by several algorithm-specific factors:
     
     - Collective communication overhead becomes more pronounced, particularly during global leader selection and the subsequent broadcast of the leader’s position vector. 
     - Load imbalance may arise when the population cannot be evenly partitioned across processes, resulting in some ranks owning fewer individuals and spending proportionally more time waiting at synchronization points. 
@@ -127,14 +127,14 @@
     *Weak Scaling*:
     #v(0.3cm)
     
-    Assuming a linear increment between the problem size and the number of processes can the computational workload should remain balanced as relative impact of communication overhead stays stable.
+    Assuming a linear increment between the problem size and the number of processes, the computational workload should remain balanced as the relative impact of communication overhead stays stable.
     This allows the algorithm to preserve a high level of parallel efficiency, as most operations are performed locally and collective communications scale logarithmically with the number of processes.
 
 = Parallelization Strategy with OpenMP
 
-    MPI allows distribute memory into different process (ranks) allowing it to execute lower volumes of data so then a master process can join it back to together. However, further breakdown can be achieved using OpenMP.
-    
-    When an OpenMP instruction is specified using the *$"#pragma omp parallel"$* instruction. Iterations blocks or sections are broken down among team members according to a specified schedule. Each thread executes only the part of the loop that was mapped to it, so a single loop is “broken down” into as many independent chunks, this is partically usefull among independent members such as @thibault2007efficient:
+    MPI allows distributing memory into different processes (ranks) allowing it to execute lower volumes of data so that a master process can join it back together. However, further breakdown can be achieved using OpenMP.
+
+    When an OpenMP instruction is specified using the *$"#pragma omp parallel"$* instruction, iteration blocks or sections are broken down among team members according to a specified schedule. Each thread executes only the part of the loop that was mapped to it, so a single loop is "broken down" into as many independent chunks; this is particularly useful among independent members such as @thibault2007efficient:
     
     #[
         #figure(pseudocode-list(stroke: none, title: smallcaps[Parallel OpenMP Implementation])[
@@ -152,14 +152,14 @@
     
 === OpenMP Data Distribution
 
-    OpenMP doesn't segment information as MPI. Instead of physically diving data as shown in #link(<mpi_data>)[MPI Data distribution] it creates threas inside the same ejecution, by taking advantage of the of the number of threads inside each core. So for each instruction you parallelize under OpenMP, each thread is goign to executed as many "threads" define during the exeuction.
+    OpenMP doesn't segment information as MPI does. Instead of physically dividing data as shown in #link(<mpi_data>)[MPI Data distribution], it creates threads inside the same execution, by taking advantage of the number of threads inside each core. So for each instruction you parallelize under OpenMP, each thread is going to execute as many "threads" defined during the execution.
     
-    Each chunk is can be divided equally using:
+    Each chunk can be divided equally using:
     #v(0.3cm)
     $ "chunk_size" = min("rows" / "threads", 1) $ 
     #v(0.3cm)
     
-    However, we can do more complex scenarios can arrise. Using the *dynamic* scheduling we can provided smaller chunk sizes (ej: 5) and have the process call multiple times the queue to get continous segements of 5 chunks. This is partically useful when dealing with memory contrains as you can process less information in a given point in time. 
+    However, more complex scenarios can arise. Using the *dynamic* scheduling we can provide smaller chunk sizes (e.g., 5) and have the process call the queue multiple times to get continuous segments of 5 chunks. This is particularly useful when dealing with memory constraints as you can process less information at a given point in time. 
 
 === OpenMP Parallel Algorithm Pseudocode
 
@@ -168,15 +168,15 @@
           text(blue, it.body)
         }
                 
-        OpenMP staments are usually encapsulated around *for* and block variables. Only 3 locations where picked to implement OpenMP. 
+        OpenMP statements are usually encapsulated around *for* and block variables. Only 3 locations were picked to implement OpenMP.
         #v(0.3cm)
-        1. Evaluating the #link(<OB>)[Objective Function] 
+        1. Evaluating the #link(<OB>)[Objective Function]
         2. Set roosting site
         3. Compute local rows
         #v(0.3cm)
-        This locations where picked up because they are isolated processes that can be computed individually. So the implementation of the parallelization doesn't affect other members.
+        These locations were picked because they are isolated processes that can be computed individually. So the implementation of the parallelization doesn't affect other members.
         #v(0.3cm)
-        The following algorithm in @openmp shows the approach used to run the algorithm in a parallel manner using OpenMP. In order to facilitate reading, statments in _this color_ symbolize the key structures where OpenMP was implemented. MPI structures are still taken into account, but ommited for visbility purposes.
+        The following algorithm in @openmp shows the approach used to run the algorithm in a parallel manner using OpenMP. In order to facilitate reading, statements in _this color_ symbolize the key structures where OpenMP was implemented. MPI structures are still taken into account, but omitted for visibility purposes.
         
         #figure(pseudocode-list(stroke: none, title: smallcaps[Raven Roosting Optimization (Parallel OpenMP)])[
           + Initialize local population with clamping
@@ -185,8 +185,8 @@
           +
           + *for* iter = 1 *to* iterations *do*
             + _*for* i = 1 *to* local_rows *do*_
-              + Set it's current position to the roosting site
-              + Determine it's destination based on if is he a follower   
+              + Set its current position to the roosting site
+              + Determine its destination based on if it is a follower
               +
               + *for* step = 1 *to* flight steps *do*
                 + Move to $bold(p)_(i,t+1)$ with clamping
@@ -221,9 +221,9 @@
 
 ==== Instruction indications
     
-    The decision of implementing parallelization when computing local rows instead of the parallelizing the entire iterations is due to the fact that *global* computations have to be done prior to updating the iteration. 
-            
-    When starting a new iteration, the previous global leaders position has to be known. This make it particulary difficult since you have data dependencies between iterrations. Instead, an alternative is parallelizing the computation of the current iterration to find the best value for the Objective Function. This process is an excelent candidate dependency since you have to await for all "ravens" to compute the value, but each raven can achieve it individually. 
+    The decision to implement parallelization when computing local rows instead of parallelizing the entire iterations is due to the fact that *global* computations have to be done prior to updating the iteration.
+
+    When starting a new iteration, the previous global leader's position has to be known. This makes it particularly difficult since you have data dependencies between iterations. Instead, an alternative is parallelizing the computation of the current iteration to find the best value for the Objective Function. This process is an excellent candidate for parallelization since you have to await for all "ravens" to compute the value, but each raven can achieve it individually. 
     
     #v(0.3cm)
 
@@ -233,7 +233,7 @@
     #v(0.3cm)
     $ T_"OMP"(p) = t_"end" - t_"start" $
     #v(0.3cm)
-    Compared to a specific "serial" block of code. However, similarly to MPI the process is divided into executions process (p), were each process computes the same work. This allows to execute into multiple $R$ rounds according to a chunk size $C$ capacity. 
+    Compared to a specific "serial" block of code. However, similarly to MPI, the process is divided into execution processes (p), where each process computes the same work. This allows execution into multiple $R$ rounds according to a chunk size $C$ capacity. 
     Each thread $t$ executes a portion of the work during round $r$, with execution time $T_(p,r)$. The duration of a round is determined by the slowest participating thread:
     #v(0.3cm)
     $ T_r = max_(t in {0,...,p-1}) T_(p,r) $
@@ -244,5 +244,5 @@
 
 === Scalability Considerations
 
-    This type of reduction are dependent on total size of rows. Serial implementation can lead to better process timings given the overhead it takes to split and join threads. 
+    This type of reduction is dependent on the total size of rows. Serial implementation can lead to better process timings given the overhead it takes to split and join threads. 
  

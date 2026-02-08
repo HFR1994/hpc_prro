@@ -5,9 +5,9 @@ Throughout this paper the following notation is used:
 - $X(t)$ is the position vector of ravens in iteration $t$;
 - $R S(t)$ is the roosting site across all $T$;
 - $D(t)$ is direction where the raven is moving on $t+1$;
-- $L (t)$ Represent the leader, with the best location of source food (global);
-- $F S (t)$ is the best local food source know to a raven. These will be replace by the current positions $X (t)$ if they yield better fitness values;
-- $R (t)$ is the remaining distance to get the final destination represented as a scalar. Which can be $L (t)$ or $F S (t)$, see bellow.
+- $L (t)$ represents the leader, with the best location of the source food (global);
+- $F S (t)$ is the best local food source known to a raven. These will be replaced by the current positions $X (t)$ if they yield better fitness values;
+- $R (t)$ is the remaining distance to get to the final destination represented as a scalar. This can be $L (t)$ or $F S (t)$, see below.
 - $U(a, b)$ denotes a random number drawn uniformly in the range $[a, b]$ based on PCG;
 - $U B$ and $L B$ are the upper and lower bounds of the search space;
 - $r_i$ are random numbers drawn from $U(0, 1)$;
@@ -51,7 +51,7 @@ Throughout this paper the following notation is used:
     $ bold(d)_(i,t) = bold(s)_(i,t) times D(t) $
     #v(0.3cm)
     
-    To mimic the real behavoir, $D(t)$ is the direction of each bird to find the best food source. At the start of each $t$, each raven decides if he is going to pursue his best food source point or follow the leader and scout the area.
+    To mimic real behavior, $D(t)$ is the direction of each bird to find the best food source. At the start of each $t$, each raven decides if it is going to pursue its best food source point or follow the leader and scout the area.
     
     #v(0.3cm)
     $
@@ -62,13 +62,13 @@ Throughout this paper the following notation is used:
     $
     #v(0.3cm)
        
-    First we calculate $arrow(d)$ into a magnitud using norm:
+    First we calculate $arrow(d)$ into a magnitude using norm:
 
     #v(0.3cm)
     $ ||bold(v)|| = sqrt(sum_(i=1)^n (x_i)^2) $
     #v(0.3cm)
     
-    where $v$ is any given vector ($arrow(d)$ in this case) that holds the $n$ number of parameters (dimensions) in the search space. This is later used the computation of a unit vector using:
+    where $v$ is any given vector ($arrow(d)$ in this case) that holds the $n$ number of parameters (dimensions) in the search space. This is later used in the computation of a unit vector using:
 
     #v(0.3cm)
     $ D(t) = hat(bold(v)) = bold(v) / (||bold(v)||) $
@@ -82,19 +82,19 @@ Throughout this paper the following notation is used:
     $ d(bold(a), bold(b)) = sqrt(sum_(i=1)^n (a - b)^2) $
     #v(0.3cm)
 
-    $a$ and $b$ represent any vector of $n$ number of parameters (dimensions) in the search space. We multiply this distance to random step size $r_i$ to get fraction of this remaining distance using a uniform distribution value, giving the following formula:
+    $a$ and $b$ represent any vector of $n$ number of parameters (dimensions) in the search space. We multiply this distance by a random step size $r_i$ to get a fraction of this remaining distance using a uniform distribution value, giving the following formula:
 
     $ bold(s)_(i,t) = r_i times R (T) $ 
             
-    This creates a Lévy flight-like behavior, where ravens take larger steps when they are far from the target and smaller steps as they approach to the target. The actual displacement vector is therefore $bold(d)_(i,t) = s_t times D(t)$, resulting in an adaptive movement strategy that balances exploration through randomness with exploitation through proximity-based step sizing.
+    This creates a Lévy flight-like behavior, where ravens take larger steps when they are far from the target and smaller steps as they approach the target. The actual displacement vector is therefore $bold(d)_(i,t) = s_t times D(t)$, resulting in an adaptive movement strategy that balances exploration through randomness with exploitation through proximity-based step sizing.
     
 == Lookout function
 
-   As mentioned earlier, raven's move a fraction of the total remaining distance governed by $bold(d)_(i,t) = s_t times D(t)$. This so that each point they stop they can scout the area with a Hypersphere vision across $n$ dimensions. The looking radii ($r$) is governed by:  
+   As mentioned earlier, ravens move a fraction of the total remaining distance governed by $bold(d)_(i,t) = s_t times D(t)$. This is so that at each point they stop, they can scout the area with a hypersphere vision across $n$ dimensions. The looking radius ($r$) is governed by:  
    
    $ r = R / (3.6 times root(F, P)) $
    
-   When a raven finds a promising food source, he updates it and decides to continue or report it back to the rooster immediately.
+   When a raven finds a promising food source, it updates it and decides to continue or report it back to the roost immediately.
    
     $
       bold(p)_(i,t+1) = cases(

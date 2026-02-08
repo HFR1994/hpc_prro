@@ -2,7 +2,7 @@
 
 == Dataset
 
-    In order to evaluate the speedup of the implementation, a controlled dataset was used to measure both a baseline and a implementation difference. Additionally, additional computation intensive dataset where used to test the parallelization limits. Each dataset is defined by a dynamic number of rows (population size) and fixed number of columns (feature dimensionality), except for the controlled set. All the tests mentioned in a the following pages are tested with the same dataset configurations while varying MPI ranks and OpenMP threads.
+    In order to evaluate the speedup of the implementation, a controlled dataset was used to measure both a baseline and an implementation difference. Additionally, additional computation-intensive datasets were used to test the parallelization limits. Each dataset is defined by a dynamic number of rows (population size) and fixed number of columns (feature dimensionality), except for the controlled set. All the tests mentioned in the following pages are tested with the same dataset configurations while varying MPI ranks and OpenMP threads.
     
     The following table shows the configurations used:
     
@@ -24,7 +24,7 @@
 
 == Efficient Memory Access Patterns
 
-  The implementation uses a contiguous memory layout to enabling better cache locality and efficient memory operations. Population matrices are stored in row-major order with linear indexing:
+  The implementation uses a contiguous memory layout to enable better cache locality and efficient memory operations. Population matrices are stored in row-major order with linear indexing:
 
   $ text("population")[i dot.c n + j] $
 
@@ -32,13 +32,13 @@
 
 == Reducing overhead by minimizing communication
 
-  The parallel implementation is designed to minimize overhead by limiting communication to essential phases of the algorithm. By broadcasting parameters only durring initialization and performing timing reductions at the end, it ensures minimum communication. 
+  The parallel implementation is designed to minimize overhead by limiting communication to essential phases of the algorithm. By broadcasting parameters only during initialization and performing timing reductions at the end, it ensures minimum communication. 
   
-  A "local-first" model is employed to reduce the volume of data transmitted across the network. Instead of transferring a complete set of fitness values from every process for global evaluation, each process first identifies its own local leader. This only yields a single reduction needed to communicate the result. This optimization reduces the data transfer and avoids local minima as the search space is more throughly examined compared to a global implementation where a single leader is followed.
+  A "local-first" model is employed to reduce the volume of data transmitted across the network. Instead of transferring a complete set of fitness values from every process for global evaluation, each process first identifies its own local leader. This only requires a single reduction to communicate the result. This optimization reduces the data transfer and avoids local minima as the search space is more thoroughly examined compared to a global implementation where a single leader is followed.
   
 == Memory Considerations
 
-  The algorithm uses a a list of matrices are used to store global and local information of raven's whereabouts, food sources and fitness values. However, the total memory consumption is dominated by the two matrices, as their dependendent by there population and features. The following table shows the composition size composisition:
+  The algorithm uses a list of matrices to store global and local information of ravens' whereabouts, food sources and fitness values. However, the total memory consumption is dominated by the two matrices, as they are dependent on their population and features. The following table shows the composition size:
   #v(0.3cm)
   #table(
     columns: (2.5fr, 2fr, 4fr),
@@ -97,9 +97,9 @@
   )
   #v(0.3cm)
 
-  Each section is has a specific role when parallelizing. *Global Vectors (Shared Reference)* are shared across MPI, instead of having `total_population_sizes` allocated the array collapses into smaller `local_population_sizes` where only the dominant leader is shared. This means that the comunucation never exceeds $"features" times 8$ where 8, is the bytes required to send a double number.
+  Each section has a specific role when parallelizing. *Global Vectors (Shared Reference)* are shared across MPI; instead of having `total_population_sizes` allocated, the array collapses into smaller `local_population_sizes` where only the dominant leader is shared. This means that the communication never exceeds $"features" times 8$ where 8 is the bytes required to send a double number.
 
-  In constrast, OpenMP has to allocate seperate *Auxiliary Search Vectors (Scratchpad)* as the this memory references are not thread safe. This yields a higher memory increase since you are allocation $p$ arrays instead of a single reusable instance.  
+  In contrast, OpenMP has to allocate separate *Auxiliary Search Vectors (Scratchpad)* as these memory references are not thread-safe. This yields a higher memory increase since you are allocating $p$ arrays instead of a single reusable instance.  
 
 ==== Structure Packing
 

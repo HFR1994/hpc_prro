@@ -28,7 +28,7 @@
       + *for* t= 1 *to* iterations *do*
         + *for* n = 1 *to* pop_size *do*
           + Set it's current position to the roosting site
-          + Determine it's destination based on if is he a follower          
+          + Determine its destination based on if it is a follower          
           +
           + *for* step = 1 *to* flight steps *do*
             + Move to $bold(p)_(i,t+1)$ with clamping
@@ -66,7 +66,7 @@
 
 === Time Complexity
 
-  For a iteration of size $I$, population of size $P$ with $F$ features. Each on taking $F$ flight steps and $L$ lookout steps:
+  For an iteration of size $I$, population of size $P$ with $F$ features, each one taking $F$ flight steps and $L$ lookout steps:
 
   - *Overall*: $O(I dot.c P dot.c F dot.c F dot.c L)$
   - *Objective function evaluations*: $O(I dot.c P dot.c F dot.c L)$
