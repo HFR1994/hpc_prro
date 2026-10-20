@@ -149,11 +149,45 @@ mpirun -np <num_processes> ./parallel/full/bin/rrap_full <dataset_path> <lower_b
 - `radius`: Looking radius for exploring solutions
 - `output_dir`: (Optional) Directory for output files (default: ./output)
 
+### Cutting-stock mode (MPI version)
+
+The MPI build can optimise a 2D guillotine cutting plan instead of the Griewank benchmark. Set `PRRO_PIECES`
+and `PRRO_STOCK` and the ravens search over random keys in [0,1] that a deterministic decoder turns into a
+layout. Fitness = `PRRO_W_CUT` × cuts + `PRRO_W_BOARD` × boards + `PRRO_W_WASTE` × waste in m², plus a large
+penalty per piece that fits no stock; defaults 0.6, 0.3 and 0.1. A cut is one straight saw line: collinear cut
+segments on a board count once unless a piece lies across the line between them. The saw kerf is `PRRO_KERF` mm
+(default 3). Two decoders exist, chosen with `PRRO_DECODER` or inferred from
+the dataset width:
+
+- `kdtree` (default, 4 keys per piece: order, rotation, stock type, split direction): guillotine
+  free-rectangle packing, every placement splits its rectangle into two children so cuts nest to any depth.
+- `shelf` (3 keys per piece): first-fit shelf packing, two-stage guillotine cuts only.
+- `direct` (4 keys per piece: x, y, board, rotated; set `PRRO_DECODER=direct`): positional encoding. The board
+  key folds stock row and copy number into one value, `floor(key × rows × pieces)`. Pieces are inserted on their
+  board in bottom-left order of the desired position into the nearest free rectangle, so layouts stay
+  collision-free and guillotine; a piece that does not fit spills to the next copy of that board.
+
+```bash
+# population file must have (keys per piece) x (number of pieces) columns, values in [0,1]
+python3 dataset/generate.py 128 80 0 1 --seed 7            # -> dataset/random-128-80.csv (kdtree, 20 pieces)
+PRRO_PLACEMENT=local PRRO_PIECES=dataset/cabinet_pieces.csv PRRO_STOCK=dataset/stock.csv \
+  mpirun -np 4 ./parallel/mpi/bin/rrap_mpi dataset/random-128-80.csv 0 1 500 20 10 1.0 ./output
+```
+
+Rank 0 writes `cutting_plan_<tag>.csv`, `cutting_cuts_<tag>.csv` (the saw lines) and `.svg` to the output directory and logs how many boards of each
+stock type to buy. `tools/cutting_decoder.py` is the reference decoder (same rules, usable for checks and random
+search) and `tools/plot_cutting_plan.py` draws a plan CSV as PNG. Piece file columns:
+`name,length,width,qty,rotatable`; stock file columns: `name,length,width,price`.
+
 ### Environment Variables:
 - `PRRO_SEED`: Set random seed for reproducibility
 - `PRRO_PLACEMENT`: Process placement strategy
 - `NP`: Number of processes
 - `OMP_NUM_THREADS`: Number of OpenMP threads (for hybrid version)
+- `PRRO_PIECES`, `PRRO_STOCK`: Piece and stock CSV files, enable cutting-stock mode (MPI version)
+- `PRRO_KERF`: Saw kerf in mm (cutting-stock mode)
+- `PRRO_W_CUT`, `PRRO_W_BOARD`, `PRRO_W_WASTE`: Fitness weights per cut, per board and per m² of waste
+- `PRRO_DECODER`: `kdtree`, `shelf` or `direct` (cutting-stock mode; default inferred from the dataset width)
 
 ### Example:
 ```bash

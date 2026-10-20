@@ -1,0 +1,17 @@
+# name,length,width,qty,rotatable   (mm; rotatable=1 lets the solver turn the piece 90 degrees; all 1 because the cabinet is painted)
+left_side,687,360,1,1
+right_side,850,360,1,1
+bottom,634,360,1,1
+divider,814,342,1,1
+step_top,404,360,1,1
+right_top,212,360,1,1
+shelf,342,212,3,1
+pc_back,651,404,1,1
+right_back,814,212,1,1
+pc_door,647,400,1,1
+drawer_front,208,201,1,1
+router_door,208,141,1,1
+drawer_side,300,160,2,1
+drawer_end,151,160,2,1
+drawer_bottom,300,187,1,1
+router_tray,300,187,1,1

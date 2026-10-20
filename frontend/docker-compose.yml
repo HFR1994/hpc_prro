@@ -1,0 +1,18 @@
+services:
+  cutting-frontend:
+    build:
+      context: ..
+      dockerfile: frontend/Dockerfile
+    image: prro-cutting-frontend
+    ports:
+      - "8000:8000"
+    environment:
+      # Upper limit for the "MPI processes" field; defaults to the CPUs visible in the container
+      # MAX_NP: "4"
+      MAX_CONCURRENT: "1"
+    volumes:
+      - cutting-jobs:/app/jobs
+    shm_size: "256m"
+    restart: unless-stopped
+volumes:
+  cutting-jobs:

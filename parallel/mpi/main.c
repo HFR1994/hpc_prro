@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <strings.h>
 
 #include <utils/logger.h>
 
@@ -13,6 +14,7 @@
 
 #include "utils/global.h"
 #include "mpi/handlers.h"
+#include "cutting/decoder.h"
 
 /**
  * \brief Force to print an environment variable
@@ -32,6 +34,10 @@ char *print_env(const char *str) {
 }
 
 
+
+static const char *decoder_name(const int d) {
+    return d == CUT_DECODER_SHELF ? "shelf" : d == CUT_DECODER_DIRECT ? "direct" : "kdtree";
+}
 
 int check_params(int argc, char **argv, prra_cfg_t * global, int size){
 
@@ -145,6 +151,64 @@ int check_params(int argc, char **argv, prra_cfg_t * global, int size){
     global->convergence_results = str_to_bool(track_conv, false);
     if (global->convergence_results) {
         log_main("Convergence tracking enabled\n");
+    }
+
+    // Cutting-stock mode: PRRO_PIECES and PRRO_STOCK select the problem; PRRO_KERF and the
+    // PRRO_W_CUT / PRRO_W_BOARD / PRRO_W_WASTE weights tune it (defaults 0.6 / 0.3 / 0.1; a cut is one straight saw line)
+    const char *pieces = getenv("PRRO_PIECES");
+    const char *stock = getenv("PRRO_STOCK");
+    global->use_cutting = 0;
+    global->kerf = 3.0;
+    global->w_cut = 0.6;
+    global->w_board = 0.3;
+    global->w_waste = 0.1;
+    if (pieces && pieces[0] != '\0') {
+        if (!stock || stock[0] == '\0') {
+            log_err("PRRO_PIECES is set but PRRO_STOCK is missing\n");
+            return 0;
+        }
+        snprintf(global->pieces_path, sizeof(global->pieces_path), "%s", pieces);
+        snprintf(global->stock_path, sizeof(global->stock_path), "%s", stock);
+        const char *kerf = getenv("PRRO_KERF");
+        if (kerf && kerf[0] != '\0') global->kerf = strtod(kerf, NULL);
+        const char *wc = getenv("PRRO_W_CUT");
+        if (wc && wc[0] != '\0') global->w_cut = strtod(wc, NULL);
+        const char *wb = getenv("PRRO_W_BOARD");
+        if (wb && wb[0] != '\0') global->w_board = strtod(wb, NULL);
+        const char *ww = getenv("PRRO_W_WASTE");
+        if (ww && ww[0] != '\0') global->w_waste = strtod(ww, NULL);
+        if (cutting_load(global->pieces_path, global->stock_path, global->kerf,
+                         global->w_cut, global->w_board, global->w_waste) != 0) {
+            return 0;
+        }
+        // Decoder: PRRO_DECODER=shelf|kdtree|direct, otherwise inferred from the dataset width (3 keys = shelf, 4 = kdtree)
+        const char *dec = getenv("PRRO_DECODER");
+        if (dec && dec[0] != '\0') {
+            if (!strcasecmp(dec, "shelf")) cutting_set_decoder(CUT_DECODER_SHELF);
+            else if (!strcasecmp(dec, "kdtree")) cutting_set_decoder(CUT_DECODER_KDTREE);
+            else if (!strcasecmp(dec, "direct")) cutting_set_decoder(CUT_DECODER_DIRECT);
+            else {
+                log_err("Unknown PRRO_DECODER '%s' (use shelf, kdtree or direct)\n", dec);
+                return 0;
+            }
+        } else {
+            cutting_set_decoder(global->features == 3 * cutting_num_pieces() ? CUT_DECODER_SHELF : CUT_DECODER_KDTREE);
+        }
+        global->decoder = cutting_get_decoder();
+        if (cutting_num_features() != global->features) {
+            log_err("Cutting mode (%s decoder) needs %d features (%d per piece, %d pieces) but the dataset has %d\n",
+                    decoder_name(global->decoder), cutting_num_features(),
+                    global->decoder == CUT_DECODER_SHELF ? 3 : 4, cutting_num_pieces(), global->features);
+            return 0;
+        }
+        if (global->lower_bound < 0.0 || global->upper_bound > 1.0) {
+            log_warning("Cutting mode expects bounds inside [0,1]; keys outside are clamped by the decoder\n");
+        }
+        global->use_cutting = 1;
+        log_main("Cutting mode (%s decoder): %d pieces, kerf %.1f mm, weights cut %.4g board %.4g waste %.4g, pieces=%s stock=%s\n",
+                 decoder_name(global->decoder),
+                 cutting_num_pieces(), global->kerf, global->w_cut, global->w_board, global->w_waste,
+                 global->pieces_path, global->stock_path);
     }
 
     return true;
@@ -282,6 +346,16 @@ int main(int argc, char **argv) {
 
     MPI_CHECK(MPI_Bcast(&global, sizeof(global), MPI_BYTE, 0, ctx.comm));
 
+    // Every rank evaluates the objective, so every rank needs the piece/stock tables (rank 0 already has them)
+    if (global.use_cutting && ctx.rank != 0) {
+        cutting_set_decoder(global.decoder);
+        if (cutting_load(global.pieces_path, global.stock_path, global.kerf,
+                         global.w_cut, global.w_board, global.w_waste) != 0) {
+            log_err("Failed to load cutting tables on rank %d\n", ctx.rank);
+            ERR_CLEANUP();
+        }
+    }
+
     log_main("Running parallel RRA: dataset=%s, pop_size=%d, features=%d, iter=%d, flight_steps=%d, look_steps=%d, radius=%f, bounds=[%f,%f], output_dir=%s\n",
             global.dataset_path, global.pop_size, global.features, global.iterations, global.flight_steps, global.lookout_steps,
             global.radius, global.lower_bound, global.upper_bound, global.output_dir);
@@ -295,6 +369,13 @@ int main(int argc, char **argv) {
     exec_timings[2] = MPI_Wtime();
 
     // Log total elapsed
+
+    // Cutting mode: rank 0 decodes the global leader (already broadcast to every rank) into the cutting plan
+    if (global.use_cutting && ctx.rank == 0) {
+        char tag[256];
+        snprintf(tag, sizeof(tag), "%s_np%d_iter%d_pop%d", global.placement, ctx.size, global.iterations, global.pop_size);
+        cutting_write_plan(local.leader, global.output_dir, tag);
+    }
 
     // // Gather all convergence data to rank 0 and write to CSV
     if (global.convergence_results && local.convergence_results) {

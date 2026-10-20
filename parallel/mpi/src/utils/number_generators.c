@@ -22,8 +22,11 @@ double unif_0_1(pcg32_random_t *rng) {
  * \return
  */
 double norm_0_1(pcg32_random_t *rng) {
-    const double u1 = unif_0_1(rng);
+    double u1 = unif_0_1(rng);
     const double u2 = unif_0_1(rng);
+
+    // unif_0_1 can return exactly 0 (about once per 4e9 draws); log(0) would make the position NaN
+    if (u1 <= 0.0) u1 = 1e-300;
 
     // Use Box–Muller to convert uniform random numbers into a random angle and a random radius.
     return sqrt(-2.0 * log(u1)) * cos(2.0 * M_PI * u2);

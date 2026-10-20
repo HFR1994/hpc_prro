@@ -2,6 +2,7 @@
 #include <math.h>
 
 #include "utils/logger.h"
+#include "cutting/decoder.h"
 
 /**
  * \brief Use the **Griewank function** as an objective function, RRA tend to converge against a location space,
@@ -11,6 +12,11 @@
  * \return The objective function value
  */
 double objective_function(const double *X, const prra_cfg_t global) {
+
+    // Cutting-stock mode: decode the random keys into a guillotine layout and score it
+    if (global.use_cutting) {
+        return cutting_fitness(X);
+    }
 
     double sum = 0.0;
     double prod = 1.0;

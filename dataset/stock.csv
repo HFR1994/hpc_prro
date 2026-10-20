@@ -1,0 +1,7 @@
+# name,length,width,price   (mm; price optional, 0 = optimise on area only)
+board_2400x200,2400,200,0
+board_2400x300,2400,300,0
+board_2400x400,2400,400,0
+board_2400x500,2400,500,0
+board_1200x600,1200,600,0
+board_2140x1220,2140,1220,0

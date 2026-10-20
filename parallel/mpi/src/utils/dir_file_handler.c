@@ -22,8 +22,20 @@ int ensure_dir_exists(const char *path) {
         return -1;
     }
 
-    // Doesn't exist → try to create
-    if (mkdir(path, 0755) != 0) {
+    // Doesn't exist → create it and any missing parents (mkdir -p)
+    char tmp[1024];
+    snprintf(tmp, sizeof tmp, "%s", path);
+    for (char *p = tmp + 1; *p; p++) {
+        if (*p == '/') {
+            *p = '\0';
+            if (stat(tmp, &st) != 0 && mkdir(tmp, 0755) != 0) {
+                perror("mkdir");
+                return -1;
+            }
+            *p = '/';
+        }
+    }
+    if (mkdir(tmp, 0755) != 0) {
         perror("mkdir");
         return -1;
     }

@@ -1,0 +1,12 @@
+# Keep the build context small: only solver sources, datasets and the front end are copied.
+**/.git
+**/build
+**/bin
+**/cmake-build-*
+**/__pycache__
+hpc_prro/logs
+hpc_prro/output
+hpc_prro/report
+hpc_prro/serial
+hpc_prro/parallel/full
+frontend/jobs

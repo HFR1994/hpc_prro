@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cutting Planner</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Cutting Planner</h1>
+    <p class="sub">Guillotine cutting plans optimised by the parallel Raven Roosting solver (rrap_mpi).</p>
+  </div>
+  <div class="top-actions">
+    <button id="btn-reset" class="ghost" type="button">Reload defaults</button>
+    <button id="btn-run" class="primary" type="button">Run solver</button>
+  </div>
+</header>
+
+<main class="grid">
+
+  <section class="card" id="card-priorities">
+    <h2>1. Priorities</h2>
+    <p class="hint">Fitness = <code>w<sub>cut</sub></code> × saw lines + <code>w<sub>board</sub></code> × boards + <code>w<sub>waste</sub></code> × waste (m²). Lower is better. Move a slider up to care more about that objective.</p>
+    <div class="presets">
+      <span>Presets:</span>
+      <button type="button" class="chip" data-preset="6,3,1">Fewest cuts</button>
+      <button type="button" class="chip" data-preset="2,7,1">Fewest boards</button>
+      <button type="button" class="chip" data-preset="1,2,7">Least waste</button>
+      <button type="button" class="chip" data-preset="4,3,3">Balanced</button>
+    </div>
+    <div class="sliders">
+      <label class="slider">
+        <span class="slider-name">Fewer saw cuts</span>
+        <input type="range" id="w-cut" min="0" max="10" step="0.5" value="6">
+        <span class="slider-val" id="w-cut-val"></span>
+      </label>
+      <label class="slider">
+        <span class="slider-name">Fewer boards</span>
+        <input type="range" id="w-board" min="0" max="10" step="0.5" value="3">
+        <span class="slider-val" id="w-board-val"></span>
+      </label>
+      <label class="slider">
+        <span class="slider-name">Less waste</span>
+        <input type="range" id="w-waste" min="0" max="10" step="0.5" value="1">
+        <span class="slider-val" id="w-waste-val"></span>
+      </label>
+    </div>
+    <div class="weights-bar" id="weights-bar" aria-hidden="true"><span class="wb-cut"></span><span class="wb-board"></span><span class="wb-waste"></span></div>
+    <p class="hint" id="weights-text"></p>
+  </section>
+
+  <section class="card" id="card-stock">
+    <div class="card-head">
+      <h2>2. Stock available</h2>
+      <div class="row-actions">
+        <button type="button" class="ghost small" id="stock-import">Import CSV</button>
+        <button type="button" class="ghost small" id="stock-export">Export CSV</button>
+        <button type="button" class="small" id="stock-add">+ Add board</button>
+      </div>
+    </div>
+    <p class="hint">Board types you can buy, in mm. The solver uses as many copies of each as it needs. Price is recorded in the plan but does not enter the fitness.</p>
+    <div class="table-wrap">
+      <table class="crud" id="stock-table">
+        <thead><tr><th>Name</th><th>Length (mm)</th><th>Width (mm)</th><th>Price</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="empty" id="stock-empty" hidden>No stock yet. Add a board type.</p>
+  </section>
+
+  <section class="card" id="card-pieces">
+    <div class="card-head">
+      <h2>3. Pieces to cut</h2>
+      <div class="row-actions">
+        <button type="button" class="ghost small" id="pieces-import">Import CSV</button>
+        <button type="button" class="ghost small" id="pieces-export">Export CSV</button>
+        <button type="button" class="small" id="pieces-add">+ Add piece</button>
+      </div>
+    </div>
+    <p class="hint">Finished sizes in mm. Quantity expands into separate pieces. Rotatable lets the solver turn the piece by 90°.</p>
+    <div class="table-wrap">
+      <table class="crud" id="pieces-table">
+        <thead><tr><th>Name</th><th>Length (mm)</th><th>Width (mm)</th><th>Qty</th><th>Rotatable</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="empty" id="pieces-empty" hidden>No pieces yet. Add a piece.</p>
+    <p class="hint" id="pieces-summary"></p>
+  </section>
+
+  <section class="card" id="card-solver">
+    <h2>4. Solver</h2>
+    <div class="fields">
+      <label>Population (ravens)
+        <input type="number" id="pop-size" min="2" max="20000" step="1" value="128">
+      </label>
+      <label>Iterations
+        <input type="number" id="iterations" min="1" max="100000" step="1" value="500">
+      </label>
+      <label>MPI processes
+        <input type="number" id="np" min="1" max="64" step="1" value="4">
+      </label>
+      <label>Decoder
+        <select id="decoder">
+          <option value="kdtree" selected>kdtree (nested guillotine, 4 keys/piece)</option>
+          <option value="shelf">shelf (two-stage, 3 keys/piece)</option>
+          <option value="direct">direct (positional, 4 keys/piece)</option>
+        </select>
+      </label>
+      <label>Saw kerf (mm)
+        <input type="number" id="kerf" min="0" max="50" step="0.1" value="3">
+      </label>
+      <label>Seed <small>(blank = random)</small>
+        <input type="number" id="seed" min="0" step="1" placeholder="random">
+      </label>
+    </div>
+    <details class="advanced">
+      <summary>Advanced raven parameters</summary>
+      <div class="fields">
+        <label>Flight steps <input type="number" id="flight-steps" min="1" max="10000" value="20"></label>
+        <label>Lookout steps <input type="number" id="lookout-steps" min="1" max="10000" value="10"></label>
+        <label>Radius <input type="number" id="radius" min="0.000001" max="1000" step="0.1" value="1"></label>
+      </div>
+    </details>
+    <p class="hint" id="solver-hint"></p>
+  </section>
+
+  <section class="card wide" id="card-results">
+    <div class="card-head">
+      <h2>5. Result</h2>
+      <div class="row-actions" id="result-actions" hidden>
+        <a class="small ghost btn-link" id="dl-plan" download>Plan CSV</a>
+        <a class="small ghost btn-link" id="dl-cuts" download>Cuts CSV</a>
+        <a class="small ghost btn-link" id="dl-svg" download>SVG</a>
+      </div>
+    </div>
+
+    <div id="status" class="status idle">Fill in the inputs and press <b>Run solver</b>.</div>
+    <div id="progress" hidden>
+      <div class="progress-row">
+        <span class="spinner"></span>
+        <span id="progress-text">Starting…</span>
+        <button type="button" class="ghost small" id="btn-cancel">Cancel</button>
+      </div>
+    </div>
+
+    <div id="result" hidden>
+      <div class="tiles" id="tiles"></div>
+      <div class="buy" id="buy"></div>
+      <div class="svg-wrap" id="svg-wrap"></div>
+      <details open>
+        <summary>Cutting plan (piece placements)</summary>
+        <div class="table-wrap"><table class="data" id="plan-table"></table></div>
+      </details>
+      <details>
+        <summary>Saw lines (cuts)</summary>
+        <div class="table-wrap"><table class="data" id="cuts-table"></table></div>
+      </details>
+    </div>
+    <details id="log-details">
+      <summary>Solver log</summary>
+      <pre id="log"></pre>
+    </details>
+  </section>
+</main>
+
+<input type="file" id="file-input" accept=".csv,text/csv" hidden>
+<script src="app.js"></script>
+</body>
+</html>

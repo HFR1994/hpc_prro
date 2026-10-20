@@ -30,6 +30,14 @@ typedef struct {
     double radius;
     int is_measure_speedup;  // use int for MPI portability
     int convergence_results; // use int for MPI portability
+    int use_cutting;         // 1 = objective is the cutting-stock decoder, 0 = Griewank benchmark
+    int decoder;             // CUT_DECODER_SHELF or CUT_DECODER_KDTREE (cutting mode)
+    double kerf;             // saw kerf in mm (cutting mode)
+    double w_cut;            // fitness weight per cut (cutting mode)
+    double w_board;          // fitness weight per board (cutting mode)
+    double w_waste;          // fitness weight per m2 of waste (cutting mode)
+    char pieces_path[1024];  // cutting mode: piece list CSV
+    char stock_path[1024];   // cutting mode: stock list CSV
     char dataset_path[1024];
     char output_dir[1024];
     char placement[128];
