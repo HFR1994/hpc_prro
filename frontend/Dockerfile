@@ -5,8 +5,8 @@
 #   docker build -f frontend/Dockerfile -t prro-cutting-frontend .
 #   docker run --rm -p 8000:8000 prro-cutting-frontend
 
-ARG SOLVER_SRC=hpc_prro/parallel/mpi
-ARG DATASET_SRC=hpc_prro/dataset
+ARG SOLVER_SRC=parallel/mpi
+ARG DATASET_SRC=dataset
 
 # ---------------------------------------------------------------- build the solver
 FROM debian:trixie-slim AS build
